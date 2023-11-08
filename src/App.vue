@@ -374,7 +374,7 @@ watch([list, activeMode, prefix, season, from, to], () => {
           @update:model-value="handleCheckChange(item.file_id, $event)"
         />
       </ul>
-      <div class="py-8 text-center text-xs text-purple-600">
+      <div v-else class="py-8 text-center text-xs text-purple-600">
         当前目录和模式下，没有满足要求的条目~
       </div>
     </div>
