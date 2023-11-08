@@ -364,9 +364,9 @@ watch([list, activeMode, prefix, season, from, to], () => {
           全不选
         </button>
       </div>
-      <ul class="grid grid-cols-[20px_auto_30px_minmax(200px,1fr)] items-center gap-x-2 gap-y-1 text-xs">
+      <ul v-if="showList" class="grid grid-cols-[20px_auto_30px_minmax(200px,1fr)] items-center gap-x-2 gap-y-1 text-xs">
         <PreviewEntry
-          v-for="item in list" :key="item.file_id"
+          v-for="item in showList" :key="item.file_id"
           :old-name="item.name"
           :new-name="newNameMap[item.file_id] || ''"
           :model-value="!uncheckList.includes(item.file_id)"
@@ -374,6 +374,9 @@ watch([list, activeMode, prefix, season, from, to], () => {
           @update:model-value="handleCheckChange(item.file_id, $event)"
         />
       </ul>
+      <div class="py-8 text-center text-xs text-purple-600">
+        当前目录和模式下，没有满足要求的条目~
+      </div>
     </div>
   </transition>
 </template>
