@@ -364,7 +364,7 @@ watch([list, activeMode, prefix, season, from, to], () => {
           全不选
         </button>
       </div>
-      <ul v-if="showList" class="grid grid-cols-[20px_auto_30px_minmax(200px,1fr)] items-center gap-x-2 gap-y-1 text-xs">
+      <ul v-if="showList.length" class="grid grid-cols-[20px_auto_30px_minmax(200px,1fr)] items-center gap-x-2 gap-y-1 text-xs">
         <PreviewEntry
           v-for="item in showList" :key="item.file_id"
           :old-name="item.name"
