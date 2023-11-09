@@ -10,7 +10,7 @@
 为 Infuse VidHub 等软件的刮削提供便利
 
 #### 理论依据
-[Infuse 的文档](https://support.firecore.com/hc/en-us/articles/215090947-Metadata-101)  
+[Infuse 的文档](https://support.firecore.com/hc/en-us/articles/215090947-Metadata-101?_blank)  
 
 要想让刮削过程顺利，建议采用如下目录层级：  
 剧名 > Season 1 > 剧名 S01E01.mp4
