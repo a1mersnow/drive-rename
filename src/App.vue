@@ -12,6 +12,7 @@ const isSmart = computed(() => /\/smart\/?$/.test(url.value))
 
 const uncheckList = ref<string[]>([])
 const doneList = ref<string[]>([])
+const errorList = ref<string[]>([])
 const newNameMap = ref<Record<string, string>>({})
 
 const RetryMax = 3
@@ -24,6 +25,7 @@ const { state: list, execute: fetchList, isReady: listReady } = useAsyncState(()
   onSuccess: () => {
     uncheckList.value = []
     doneList.value = []
+    errorList.value = []
     newNameMap.value = {}
     guessPrefix()
   },
@@ -193,6 +195,8 @@ const processData = ref({
   done: 0,
 })
 
+const MaxConcurrent = 3
+
 async function run() {
   if (disabled.value || running.value)
     return
@@ -202,20 +206,37 @@ async function run() {
   processData.value.total = showList.value.length
   processData.value.skip = showList.value.length - selectedList.value.length
 
-  for (const item of selectedList.value) {
-    const newName = newNameMap.value[item.file_id]
-    await aliyun.renameOne(item, newName)
-    doneList.value.push(item.file_id)
-    processData.value.done++
+  const queue = selectedList.value.slice()
+
+  while (queue.length) {
+    const subQueue: aliyun.Resource[] = []
+    for (let i = 0; i < MaxConcurrent; i++) {
+      const x = queue.shift()
+      if (x)
+        subQueue.push(x)
+      else
+        break
+    }
+    await Promise.all(subQueue.map(async (item) => {
+      const newName = newNameMap.value[item.file_id]
+      await aliyun.renameOne(item, newName).then(() => {
+        doneList.value.push(item.file_id)
+      }).catch(() => {
+        errorList.value.push(item.file_id)
+      })
+      processData.value.done++
+    }))
     await new Promise(r => setTimeout(r, aliyun.API_DELAY))
   }
 
   running.value = false
 
-  warning.value = '即将刷新页面...'
-  setTimeout(() => {
-    location.reload()
-  }, 1000)
+  if (!import.meta.env.DEV) {
+    warning.value = '即将刷新页面...'
+    setTimeout(() => {
+      location.reload()
+    }, 1000)
+  }
 }
 
 function initRunState() {
@@ -382,6 +403,7 @@ watch([list, activeMode, prefix, season, from, to], () => {
           :new-name="newNameMap[item.file_id] || ''"
           :model-value="!uncheckList.includes(item.file_id)"
           :done="doneList.includes(item.file_id)"
+          :error="errorList.includes(item.file_id)"
           @update:model-value="handleCheckChange(item.file_id, $event)"
         />
       </ul>
