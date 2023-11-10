@@ -14,6 +14,9 @@ const uncheckList = ref<string[]>([])
 const doneList = ref<string[]>([])
 const newNameMap = ref<Record<string, string>>({})
 
+const RetryMax = 3
+let remainRetryCount = RetryMax
+
 const { state: list, execute: fetchList, isReady: listReady } = useAsyncState(() => {
   return aliyun.getFileListOfCurrentDir()
 }, [], {
@@ -23,6 +26,12 @@ const { state: list, execute: fetchList, isReady: listReady } = useAsyncState(()
     doneList.value = []
     newNameMap.value = {}
     guessPrefix()
+  },
+  onError: () => {
+    setTimeout(() => {
+      if (--remainRetryCount)
+        fetchList()
+    }, 500)
   },
 })
 
@@ -115,8 +124,10 @@ const disabled = computed(() =>
   || hasConflict.value)
 
 watch(url, (v, ov) => {
-  if (v && v !== ov)
+  if (v && v !== ov) {
     fetchList()
+    remainRetryCount = RetryMax
+  }
 }, { immediate: true })
 
 watch(activeMode, () => {
