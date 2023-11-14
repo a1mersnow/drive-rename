@@ -12,13 +12,7 @@ function getToken() {
 
 async function getDriveId() {
   const res = await post('https://user.aliyundrive.com/v2/user/get', {})
-  return res.backup_drive_id
-}
-
-export async function getCurrentDirName() {
-  const driveId = await getDriveId()
-  const res = await post('https://api.aliyundrive.com/adrive/v1/file/get_path', { drive_id: driveId, file_id: getParentId() })
-  return res.items[0].name as string
+  return location.pathname.startsWith('/drive/file/resource') ? res.resource_drive_id : res.backup_drive_id
 }
 
 export async function getFileListOfCurrentDir(parentId = getParentId()) {
@@ -49,7 +43,8 @@ async function rename(driveId: string, fileId: string, newName: string) {
 function getParentId() {
   const p = location.pathname
   const i = p.lastIndexOf('/')
-  return p.slice(i + 1)
+  const lastSegment = p.slice(i + 1)
+  return /[a-z0-9]{32,}/.test(lastSegment) ? lastSegment : 'root'
 }
 
 function post(api: URL | string, payload: object) {

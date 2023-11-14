@@ -33,7 +33,7 @@ const { state: list, execute: fetchList, isReady: listReady } = useAsyncState(()
     setTimeout(() => {
       if (--remainRetryCount)
         fetchList()
-    }, 500)
+    }, 1000)
   },
 })
 
@@ -126,9 +126,14 @@ const disabled = computed(() =>
   || hasConflict.value)
 
 watch(url, (v, ov) => {
-  if (v && v !== ov) {
-    fetchList()
-    remainRetryCount = RetryMax
+  if (
+    v && v !== ov
+    && ['/drive/file/backup', '/drive/file/resource'].some(x => new URL(v).pathname.startsWith(x))
+  ) {
+    setTimeout(() => {
+      fetchList()
+      remainRetryCount = RetryMax
+    }, 1000)
   }
 }, { immediate: true })
 
@@ -152,6 +157,8 @@ const Chinese = /([\u4E00-\u9FA5A-Z0-9]+)/i
 // 1.如果有中文字符，则取中文字符
 // 2.否则取最长公共子串，并尝试把季集数去除
 function guessPrefix() {
+  if (videoList.value.length === 0)
+    return
   const m = videoList.value[0].name.match(Chinese)
   if (m?.[1]) {
     prefix.value = m[1]
