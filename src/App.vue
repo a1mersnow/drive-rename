@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import PreviewEntry from './components/PreviewEntry.vue'
 import * as aliyun from '~/utils/aliyun'
-import { getNewNameByExp, getNewNameByExtract } from '~/utils/rename'
+import { getNewNameByExp, getNewNameByExtract, getSeason } from '~/utils/rename'
 
 const url = ref(location.href)
 setInterval(() => {
@@ -27,7 +27,7 @@ const { state: list, execute: fetchList, isReady: listReady } = useAsyncState(()
     doneList.value = []
     errorList.value = []
     newNameMap.value = {}
-    guessPrefix()
+    guessPrefixAndSeason()
   },
   onError: () => {
     setTimeout(() => {
@@ -120,7 +120,7 @@ const hasConflict = computed(() => {
 // 有命名冲突
 const disabled = computed(() =>
   (activeMode.value === 'regexp' && (!from.value || !to.value))
-  || (activeMode.value === 'extract' && !prefix.value)
+  || (activeMode.value === 'extract' && (!prefix.value || !season.value))
   || !listReady.value
   || !selectedList.value.length
   || hasConflict.value)
@@ -150,6 +150,21 @@ watch(popupVisible, async (v) => {
     initRunState()
   }
 })
+
+function guessPrefixAndSeason() {
+  guessPrefix()
+  guessSeason()
+}
+
+function guessSeason() {
+  let currentSeason = '1'
+  videoList.value.forEach((v) => {
+    const temp = getSeason(v.name)
+    if (temp)
+      currentSeason = temp
+  })
+  season.value = currentSeason
+}
 
 const Chinese = /([\u4E00-\u9FA5A-Z0-9]+)/i
 
@@ -266,6 +281,7 @@ function getNewName(oldName: string) {
 // 生成新命名
 watch([list, activeMode, prefix, season, from, to], () => {
   if (list.value.length) {
+    newNameMap.value = {}
     if (
       (activeMode.value === 'extract' && prefix.value)
       || (activeMode.value === 'regexp' && from.value && to.value)
@@ -355,7 +371,7 @@ watch([list, activeMode, prefix, season, from, to], () => {
           </div>
           <div>
             <label class="mb-1 block">季</label>
-            <input v-model="season" type="number" placeholder="启发式提取" class="h-8 w-full rounded bg-white px-3 outline-none">
+            <input v-model="season" type="number" placeholder="请输入数字" class="h-8 w-full rounded bg-white px-3 outline-none">
           </div>
         </template>
 

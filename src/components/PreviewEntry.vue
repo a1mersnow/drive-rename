@@ -7,6 +7,7 @@ const { newName, oldName, done, error } = defineProps<{
 }>()
 
 const isSame = toRef(() => oldName === newName)
+const disabled = toRef(() => isSame.value || !newName)
 
 const checked = defineModel<boolean>()
 </script>
@@ -18,14 +19,14 @@ const checked = defineModel<boolean>()
     <span
       :class="[
         checked && newName && !isSame ? 'i-carbon:checkbox-checked-filled' : 'i-carbon:checkbox',
-        isSame ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
+        disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
       ]"
       class="text-sm text-purple-600"
       @click="checked = !checked"
     />
-    <span :title="oldName" class="truncate">{{ oldName }}</span>
+    <span :class="disabled ? 'opacity-50' : ''" :title="oldName" class="truncate">{{ oldName }}</span>
     <span v-if="!isSame" class="i-carbon:arrow-right justify-self-center text-purple-600" />
     <span v-else class="i-carbon:arrows-horizontal justify-self-center text-green-500" />
-    <span :title="newName" class="truncate">{{ newName }} <span v-if="error">❌</span><span v-else-if="done">✅</span></span>
+    <span :class="disabled ? 'opacity-50' : ''" :title="newName" class="truncate">{{ newName }} <span v-if="error">❌</span><span v-else-if="done">✅</span></span>
   </li>
 </template>
