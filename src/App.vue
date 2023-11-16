@@ -292,6 +292,18 @@ watch([list, activeMode, prefix, season, from, to], () => {
     }
   }
 }, { immediate: true })
+
+function fillRandomName() {
+  const len = videoList.value.length
+  if (!len)
+    return
+  const found = videoList.value[random(len)]
+  prefix.value = found.name.replace(`.${found.file_extension}`, '')
+}
+
+function random(n: number) {
+  return Math.floor(Math.random() * n)
+}
 </script>
 
 <template>
@@ -366,7 +378,15 @@ watch([list, activeMode, prefix, season, from, to], () => {
 
         <template v-else>
           <div>
-            <label class="mb-1 block">剧名</label>
+            <label class="mb-1 block flex items-center gap-x-2">
+              剧名
+              <i
+                class="i-ion:dice block text-sm text-purple-700"
+                title="随机填充原文件名"
+                :class="videoList.length ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'"
+                @click="fillRandomName"
+              />
+            </label>
             <input v-model="prefix" placeholder="请输入" class="h-8 w-full rounded bg-white px-3 outline-none">
           </div>
           <div>
