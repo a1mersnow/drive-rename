@@ -447,7 +447,7 @@ function manualPickName(id: string) {
         <button class="text-sm text-purple-600" @click="uncheckList = showList.map(x => x.file_id)">
           全不选
         </button>
-        <div v-if="activeMode === 'extract'" class="ml-4 text-sm text-gray-600">
+        <div v-if="activeMode === 'extract' && videoList.length" class="ml-4 text-sm text-gray-600">
           点击
           <i
             class="i-carbon:pointer-text [vertical-align:-0.2em] inline-block text-sm text-green-700"
