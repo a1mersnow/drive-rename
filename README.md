@@ -4,10 +4,10 @@
 - 🚀 两种模式：剧集 / 正则
 - 👁️ 所见即所得
 
-## 界面
-![界面](https://cdn.jsdelivr.net/gh/a1mersnow/aliyundrive-rename@0.0.8/images/overview.jpg)
-
 ## 📺剧集模式
+
+#### 界面
+![剧集模式界面](https://cdn.jsdelivr.net/gh/a1mersnow/aliyundrive-rename@0.1.1/images/overview1.jpg)
 
 #### 适用场景
 为 Infuse VidHub 等软件的刮削提供便利
@@ -45,6 +45,11 @@
   - 提取不到时，默认为1
 
 ## 正则模式
+
+#### 界面
+![正则模式界面](https://cdn.jsdelivr.net/gh/a1mersnow/aliyundrive-rename@0.1.1/images/overview2.jpg)
+
+#### 注意事项
 - 此模式建议有正则基础的朋友使用
 - 替换采用了 Javascript 的 `String.prototype.replace` 方法
 
