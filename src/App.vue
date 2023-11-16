@@ -383,6 +383,10 @@ function manualPickName(id: string) {
             <label class="mb-1 block">To</label>
             <input v-model="to" placeholder="替换表达式" class="h-8 w-full rounded bg-white px-3 outline-none">
           </div>
+
+          <div class="text-xs font-mono">
+            <span class="text-#b07d48">原文件名</span><span class="text-#999">.</span><span class="text-#59873a">replace</span><span class="text-#2993a3">(</span><span class="text-#ab5959">new</span> <span class="text-#59873a">RegExp</span><span class="text-#1e754f">(</span><span class="text-#b07d48">From</span><span class="text-#1e754f">)</span><span class="text-#999">,</span> <span class="text-#b07d48">To</span><span class="text-#2993a3">)</span>
+          </div>
         </template>
 
         <template v-else>
