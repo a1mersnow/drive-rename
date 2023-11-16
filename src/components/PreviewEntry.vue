@@ -30,18 +30,18 @@ const checked = defineModel<boolean>()
       class="text-sm text-purple-600"
       @click="checked = !checked"
     />
-    <span :class="disabled ? 'opacity-50' : ''" :title="oldName" class="truncate">
-      {{ oldName }}
+    <span :title="oldName" class="truncate whitespace-pre">
+      <span :class="disabled ? 'opacity-50' : ''">{{ oldName }}</span>
       <i
         v-if="showPick"
-        class="i-carbon:pointer-text [vertical-align:-0.2em] inline-block cursor-pointer text-sm text-green-700"
+        class="i-carbon:pointer-text [vertical-align:-0.2em] inline-block cursor-pointer text-xs text-green-700"
         title="填充到剧名"
         @click="emit('pick', id)"
       />
     </span>
     <span v-if="!isSame" class="i-carbon:arrow-right justify-self-center text-purple-600" />
     <span v-else class="i-carbon:arrows-horizontal justify-self-center text-green-500" />
-    <span :class="disabled ? 'opacity-50' : ''" :title="newName" class="truncate">
+    <span :class="disabled ? 'opacity-50' : ''" :title="newName" class="truncate whitespace-pre">
       {{ newName }}
       <span v-if="error">❌</span><span v-else-if="done">✅</span>
     </span>

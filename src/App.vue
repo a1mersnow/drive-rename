@@ -273,7 +273,7 @@ function initRunState() {
 
 function getNewName(oldName: string) {
   if (activeMode.value === 'extract')
-    return getNewNameByExtract(oldName, prefix.value, season.value)
+    return getNewNameByExtract(oldName, prefix.value.trim(), season.value.trim())
   else
     return getNewNameByExp(oldName, from.value, to.value)
 }
