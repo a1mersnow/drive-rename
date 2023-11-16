@@ -298,11 +298,20 @@ function fillRandomName() {
   if (!len)
     return
   const found = videoList.value[random(len)]
-  prefix.value = found.name.replace(`.${found.file_extension}`, '')
+  if (found)
+    prefix.value = found.name.replace(`.${found.file_extension}`, '')
 }
 
 function random(n: number) {
   return Math.floor(Math.random() * n)
+}
+
+function manualPickName(id: string) {
+  if (id) {
+    const found = videoList.value.find(x => x.file_id === id)
+    if (found)
+      prefix.value = found.name.replace(`.${found.file_extension}`, '')
+  }
 }
 </script>
 
@@ -438,16 +447,29 @@ function random(n: number) {
         <button class="text-sm text-purple-600" @click="uncheckList = showList.map(x => x.file_id)">
           全不选
         </button>
+        <div v-if="activeMode === 'extract'" class="ml-4 text-sm text-gray-600">
+          点击
+          <i
+            class="i-carbon:pointer-text [vertical-align:-0.2em] inline-block text-sm text-green-700"
+          />
+          可将其填充到“剧名”
+        </div>
       </div>
-      <ul v-if="showList.length" class="grid grid-cols-[20px_auto_30px_minmax(200px,1fr)] items-center gap-x-2 gap-y-1 text-xs">
+      <ul
+        v-if="showList.length" class="grid grid-cols-[20px_auto_30px_minmax(200px,1fr)] items-center gap-x-2 gap-y-1 text-xs"
+      >
         <PreviewEntry
-          v-for="item in showList" :key="item.file_id"
+          v-for="item in showList"
+          :id="item.file_id"
+          :key="item.file_id"
           :old-name="item.name"
           :new-name="newNameMap[item.file_id] || ''"
           :model-value="!uncheckList.includes(item.file_id)"
           :done="doneList.includes(item.file_id)"
           :error="errorList.includes(item.file_id)"
+          :show-pick="activeMode === 'extract'"
           @update:model-value="handleCheckChange(item.file_id, $event)"
+          @pick="manualPickName"
         />
       </ul>
       <div v-else class="py-8 text-center text-xs text-purple-600">
