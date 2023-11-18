@@ -403,7 +403,7 @@ function manualPickName(id: string) {
           </div>
           <div>
             <label class="mb-1 block">季</label>
-            <input v-model="season" placeholder="请输入数字" class="h-8 w-full rounded bg-white px-3 outline-none">
+            <input v-model="season" placeholder="0~99" class="h-8 w-full rounded bg-white px-3 outline-none">
           </div>
         </template>
 

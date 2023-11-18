@@ -14,7 +14,7 @@ export function getNewNameByExtract(oldName: string, prefix: string, season: str
   let episode = epm1 || epm2 || epm3 || epm4
   season ||= '1'
   const seasonNumber = Number.parseInt(season)
-  const seasonNumberIsValid = Number.isNaN(seasonNumber) && seasonNumber < 100
+  const seasonNumberIsValid = !Number.isNaN(seasonNumber) && seasonNumber < 100
   season = String(seasonNumberIsValid ? seasonNumber : 1).padStart(2, '0')
   episode = String(+episode).padStart(3, '0')
   if (!episode || !season)
