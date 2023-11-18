@@ -7,8 +7,7 @@ const url = ref(location.href)
 setInterval(() => {
   url.value = location.href
 }, 1000)
-// 智能模式下隐藏此插件
-const isSmart = computed(() => /\/smart\/?$/.test(url.value))
+const shouldShowEntry = computed(() => ['/drive/file/backup', '/drive/file/resource'].some(x => new URL(url.value).pathname.startsWith(x)))
 
 const uncheckList = ref<string[]>([])
 const doneList = ref<string[]>([])
@@ -128,7 +127,7 @@ const disabled = computed(() =>
 watch(url, (v, ov) => {
   if (
     v && v !== ov
-    && ['/drive/file/backup', '/drive/file/resource'].some(x => new URL(v).pathname.startsWith(x))
+    && shouldShowEntry.value
   ) {
     setTimeout(() => {
       fetchList()
@@ -317,7 +316,7 @@ function manualPickName(id: string) {
 
 <template>
   <button
-    v-if="!isSmart"
+    v-if="shouldShowEntry"
     ref="trigger"
     class="mt-2 min-h-61px w-60px flex flex-col items-center justify-center gap-y-1 rounded-lg px-2px py-6px text-purple-600 transition hover:bg-purple-600 hover:text-white"
     @click="handleClickRenameBtn"

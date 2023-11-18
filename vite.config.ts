@@ -49,8 +49,7 @@ export default defineConfig({
       userscript: {
         grant: 'none',
         match: [
-          'https://www.aliyundrive.com/drive/file/backup/*',
-          'https://www.aliyundrive.com/drive/resource/backup/*',
+          'https://www.aliyundrive.com/drive/*',
         ],
         license: 'GPL',
         name: '阿里云盘批量重命名',
