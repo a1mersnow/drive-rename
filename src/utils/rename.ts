@@ -12,7 +12,10 @@ export const SeasonEpisodeExtract = /S(?:eason)?[._\- ]?([0-9]{1,3})(?![0-9])(?:
 export function getNewNameByExtract(oldName: string, prefix: string, season: string) {
   const [_, _s, epm1, epm2, epm3, epm4] = oldName.match(SeasonEpisodeExtract) || []
   let episode = epm1 || epm2 || epm3 || epm4
-  season = String(+season).padStart(2, '0')
+  season ||= '1'
+  const seasonNumber = Number.parseInt(season)
+  const seasonNumberIsValid = Number.isNaN(seasonNumber) && seasonNumber < 100
+  season = String(seasonNumberIsValid ? seasonNumber : 1).padStart(2, '0')
   episode = String(+episode).padStart(3, '0')
   if (!episode || !season)
     return ''
