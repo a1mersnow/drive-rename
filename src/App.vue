@@ -178,7 +178,12 @@ function guessPrefix() {
     prefix.value = m[1]
     return
   }
-  const [a, b] = videoList.value.slice(0, 2).map(x => x.name.replace(`.${x.file_extension}`, ''))
+  if (videoList.value.length < 2) {
+    const s = videoList.value[0]
+    prefix.value = s.name.replace(`.${s.file_extension}`, '').replace(/\s*S[0-9]+E[0-9]*|\s*E[0-9]+/i, '').trim()
+    return
+  }
+  const [a, b] = videoList.value.slice(-2).map(x => x.name.replace(`.${x.file_extension}`, ''))
   const lcs = getLcstr(a, b)
   if (lcs)
     prefix.value = lcs.replace(/\s*S[0-9]+E[0-9]*|\s*E[0-9]+/i, '').trim()
