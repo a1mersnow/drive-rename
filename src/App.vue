@@ -165,7 +165,7 @@ function guessSeason() {
   season.value = currentSeason
 }
 
-const Chinese = /([\u4E00-\u9FA5A-Z0-9]+)/i
+const Chinese = /([\u4E00-\u9FA5]+)/i
 
 // 猜剧集名：
 // 1.如果有中文字符，则取中文字符
