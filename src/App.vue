@@ -71,7 +71,7 @@ const VideoExts = [
 ]
 // 剧集模式下使用该列表
 const videoList = computed(() => {
-  return list.value.filter(x => x.type === 'file' && VideoExts.includes(x.file_extension)) as aliyun.FileResource[]
+  return list.value.filter(x => x.type === 'file' && VideoExts.includes(x.file_extension.toLowerCase())) as aliyun.FileResource[]
 })
 
 const popupVisible = ref(false)
