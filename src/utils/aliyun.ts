@@ -1,7 +1,7 @@
 const listJsonMask = 'ext_marker,items(name,file_id,drive_id,type,size,created_at,updated_at,category,file_extension,parent_file_id,mime_type,starred,thumbnail,url,streams_info,content_hash,user_tags,user_meta,trashed,video_media_metadata,video_preview_metadata,sync_meta,sync_device_flag,sync_flag,punish_flag)'
 
 // 接口调用太频繁会被拒
-export const API_DELAY = 150
+export const API_DELAY = 200
 
 function getToken() {
   const raw = window.localStorage.getItem('token')
