@@ -1,36 +1,29 @@
+import type { App } from 'vue'
 import { createApp } from 'vue'
-import App from './App.vue'
+import AppRoot from './App.vue'
 
 import '@unocss/reset/tailwind.css'
 import './styles/main.css'
 import 'uno.css'
 
-let timer: number
-Promise.race([
-  new Promise((resolve) => {
-    timer = window.setInterval(() => {
-      const found = document.querySelector('[class^="nav-tab-content--"]')
-      if (found)
-        resolve(true)
-    }, 100)
-  }),
-  new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(true)
-    }, 10000)
-  }),
-]).then(() => {
-  init()
-})
+const ENTRY_ID = 'aliyundrive_rename_a1mersnow'
 
-function init() {
-  clearInterval(timer)
-  const app = createApp(App)
-  app.mount(
-    (() => {
-      const app = document.createElement('div')
-      document.elementFromPoint(0, 0)?.append(app)
-      return app
-    })(),
-  )
+window.setInterval(() => {
+  const found = document.querySelector('[class^="nav-tab-content--"]')
+  if (found)
+    init(found)
+}, 300)
+
+function init(parentEl: Element) {
+  if (!parentEl.querySelector(`#${ENTRY_ID}`)) {
+    const app = createApp(AppRoot)
+    app.mount(
+      (() => {
+        const app = document.createElement('div')
+        app.setAttribute('id', ENTRY_ID)
+        parentEl.append(app)
+        return app
+      })(),
+    )
+  }
 }
