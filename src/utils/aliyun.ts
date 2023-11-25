@@ -28,7 +28,7 @@ export async function getFileListOfCurrentDir(parentId = getParentId()) {
     parent_file_id: parentId,
     url_expire_sec: 14400,
   })
-  return res.items as Resource[]
+  return res.items.filter((x: any) => !x.sync_device_flag) as Resource[]
 }
 
 async function rename(driveId: string, fileId: string, newName: string) {
