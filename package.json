@@ -15,7 +15,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "up": "taze major -I",
-    "postinstall": "npx simple-git-hooks"
+    "postinstall": "npx simple-git-hooks",
+    "release": "node release.mjs"
   },
   "dependencies": {
     "@vueuse/core": "^10.6.1",
@@ -33,6 +34,7 @@
     "@vue/test-utils": "^2.4.2",
     "eslint": "^8.53.0",
     "eslint-define-config": "^1.24.1",
+    "execa": "^8.0.1",
     "jsdom": "^22.1.0",
     "lint-staged": "^14.0.1",
     "pnpm": "^8.10.5",
