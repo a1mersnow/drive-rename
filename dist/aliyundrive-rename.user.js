@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         阿里云盘批量重命名
 // @namespace    vite-plugin-monkey
-// @version      0.3.5
+// @version      0.3.6
 // @author       a1mersnow
 // @description  批量重命名阿里云盘里的文件
 // @license      GPL
