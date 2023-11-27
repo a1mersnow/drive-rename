@@ -30,6 +30,8 @@ async function init() {
   await $`git tag ${version}`
   await $`git push`
   await $`git push --tags`
+  // eslint-disable-next-line no-console
+  console.log(`version ${version} releeased.`)
 }
 
 function bumpVersion(mode) {
