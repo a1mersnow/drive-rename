@@ -38,6 +38,6 @@ function bumpVersion(mode) {
   versionTuple[index]++
   pkg.version = versionTuple.join('.')
 
-  fs.writeFileSync(resolve('./package.json'), `${JSON.stringify(pkg)}\n`, 'utf-8')
+  fs.writeFileSync(resolve('./package.json'), `${JSON.stringify(pkg, null, 2)}\n`, 'utf-8')
   return pkg.version
 }
