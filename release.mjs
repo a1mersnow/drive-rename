@@ -7,7 +7,7 @@ import pkg from './package.json' assert { type: 'json' }
 
 const _dirname = typeof __dirname !== 'undefined'
   ? __dirname
-  : dirname(fileURLToPath(import.meta.url))
+  : path.dirname(fileURLToPath(import.meta.url))
 
 const resolve = x => path.resolve(_dirname, x)
 
