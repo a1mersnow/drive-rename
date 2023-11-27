@@ -25,7 +25,8 @@ async function init() {
   const version = bumpVersion(mode)
   await $`npm run build`
   await $`git add .`
-  await $`git commit -m 'bump ${version}'`
+  const msg = `bump ${version}`
+  await $`git commit -m ${msg}`
   await $`git tag ${version}`
   await $`git push`
   await $`git push --tags`
