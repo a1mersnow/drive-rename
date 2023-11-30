@@ -12,12 +12,13 @@ const shouldShowEntry = computed(() => ['/drive/file/backup', '/drive/file/resou
 const uncheckList = ref<string[]>([])
 const doneList = ref<string[]>([])
 const errorList = ref<string[]>([])
+const listLoading = ref(false)
 const newNameMap = ref<Record<string, string>>({})
 
 const RetryMax = 3
 let remainRetryCount = RetryMax
 
-const { state: list, execute: fetchList, isReady: listReady } = useAsyncState(() => {
+const { state: list, execute: fetchList } = useAsyncState(() => {
   return aliyun.getFileListOfCurrentDir()
 }, [], {
   immediate: false,
@@ -26,6 +27,7 @@ const { state: list, execute: fetchList, isReady: listReady } = useAsyncState(()
     doneList.value = []
     errorList.value = []
     newNameMap.value = {}
+    listLoading.value = false
     guessPrefixAndSeason()
   },
   onError: () => {
@@ -120,7 +122,7 @@ const hasConflict = computed(() => {
 const disabled = computed(() =>
   (activeMode.value === 'regexp' && (!from.value || !to.value))
   || (activeMode.value === 'extract' && (!prefix.value || !season.value))
-  || !listReady.value
+  || listLoading.value
   || !selectedList.value.length
   || hasConflict.value)
 
@@ -129,6 +131,7 @@ watch(url, (v, ov) => {
     v && v !== ov
     && shouldShowEntry.value
   ) {
+    listLoading.value = true
     setTimeout(() => {
       fetchList()
       remainRetryCount = RetryMax
@@ -317,6 +320,19 @@ function manualPickName(id: string) {
       prefix.value = found.name.replace(`.${found.file_extension}`, '')
   }
 }
+
+const loadingDotsIndex = ref(0)
+const loadingDotsList = ['.', '..', '...']
+const loadingDots = toRef(() => loadingDotsList[loadingDotsIndex.value])
+let loadingDotsTimer: number
+onMounted(() => {
+  loadingDotsTimer = window.setInterval(() => {
+    loadingDotsIndex.value = (loadingDotsIndex.value + 1) % loadingDotsList.length
+  }, 200)
+})
+onUnmounted(() => {
+  window.clearInterval(loadingDotsTimer)
+})
 </script>
 
 <template>
@@ -445,7 +461,13 @@ function manualPickName(id: string) {
       ref="previewRef"
       class="custom-scrollbar fixed bottom-2 right-0 top-2 z-9999 w-[max(500px,50vw)] overflow-y-auto border-y-3px border-l-3px border-purple-600 rounded-l-lg border-solid bg-white px-4 py-3 font-mono shadow"
     >
-      <div v-if="hasConflict" class="text-xs text-red">
+      <div v-if="listLoading" class="absolute inset-0 z-2 flex flex-col items-center justify-center bg-white/80 text-purple-600">
+        <div class="i-carbon:circle-packing animate-spin text-4xl" />
+        <p class="py-3 text-sm">
+          正在获取文件列表<span class="absolute">{{ loadingDots }}</span>
+        </p>
+      </div>
+      <div v-if="hasConflict" class="pb-1 text-xs text-red">
         更改后的文件名有冲突！
       </div>
       <div class="flex items-center gap-x-3 pb-2">
