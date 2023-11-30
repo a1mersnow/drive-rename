@@ -1,7 +1,9 @@
-const listJsonMask = 'ext_marker,items(name,file_id,drive_id,type,size,created_at,updated_at,category,file_extension,parent_file_id,mime_type,starred,thumbnail,url,streams_info,content_hash,user_tags,user_meta,trashed,video_media_metadata,video_preview_metadata,sync_meta,sync_device_flag,sync_flag,punish_flag)'
+const listJsonMask = 'next_marker,items(name,file_id,drive_id,type,size,created_at,updated_at,category,file_extension,parent_file_id,mime_type,starred,thumbnail,url,streams_info,content_hash,user_tags,user_meta,trashed,video_media_metadata,video_preview_metadata,sync_meta,sync_device_flag,sync_flag,punish_flag)'
 
 // 接口调用太频繁会被拒
 export const API_DELAY = 200
+
+const PAGE_SIZE = 100
 
 function getToken() {
   const raw = window.localStorage.getItem('token')
@@ -15,20 +17,31 @@ async function getDriveId() {
   return location.pathname.startsWith('/drive/file/resource') ? res.resource_drive_id : res.backup_drive_id
 }
 
+const INITIAL_MARKER = 'INITIAL'
 export async function getFileListOfCurrentDir(parentId = getParentId()) {
   const listApi = new URL('https://api.aliyundrive.com/adrive/v3/file/list')
   listApi.searchParams.append('jsonmask', listJsonMask)
   const driveId = await getDriveId()
-  const res = await post(listApi, {
-    all: true,
-    drive_id: driveId,
-    fields: '*',
-    order_by: 'name',
-    order_direction: 'ASC',
-    parent_file_id: parentId,
-    url_expire_sec: 14400,
-  })
-  return res.items.filter((x: any) => !x.sync_device_flag) as Resource[]
+  const result = []
+  let marker = INITIAL_MARKER
+
+  while (marker) {
+    const { items, next_marker } = await post(listApi, {
+      all: true,
+      limit: PAGE_SIZE,
+      drive_id: driveId,
+      fields: '*',
+      order_by: 'name',
+      order_direction: 'ASC',
+      parent_file_id: parentId,
+      url_expire_sec: 14400,
+      marker: marker === INITIAL_MARKER ? '' : marker,
+    })
+    result.push(...items)
+    marker = next_marker
+  }
+
+  return result.filter((x: any) => !x.sync_device_flag) as Resource[]
 }
 
 async function rename(driveId: string, fileId: string, newName: string) {

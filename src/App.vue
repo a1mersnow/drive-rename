@@ -456,6 +456,10 @@ onUnmounted(() => {
           />
           可将其填充到“剧名”
         </div>
+
+        <div v-if="showList.length" class="ml-auto text-xs font-sans text-gray-600">
+          共 <span class="font-bold text-purple-600">{{ showList.length }}</span> 个文件
+        </div>
       </div>
       <ul
         v-if="showList.length" class="grid grid-cols-[20px_auto_30px_minmax(200px,1fr)] items-center gap-x-2 gap-y-1 text-xs"
