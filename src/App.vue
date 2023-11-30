@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import PreviewEntry from './components/PreviewEntry.vue'
+import { VideoExts } from './utils/video-exts'
 import * as aliyun from '~/utils/aliyun'
 import { getNewNameByExp, getNewNameByExtract, getSeason } from '~/utils/rename'
 
@@ -42,35 +43,6 @@ function handleCheckChange(fileId: string, checked: boolean) {
   return uncheckList.value = uncheckList.value.filter(x => x !== fileId || !checked)
 }
 
-const VideoExts = [
-  'mp4',
-  'flv',
-  'f4v',
-  'webm',
-  'm4v',
-  'mov',
-  'cpk',
-  'dirac',
-  '3gp',
-  '3g2',
-  'rm',
-  'rmvb',
-  'wmv',
-  'avi',
-  'asf',
-  'mpg',
-  'mpeg',
-  'mpe',
-  'vob',
-  'mkv',
-  'ram',
-  'qt',
-  'fli',
-  'flc',
-  'mod',
-  'iso',
-  'ts',
-]
 // 剧集模式下使用该列表
 const videoList = computed(() => {
   return list.value.filter(x => x.type === 'file' && VideoExts.includes(x.file_extension.toLowerCase())) as aliyun.FileResource[]
