@@ -1,4 +1,3 @@
-import type { App } from 'vue'
 import { createApp } from 'vue'
 import AppRoot from './App.vue'
 
