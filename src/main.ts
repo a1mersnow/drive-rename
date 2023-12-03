@@ -1,4 +1,3 @@
-import type { App } from 'vue'
 import { createApp } from 'vue'
 import AppRoot from './App.vue'
 
@@ -6,7 +5,7 @@ import '@unocss/reset/tailwind.css'
 import './styles/main.css'
 import 'uno.css'
 
-const ENTRY_ID = 'aliyundrive_rename_a1mersnow'
+const ENTRY_ID = 'a1mersnow_aliyundrive_rename'
 
 window.setInterval(() => {
   const found = document.querySelector('[class^="nav-tab-content--"]')
