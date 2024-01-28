@@ -1,10 +1,10 @@
 import { createApp } from 'vue'
 import AppRoot from './App.vue'
+import { setSignature } from './utils/aliyun'
 
 import '@unocss/reset/tailwind.css'
 import './styles/main.css'
 import 'uno.css'
-import { setSignature } from './utils/aliyun'
 
 const ENTRY_ID = 'a1mersnow_aliyundrive_rename'
 

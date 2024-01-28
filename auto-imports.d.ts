@@ -6,6 +6,31 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
+  const GM: typeof import('vite-plugin-monkey/dist/client')['GM']
+  const GM_addElement: typeof import('vite-plugin-monkey/dist/client')['GM_addElement']
+  const GM_addStyle: typeof import('vite-plugin-monkey/dist/client')['GM_addStyle']
+  const GM_addValueChangeListener: typeof import('vite-plugin-monkey/dist/client')['GM_addValueChangeListener']
+  const GM_cookie: typeof import('vite-plugin-monkey/dist/client')['GM_cookie']
+  const GM_deleteValue: typeof import('vite-plugin-monkey/dist/client')['GM_deleteValue']
+  const GM_download: typeof import('vite-plugin-monkey/dist/client')['GM_download']
+  const GM_getResourceText: typeof import('vite-plugin-monkey/dist/client')['GM_getResourceText']
+  const GM_getResourceURL: typeof import('vite-plugin-monkey/dist/client')['GM_getResourceURL']
+  const GM_getTab: typeof import('vite-plugin-monkey/dist/client')['GM_getTab']
+  const GM_getTabs: typeof import('vite-plugin-monkey/dist/client')['GM_getTabs']
+  const GM_getValue: typeof import('vite-plugin-monkey/dist/client')['GM_getValue']
+  const GM_info: typeof import('vite-plugin-monkey/dist/client')['GM_info']
+  const GM_listValues: typeof import('vite-plugin-monkey/dist/client')['GM_listValues']
+  const GM_log: typeof import('vite-plugin-monkey/dist/client')['GM_log']
+  const GM_notification: typeof import('vite-plugin-monkey/dist/client')['GM_notification']
+  const GM_openInTab: typeof import('vite-plugin-monkey/dist/client')['GM_openInTab']
+  const GM_registerMenuCommand: typeof import('vite-plugin-monkey/dist/client')['GM_registerMenuCommand']
+  const GM_removeValueChangeListener: typeof import('vite-plugin-monkey/dist/client')['GM_removeValueChangeListener']
+  const GM_saveTab: typeof import('vite-plugin-monkey/dist/client')['GM_saveTab']
+  const GM_setClipboard: typeof import('vite-plugin-monkey/dist/client')['GM_setClipboard']
+  const GM_setValue: typeof import('vite-plugin-monkey/dist/client')['GM_setValue']
+  const GM_unregisterMenuCommand: typeof import('vite-plugin-monkey/dist/client')['GM_unregisterMenuCommand']
+  const GM_webRequest: typeof import('vite-plugin-monkey/dist/client')['GM_webRequest']
+  const GM_xmlhttpRequest: typeof import('vite-plugin-monkey/dist/client')['GM_xmlhttpRequest']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
   const computed: typeof import('vue')['computed']
@@ -45,6 +70,7 @@ declare global {
   const isRef: typeof import('vue')['isRef']
   const makeDestructurable: typeof import('@vueuse/core')['makeDestructurable']
   const markRaw: typeof import('vue')['markRaw']
+  const monkeyWindow: typeof import('vite-plugin-monkey/dist/client')['monkeyWindow']
   const nextTick: typeof import('vue')['nextTick']
   const onActivated: typeof import('vue')['onActivated']
   const onBeforeMount: typeof import('vue')['onBeforeMount']
@@ -103,6 +129,7 @@ declare global {
   const tryOnUnmounted: typeof import('@vueuse/core')['tryOnUnmounted']
   const unref: typeof import('vue')['unref']
   const unrefElement: typeof import('@vueuse/core')['unrefElement']
+  const unsafeWindow: typeof import('vite-plugin-monkey/dist/client')['unsafeWindow']
   const until: typeof import('@vueuse/core')['until']
   const useActiveElement: typeof import('@vueuse/core')['useActiveElement']
   const useAnimate: typeof import('@vueuse/core')['useAnimate']
@@ -248,6 +275,7 @@ declare global {
   const useToString: typeof import('@vueuse/core')['useToString']
   const useToggle: typeof import('@vueuse/core')['useToggle']
   const useTransition: typeof import('@vueuse/core')['useTransition']
+  const useUpdate: typeof import('./src/composables/update')['useUpdate']
   const useUrlSearchParams: typeof import('@vueuse/core')['useUrlSearchParams']
   const useUserMedia: typeof import('@vueuse/core')['useUserMedia']
   const useVModel: typeof import('@vueuse/core')['useVModel']
@@ -283,12 +311,39 @@ declare global {
 declare global {
   // @ts-ignore
   export type { Component, ComponentPublicInstance, ComputedRef, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, VNode, WritableComputedRef } from 'vue'
+  import('vue')
 }
 // for vue template auto import
 import { UnwrapRef } from 'vue'
 declare module 'vue' {
+  interface GlobalComponents {}
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly GM: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM']>
+    readonly GM_addElement: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_addElement']>
+    readonly GM_addStyle: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_addStyle']>
+    readonly GM_addValueChangeListener: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_addValueChangeListener']>
+    readonly GM_cookie: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_cookie']>
+    readonly GM_deleteValue: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_deleteValue']>
+    readonly GM_download: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_download']>
+    readonly GM_getResourceText: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_getResourceText']>
+    readonly GM_getResourceURL: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_getResourceURL']>
+    readonly GM_getTab: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_getTab']>
+    readonly GM_getTabs: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_getTabs']>
+    readonly GM_getValue: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_getValue']>
+    readonly GM_info: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_info']>
+    readonly GM_listValues: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_listValues']>
+    readonly GM_log: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_log']>
+    readonly GM_notification: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_notification']>
+    readonly GM_openInTab: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_openInTab']>
+    readonly GM_registerMenuCommand: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_registerMenuCommand']>
+    readonly GM_removeValueChangeListener: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_removeValueChangeListener']>
+    readonly GM_saveTab: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_saveTab']>
+    readonly GM_setClipboard: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_setClipboard']>
+    readonly GM_setValue: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_setValue']>
+    readonly GM_unregisterMenuCommand: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_unregisterMenuCommand']>
+    readonly GM_webRequest: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_webRequest']>
+    readonly GM_xmlhttpRequest: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_xmlhttpRequest']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
@@ -328,6 +383,7 @@ declare module 'vue' {
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
+    readonly monkeyWindow: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['monkeyWindow']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
     readonly onActivated: UnwrapRef<typeof import('vue')['onActivated']>
     readonly onBeforeMount: UnwrapRef<typeof import('vue')['onBeforeMount']>
@@ -386,6 +442,7 @@ declare module 'vue' {
     readonly tryOnUnmounted: UnwrapRef<typeof import('@vueuse/core')['tryOnUnmounted']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly unrefElement: UnwrapRef<typeof import('@vueuse/core')['unrefElement']>
+    readonly unsafeWindow: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['unsafeWindow']>
     readonly until: UnwrapRef<typeof import('@vueuse/core')['until']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
     readonly useAnimate: UnwrapRef<typeof import('@vueuse/core')['useAnimate']>
@@ -531,6 +588,7 @@ declare module 'vue' {
     readonly useToString: UnwrapRef<typeof import('@vueuse/core')['useToString']>
     readonly useToggle: UnwrapRef<typeof import('@vueuse/core')['useToggle']>
     readonly useTransition: UnwrapRef<typeof import('@vueuse/core')['useTransition']>
+    readonly useUpdate: UnwrapRef<typeof import('./src/composables/update')['useUpdate']>
     readonly useUrlSearchParams: UnwrapRef<typeof import('@vueuse/core')['useUrlSearchParams']>
     readonly useUserMedia: UnwrapRef<typeof import('@vueuse/core')['useUserMedia']>
     readonly useVModel: UnwrapRef<typeof import('@vueuse/core')['useVModel']>
@@ -564,8 +622,34 @@ declare module 'vue' {
   }
 }
 declare module '@vue/runtime-core' {
+  interface GlobalComponents {}
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly GM: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM']>
+    readonly GM_addElement: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_addElement']>
+    readonly GM_addStyle: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_addStyle']>
+    readonly GM_addValueChangeListener: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_addValueChangeListener']>
+    readonly GM_cookie: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_cookie']>
+    readonly GM_deleteValue: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_deleteValue']>
+    readonly GM_download: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_download']>
+    readonly GM_getResourceText: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_getResourceText']>
+    readonly GM_getResourceURL: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_getResourceURL']>
+    readonly GM_getTab: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_getTab']>
+    readonly GM_getTabs: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_getTabs']>
+    readonly GM_getValue: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_getValue']>
+    readonly GM_info: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_info']>
+    readonly GM_listValues: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_listValues']>
+    readonly GM_log: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_log']>
+    readonly GM_notification: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_notification']>
+    readonly GM_openInTab: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_openInTab']>
+    readonly GM_registerMenuCommand: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_registerMenuCommand']>
+    readonly GM_removeValueChangeListener: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_removeValueChangeListener']>
+    readonly GM_saveTab: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_saveTab']>
+    readonly GM_setClipboard: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_setClipboard']>
+    readonly GM_setValue: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_setValue']>
+    readonly GM_unregisterMenuCommand: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_unregisterMenuCommand']>
+    readonly GM_webRequest: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_webRequest']>
+    readonly GM_xmlhttpRequest: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_xmlhttpRequest']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
@@ -605,6 +689,7 @@ declare module '@vue/runtime-core' {
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
+    readonly monkeyWindow: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['monkeyWindow']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
     readonly onActivated: UnwrapRef<typeof import('vue')['onActivated']>
     readonly onBeforeMount: UnwrapRef<typeof import('vue')['onBeforeMount']>
@@ -663,6 +748,7 @@ declare module '@vue/runtime-core' {
     readonly tryOnUnmounted: UnwrapRef<typeof import('@vueuse/core')['tryOnUnmounted']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly unrefElement: UnwrapRef<typeof import('@vueuse/core')['unrefElement']>
+    readonly unsafeWindow: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['unsafeWindow']>
     readonly until: UnwrapRef<typeof import('@vueuse/core')['until']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
     readonly useAnimate: UnwrapRef<typeof import('@vueuse/core')['useAnimate']>
@@ -808,6 +894,7 @@ declare module '@vue/runtime-core' {
     readonly useToString: UnwrapRef<typeof import('@vueuse/core')['useToString']>
     readonly useToggle: UnwrapRef<typeof import('@vueuse/core')['useToggle']>
     readonly useTransition: UnwrapRef<typeof import('@vueuse/core')['useTransition']>
+    readonly useUpdate: UnwrapRef<typeof import('./src/composables/update')['useUpdate']>
     readonly useUrlSearchParams: UnwrapRef<typeof import('@vueuse/core')['useUrlSearchParams']>
     readonly useUserMedia: UnwrapRef<typeof import('@vueuse/core')['useUserMedia']>
     readonly useVModel: UnwrapRef<typeof import('@vueuse/core')['useVModel']>

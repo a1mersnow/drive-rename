@@ -308,6 +308,8 @@ onMounted(() => {
 onUnmounted(() => {
   window.clearInterval(loadingDotsTimer)
 })
+
+const updateMsg = useUpdate()
 </script>
 
 <template>
@@ -329,7 +331,8 @@ onUnmounted(() => {
       @keyup.esc="popupVisible = false"
     >
       <p class="pb-2">
-        批量重命名当前目录下的所有文件。
+        批量重命名当前目录下的所有文件。<br>
+        <a v-if="updateMsg" class="text-xs text-red-600 underline underline-dashed hover:text-red-600 hover:underline hover:underline-dashed" href="https://update.greasyfork.org/scripts/479295/%E9%98%BF%E9%87%8C%E4%BA%91%E7%9B%98%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D.user.js" target="_blank">{{ updateMsg }}</a>
       </p>
 
       <div class="mb-3 flex items-center gap-x-4">
@@ -350,7 +353,7 @@ onUnmounted(() => {
 
         <template v-if="activeMode === 'regexp'">
           <a
-            class="text-xs font-medium text-primary-600 underline"
+            class="text-xs text-primary-600 font-medium underline"
             href="https://regex101.com/"
             target="_blank"
           >
@@ -358,7 +361,7 @@ onUnmounted(() => {
           </a>
 
           <a
-            class="text-xs font-medium text-primary-600 underline"
+            class="text-xs text-primary-600 font-medium underline"
             href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/replace"
             target="_blank"
           >
@@ -460,8 +463,8 @@ onUnmounted(() => {
           可将其填充到“剧名”
         </div>
 
-        <div v-if="showList.length" class="ml-auto text-xs font-sans text-gray-600">
-          共 <span class="font-bold text-primary-600">{{ showList.length }}</span> 个文件
+        <div v-if="showList.length" class="ml-auto text-xs text-gray-600 font-sans">
+          共 <span class="text-primary-600 font-bold">{{ showList.length }}</span> 个文件
         </div>
       </div>
       <ul

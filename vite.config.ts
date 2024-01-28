@@ -1,12 +1,10 @@
-/// <reference types="vitest" />
-
 import path from 'node:path'
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import Vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import UnoCSS from 'unocss/vite'
-import Monkey, { cdn } from 'vite-plugin-monkey'
+import Monkey, { cdn, util } from 'vite-plugin-monkey'
 
 export default defineConfig({
   resolve: {
@@ -27,6 +25,7 @@ export default defineConfig({
       imports: [
         'vue',
         '@vueuse/core',
+        util.unimportPreset,
       ],
       dts: true,
       dirs: [

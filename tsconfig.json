@@ -1,24 +1,24 @@
 {
   "compilerOptions": {
     "target": "es2016",
-    "lib": ["DOM", "ESNext"],
     "jsx": "preserve",
+    "lib": ["DOM", "ESNext"],
+    "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "baseUrl": ".",
     "paths": {
       "~/*": ["src/*"]
     },
+    "resolveJsonModule": true,
     "types": [
       "vite/client"
     ],
-    "resolveJsonModule": true,
     "allowJs": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
   "exclude": ["dist", "node_modules"]
