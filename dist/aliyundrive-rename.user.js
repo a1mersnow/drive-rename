@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         阿里云盘批量重命名
 // @namespace    vite-plugin-monkey
-// @version      0.5.0
+// @version      0.5.1
 // @author       a1mersnow
 // @description  批量重命名阿里云盘里的文件
 // @license      GPL
@@ -164,13 +164,19 @@
     const lastSegment = p.slice(i + 1);
     return /[a-z0-9]{32,}/.test(lastSegment) ? lastSegment : "root";
   }
+  let signature = "";
+  function setSignature(v) {
+    signature = v;
+  }
   function post(api, payload) {
+    var _a;
     return fetch(api, {
       method: "POST",
       headers: {
         "Content-Type": "Application/json",
-        "Authorization": `Bearer ${getToken()}`
-        // 'X-Device-Id': document.cookie.match(/cna=(.+?);/)?.[1] || '',
+        "Authorization": `Bearer ${getToken()}`,
+        "X-Device-Id": ((_a = document.cookie.match(/cna=(.+?);/)) == null ? void 0 : _a[1]) || "",
+        "X-Signature": signature
       },
       body: JSON.stringify(payload)
     }).then((res) => {
@@ -1029,7 +1035,13 @@
     return target;
   };
   const AppRoot = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-c4ab8333"]]);
-  const ENTRY_ID = "aliyundrive_rename_a1mersnow";
+  const ENTRY_ID = "a1mersnow_aliyundrive_rename";
+  const oldSetHeader = XMLHttpRequest.prototype.setRequestHeader;
+  XMLHttpRequest.prototype.setRequestHeader = function(...args) {
+    if (args[0] && typeof args[0] === "string" && args[0].toLocaleLowerCase() === "x-signature" && args[1])
+      setSignature(args[1]);
+    oldSetHeader.apply(this, args);
+  };
   window.setInterval(() => {
     const found = document.querySelector('[class^="nav-tab-content--"]');
     if (found)
