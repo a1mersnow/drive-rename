@@ -60,13 +60,19 @@ function getParentId() {
   return /[a-z0-9]{32,}/.test(lastSegment) ? lastSegment : 'root'
 }
 
+let signature = ''
+export function setSignature(v: string) {
+  signature = v
+}
+
 function post(api: URL | string, payload: object) {
   return fetch(api, {
     method: 'POST',
     headers: {
       'Content-Type': 'Application/json',
       'Authorization': `Bearer ${getToken()}`,
-      // 'X-Device-Id': document.cookie.match(/cna=(.+?);/)?.[1] || '',
+      'X-Device-Id': document.cookie.match(/cna=(.+?);/)?.[1] || '',
+      'X-Signature': signature,
     },
     body: JSON.stringify(payload),
   }).then((res) => {

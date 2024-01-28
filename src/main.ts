@@ -4,8 +4,18 @@ import AppRoot from './App.vue'
 import '@unocss/reset/tailwind.css'
 import './styles/main.css'
 import 'uno.css'
+import { setSignature } from './utils/aliyun'
 
 const ENTRY_ID = 'a1mersnow_aliyundrive_rename'
+
+const oldSetHeader = XMLHttpRequest.prototype.setRequestHeader
+
+XMLHttpRequest.prototype.setRequestHeader = function (...args) {
+  if (args[0] && typeof args[0] === 'string' && args[0].toLocaleLowerCase() === 'x-signature' && args[1])
+    setSignature(args[1])
+
+  oldSetHeader.apply(this, args)
+}
 
 window.setInterval(() => {
   const found = document.querySelector('[class^="nav-tab-content--"]')
