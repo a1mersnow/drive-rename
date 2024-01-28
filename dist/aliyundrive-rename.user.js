@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         阿里云盘批量重命名
 // @namespace    vite-plugin-monkey
-// @version      0.5.4
+// @version      0.5.5
 // @author       a1mersnow
 // @description  批量重命名阿里云盘里的文件
 // @license      GPL
@@ -528,7 +528,7 @@
   }
   const name = "aliyundrive-rename";
   const type = "module";
-  const version = "0.5.4";
+  const version = "0.5.5";
   const packageManager = "pnpm@8.15.0";
   const description = "Batch rename files of aliyundrive.";
   const author = "a1mersnow";
@@ -598,7 +598,7 @@
     const currentVersion = pkg.version;
     const newVersion = vue.ref("");
     const msg = vue.computed(() => {
-      if (currentVersion === newVersion.value)
+      if (!newVersion.value || currentVersion === newVersion.value)
         return "";
       else
         return `有新版本(${newVersion.value})啦！点击更新～`;
