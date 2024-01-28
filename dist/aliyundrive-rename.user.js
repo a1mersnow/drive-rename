@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         阿里云盘批量重命名
 // @namespace    vite-plugin-monkey
-// @version      0.5.3
+// @version      0.5.4
 // @author       a1mersnow
 // @description  批量重命名阿里云盘里的文件
 // @license      GPL
@@ -528,7 +528,7 @@
   }
   const name = "aliyundrive-rename";
   const type = "module";
-  const version = "0.5.3";
+  const version = "0.5.4";
   const packageManager = "pnpm@8.15.0";
   const description = "Batch rename files of aliyundrive.";
   const author = "a1mersnow";
@@ -604,7 +604,7 @@
         return `有新版本(${newVersion.value})啦！点击更新～`;
     });
     vue.onMounted(async () => {
-      const res = await fetch("https://update.greasyfork.org/scripts/479295/%E9%98%BF%E9%87%8C%E4%BA%91%E7%9B%98%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D.meta.js");
+      const res = await fetch(`https://update.greasyfork.org/scripts/479295/%E9%98%BF%E9%87%8C%E4%BA%91%E7%9B%98%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D.meta.js?t=${Date.now()}`);
       if (res.ok) {
         const raw = await res.text();
         const regular = /@version\s+([0-9]\.[0-9]\.[0-9])/;
