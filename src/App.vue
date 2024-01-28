@@ -40,7 +40,10 @@ const { state: list, execute: fetchList } = useAsyncState(() => {
 })
 
 function handleCheckChange(fileId: string, checked: boolean) {
-  return uncheckList.value = uncheckList.value.filter(x => x !== fileId || !checked)
+  if (uncheckList.value.includes(fileId))
+    uncheckList.value = uncheckList.value.filter(x => x !== fileId || !checked)
+  else
+    uncheckList.value = uncheckList.value.concat(fileId)
 }
 
 // 剧集模式下使用该列表
@@ -311,7 +314,7 @@ onUnmounted(() => {
   <button
     v-if="shouldShowEntry"
     ref="trigger"
-    class="mt-2 min-h-61px w-60px flex flex-col items-center justify-center gap-y-1 rounded-lg px-2px py-6px text-purple-600 transition hover:bg-purple-600 hover:text-white"
+    class="mt-2 min-h-61px w-60px flex flex-col items-center justify-center gap-y-1 rounded-lg px-2px py-6px text-primary-500 transition hover:bg-primary-500 hover:text-white"
     @click="handleClickRenameBtn"
   >
     <i class="i-carbon:batch-job text-xl" />
@@ -322,7 +325,7 @@ onUnmounted(() => {
     <div
       v-if="popupVisible"
       ref="popup"
-      class="absolute z-9999 mt-2 w-300px rounded-lg bg-purple-100 p-3 shadow"
+      class="absolute z-9999 mt-2 w-300px rounded-lg bg-primary-100 p-3 shadow"
       @keyup.esc="popupVisible = false"
     >
       <p class="pb-2">
@@ -332,13 +335,13 @@ onUnmounted(() => {
       <div class="mb-3 flex items-center gap-x-4">
         <div class="w-fit flex gap-x-1px overflow-hidden rounded text-xs text-white">
           <div
-            class="cursor-pointer bg-purple px-2 py-1" :class="activeMode === 'extract' ? 'bg-purple-600' : ''"
+            class="cursor-pointer bg-primary px-2 py-1" :class="activeMode === 'extract' ? 'bg-primary-600' : ''"
             @click="activeMode = 'extract'"
           >
             剧集模式
           </div>
           <div
-            class="cursor-pointer bg-purple px-2 py-1" :class="activeMode === 'regexp' ? 'bg-purple-600' : ''"
+            class="cursor-pointer bg-primary px-2 py-1" :class="activeMode === 'regexp' ? 'bg-primary-600' : ''"
             @click="activeMode = 'regexp'"
           >
             正则模式
@@ -347,7 +350,7 @@ onUnmounted(() => {
 
         <template v-if="activeMode === 'regexp'">
           <a
-            class="text-xs font-medium text-purple-600 underline"
+            class="text-xs font-medium text-primary-600 underline"
             href="https://regex101.com/"
             target="_blank"
           >
@@ -355,7 +358,7 @@ onUnmounted(() => {
           </a>
 
           <a
-            class="text-xs font-medium text-purple-600 underline"
+            class="text-xs font-medium text-primary-600 underline"
             href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/replace"
             target="_blank"
           >
@@ -386,7 +389,7 @@ onUnmounted(() => {
             <label class="mb-1 block flex items-center gap-x-2">
               剧名
               <i
-                class="i-ion:dice block text-sm text-purple-700"
+                class="i-ion:dice block text-sm text-primary-700"
                 title="随机填充原文件名"
                 :class="videoList.length ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'"
                 @click="fillRandomName"
@@ -408,14 +411,14 @@ onUnmounted(() => {
             总共 {{ processData.total }} | 跳过 {{ processData.skip }} | 完成 {{ processData.done }}
           </div>
 
-          <div v-if="warning" class="text-xs text-purple">
+          <div v-if="warning" class="text-xs text-primary">
             {{ warning }}
           </div>
         </div>
 
         <div class="flex">
           <button
-            class="flex items-center justify-center gap-x-1 bg-purple-600 px-3 py-2 text-xs text-white btn"
+            class="flex items-center justify-center gap-x-1 bg-primary-600 px-3 py-2 text-xs text-white btn"
             :disabled="disabled || running"
             @click="run"
           >
@@ -431,9 +434,9 @@ onUnmounted(() => {
     <div
       v-if="popupVisible"
       ref="previewRef"
-      class="custom-scrollbar fixed bottom-2 right-0 top-2 z-9999 w-[max(500px,50vw)] overflow-y-auto border-y-3px border-l-3px border-purple-600 rounded-l-lg border-solid bg-white px-4 py-3 font-mono shadow"
+      class="custom-scrollbar fixed bottom-2 right-0 top-2 z-9999 w-[max(500px,50vw)] overflow-y-auto border-y-3px border-l-3px border-primary-600 rounded-l-lg border-solid bg-white px-4 py-3 font-mono shadow"
     >
-      <div v-if="listLoading" class="absolute inset-0 z-2 flex flex-col items-center justify-center bg-white/80 text-purple-600">
+      <div v-if="listLoading" class="absolute inset-0 z-2 flex flex-col items-center justify-center bg-white/80 text-primary-600">
         <div class="i-carbon:circle-packing animate-spin text-4xl" />
         <p class="py-3 text-sm">
           正在获取文件列表<span class="absolute">{{ loadingDots }}</span>
@@ -443,10 +446,10 @@ onUnmounted(() => {
         更改后的文件名有冲突！
       </div>
       <div class="flex items-center gap-x-3 pb-2">
-        <button class="text-sm text-purple-600" @click="uncheckList = []">
+        <button class="text-sm text-primary-600" @click="uncheckList = []">
           全选
         </button>
-        <button class="text-sm text-purple-600" @click="uncheckList = showList.map(x => x.file_id)">
+        <button class="text-sm text-primary-600" @click="uncheckList = showList.map(x => x.file_id)">
           全不选
         </button>
         <div v-if="activeMode === 'extract' && videoList.length" class="ml-4 text-sm text-gray-600">
@@ -458,7 +461,7 @@ onUnmounted(() => {
         </div>
 
         <div v-if="showList.length" class="ml-auto text-xs font-sans text-gray-600">
-          共 <span class="font-bold text-purple-600">{{ showList.length }}</span> 个文件
+          共 <span class="font-bold text-primary-600">{{ showList.length }}</span> 个文件
         </div>
       </div>
       <ul
@@ -478,7 +481,7 @@ onUnmounted(() => {
           @pick="manualPickName"
         />
       </ul>
-      <div v-else class="py-8 text-center text-xs text-purple-600">
+      <div v-else class="py-8 text-center text-xs text-primary-600">
         当前目录和模式下，没有满足要求的条目~
       </div>
     </div>
@@ -514,13 +517,13 @@ onUnmounted(() => {
   width: 6px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
-  --at-apply: bg-purple-100;
+  --at-apply: bg-primary-100;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  --at-apply: bg-purple-400 rounded-full transition;
+  --at-apply: bg-primary-400 rounded-full transition;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  --at-apply: bg-purple-600;
+  --at-apply: bg-primary-600;
 }
 </style>

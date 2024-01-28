@@ -7,7 +7,7 @@ export function getNewNameByExp(oldName: string, from: string, to: string) {
   }
 }
 
-export const SeasonEpisodeExtract = /S(?:eason)?[._\- ]?([0-9]{1,3})(?![0-9])(?:[._\- ]?E|[._\- ])([0-9]{1,3})(?![0-9])|E([0-9]{1,3})(?![0-9])|EP([0-9]{1,3})(?![0-9])|(?<![0-9])([0-9]{1,3})(?![0-9])/i
+export const SeasonEpisodeExtract = /S(?:eason)?[._\- ]?([0-9]{1,3})(?![0-9])(?:[._\- ]?E|[._\- ])([0-9]{1,3})(?![0-9])|E([0-9]{1,3})(?![0-9])|EP([0-9]{1,3})(?![0-9])|(?<![0-9])([0-9]{1,3})(?=$|\.)/i
 
 export function getNewNameByExtract(oldName: string, prefix: string, season: string) {
   const [_, _s, epm1, epm2, epm3, epm4] = oldName.match(SeasonEpisodeExtract) || []

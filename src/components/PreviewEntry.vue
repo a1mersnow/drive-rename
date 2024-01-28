@@ -27,7 +27,7 @@ const checked = defineModel<boolean>()
         checked && newName && !isSame ? 'i-carbon:checkbox-checked-filled' : 'i-carbon:checkbox',
         disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
       ]"
-      class="text-sm text-purple-600"
+      class="text-sm text-primary-600"
       @click="checked = !checked"
     />
     <span :title="oldName" class="truncate whitespace-pre">
@@ -39,7 +39,7 @@ const checked = defineModel<boolean>()
         @click="emit('pick', id)"
       />
     </span>
-    <span v-if="!isSame" class="i-carbon:arrow-right justify-self-center text-purple-600" />
+    <span v-if="!isSame" class="i-carbon:arrow-right justify-self-center text-primary-600" />
     <span v-else class="i-carbon:arrows-horizontal justify-self-center text-green-500" />
     <span :class="disabled ? 'opacity-50' : ''" :title="newName" class="truncate whitespace-pre">
       {{ newName }}

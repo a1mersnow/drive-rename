@@ -8,8 +8,26 @@ import {
 } from 'unocss'
 
 export default defineConfig({
+  theme: {
+    colors: {
+      primary: {
+        50: '#edf2ff',
+        100: '#dee8ff',
+        200: '#c4d4ff',
+        300: '#a0b8ff',
+        400: '#7088ff',
+        500: '#5b6af9',
+        600: '#3d40ee',
+        700: '#302fd3',
+        800: '#292baa',
+        900: '#292d86',
+        950: '#18184e',
+        DEFAULT: '#7088ff',
+      },
+    },
+  },
   shortcuts: [
-    ['btn', 'px-1 py-1 rounded inline-block text-purple-600 hover:text-white hover:bg-purple-600 transition border border-current disabled:opacity-50'],
+    ['btn', 'px-1 py-1 rounded inline-block text-primary-600 hover:text-white hover:bg-primary-600 transition border border-current disabled:opacity-50'],
   ],
   presets: [
     presetUno(),
