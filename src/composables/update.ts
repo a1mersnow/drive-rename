@@ -4,7 +4,7 @@ export function useUpdate() {
   const currentVersion = pkg.version
   const newVersion = ref('')
   const msg = computed(() => {
-    if (currentVersion === newVersion.value)
+    if (!newVersion.value || currentVersion === newVersion.value)
       return ''
     else
       return `有新版本(${newVersion.value})啦！点击更新～`
