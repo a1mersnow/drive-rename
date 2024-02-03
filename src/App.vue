@@ -253,9 +253,9 @@ function initRunState() {
   }
 }
 
-function getNewName(oldName: string) {
+function getNewName(oldName: string, season: string) {
   if (activeMode.value === 'extract')
-    return getNewNameByExtract(oldName, prefix.value.trim(), season.value.trim())
+    return getNewNameByExtract(oldName, prefix.value.trim(), season)
   else
     return getNewNameByExp(oldName, from.value, to.value)
 }
@@ -269,7 +269,7 @@ watch([list, activeMode, prefix, season, from, to], () => {
       || (activeMode.value === 'regexp' && from.value && to.value)
     ) {
       list.value.forEach((item) => {
-        newNameMap.value[item.file_id] = getNewName(item.name)
+        newNameMap.value[item.file_id] = getNewName(item.name, season.value.trim())
       })
     }
   }
@@ -323,6 +323,7 @@ const updateMsg = useUpdate()
     <span class="text-xs font-medium">重命名</span>
   </button>
 
+  <!-- control popup -->
   <transition name="clip">
     <div
       v-if="popupVisible"
@@ -433,6 +434,7 @@ const updateMsg = useUpdate()
     </div>
   </transition>
 
+  <!-- visual drawer -->
   <transition name="fade">
     <div
       v-if="popupVisible"
@@ -445,8 +447,10 @@ const updateMsg = useUpdate()
           正在获取文件列表<span class="absolute">{{ loadingDots }}</span>
         </p>
       </div>
-      <div v-if="hasConflict" class="pb-1 text-xs text-red">
-        更改后的文件名有冲突！
+      <div class="pb-1 text-xs text-gray">
+        <span v-if="hasConflict">❌ 文件名有冲突！</span>
+        <span v-else-if="selectedList.length">✅ 准备就绪</span>
+        <span v-else>⌛ 暂无改动</span>
       </div>
       <div class="flex items-center gap-x-3 pb-2">
         <button class="text-sm text-primary-600" @click="uncheckList = []">
