@@ -1,42 +1,51 @@
 <script setup lang="ts">
 import PreviewEntry from './components/PreviewEntry.vue'
+import { random } from './utils/tools'
 import { VideoExts } from './utils/video-exts'
 import * as aliyun from '~/utils/aliyun'
-import { getNewNameByExp, getNewNameByExtract, getSeason } from '~/utils/rename'
+import { getNewNameByExp, getNewNameByExtract, guessPrefix, guessSeason } from '~/utils/rename'
 
-const url = ref(location.href)
-setInterval(() => {
-  url.value = location.href
-}, 1000)
+const url = useUrl()
 const shouldShowEntry = computed(() => ['/drive/file/backup', '/drive/file/resource'].some(x => new URL(url.value).pathname.startsWith(x)))
 
 const uncheckList = ref<string[]>([])
 const doneList = ref<string[]>([])
 const errorList = ref<string[]>([])
-const listLoading = ref(false)
 const newNameMap = ref<Record<string, string>>({})
 
-const RetryMax = 3
-let remainRetryCount = RetryMax
+const running = ref(false)
+const activeMode = ref('extract')
+const from = ref('')
+const to = ref('')
+const prefix = ref('')
+const season = ref('')
 
-const { state: list, execute: fetchList } = useAsyncState(() => {
-  return aliyun.getFileListOfCurrentDir()
-}, [], {
-  immediate: false,
-  onSuccess: () => {
-    uncheckList.value = []
-    doneList.value = []
-    errorList.value = []
-    newNameMap.value = {}
-    listLoading.value = false
-    guessPrefixAndSeason()
-  },
-  onError: () => {
-    setTimeout(() => {
-      if (--remainRetryCount)
-        fetchList()
-    }, 1000)
-  },
+const error = ref('')
+const warning = ref('')
+const processData = ref({
+  total: 0,
+  skip: 0,
+  done: 0,
+})
+
+const { list, loading: listLoading, refetch } = useFileList()
+
+watch(url, (v, ov) => {
+  if (
+    v && v !== ov
+    && shouldShowEntry.value
+  ) {
+    refetch()
+    initRunState()
+  }
+}, { immediate: true })
+
+watch(list, () => {
+  uncheckList.value = []
+  doneList.value = []
+  errorList.value = []
+  newNameMap.value = {}
+  guessPrefixAndSeason()
 })
 
 function handleCheckChange(fileId: string, checked: boolean) {
@@ -51,28 +60,17 @@ const videoList = computed(() => {
   return list.value.filter(x => x.type === 'file' && VideoExts.includes(x.file_extension.toLowerCase())) as aliyun.FileResource[]
 })
 
-const popupVisible = ref(false)
-const popup = ref<HTMLDivElement>()
+const popupRef = ref<HTMLDivElement>()
 const previewRef = ref<HTMLDivElement>()
-const trigger = ref<HTMLButtonElement>()
+const triggerRef = ref<HTMLButtonElement>()
+const popupVisible = ref(false)
 
-function handleClickRenameBtn() {
-  popupVisible.value = true
-}
-
-onClickOutside(popup, () => {
+onClickOutside(popupRef, () => {
   popupVisible.value = false
-}, { ignore: [trigger, previewRef] })
+}, { ignore: [triggerRef, previewRef] })
 
-const running = ref(false)
-const from = ref('')
-const to = ref('')
-const activeMode = ref('extract')
-const prefix = ref('')
-const season = ref('')
-
-const showList = computed(() => activeMode.value === 'extract' ? videoList.value : list.value)
-const selectedList = computed(() => showList.value.filter(x => !uncheckList.value.includes(x.file_id) && newNameMap.value[x.file_id] && x.name !== newNameMap.value[x.file_id]))
+const displayList = computed(() => activeMode.value === 'extract' ? videoList.value : list.value)
+const selectedList = computed(() => displayList.value.filter(x => !uncheckList.value.includes(x.file_id) && newNameMap.value[x.file_id] && x.name !== newNameMap.value[x.file_id]))
 
 // 命名冲突检测
 const hasConflict = computed(() => {
@@ -101,19 +99,6 @@ const disabled = computed(() =>
   || !selectedList.value.length
   || hasConflict.value)
 
-watch(url, (v, ov) => {
-  if (
-    v && v !== ov
-    && shouldShowEntry.value
-  ) {
-    listLoading.value = true
-    setTimeout(() => {
-      fetchList()
-      remainRetryCount = RetryMax
-    }, 1000)
-  }
-}, { immediate: true })
-
 watch(activeMode, () => {
   initRunState()
 })
@@ -121,7 +106,7 @@ watch(activeMode, () => {
 watch(popupVisible, async (v) => {
   if (v) {
     await nextTick()
-    popup.value?.querySelector('input')?.focus()
+    popupRef.value?.querySelector('input')?.focus()
   }
   else {
     initRunState()
@@ -129,75 +114,9 @@ watch(popupVisible, async (v) => {
 })
 
 function guessPrefixAndSeason() {
-  guessPrefix()
-  guessSeason()
+  prefix.value = guessPrefix(videoList.value)
+  season.value = guessSeason(videoList.value)
 }
-
-function guessSeason() {
-  let currentSeason = '1'
-  videoList.value.forEach((v) => {
-    const temp = getSeason(v.name)
-    if (temp)
-      currentSeason = temp
-  })
-  season.value = currentSeason
-}
-
-const Chinese = /([\u4E00-\u9FA5]+)/i
-
-// 猜剧集名：
-// 1.如果有中文字符，则取中文字符
-// 2.否则取最长公共子串，并尝试把季集数去除
-function guessPrefix() {
-  if (videoList.value.length === 0)
-    return
-  const m = videoList.value[0].name.match(Chinese)
-  if (m?.[1]) {
-    prefix.value = m[1]
-    return
-  }
-  if (videoList.value.length < 2) {
-    const s = videoList.value[0]
-    prefix.value = s.name.replace(`.${s.file_extension}`, '').replace(/\s*S[0-9]+E[0-9]*|\s*E[0-9]+/i, '').trim()
-    return
-  }
-  const [a, b] = videoList.value.slice(-2).map(x => x.name.replace(`.${x.file_extension}`, ''))
-  const lcs = getLcstr(a, b)
-  if (lcs)
-    prefix.value = lcs.replace(/\s*S[0-9]+E[0-9]*|\s*E[0-9]+/i, '').trim()
-}
-
-function getLcstr(a: string, b: string) {
-  if (!a || !b)
-    return ''
-  const lenA = a.length
-  const lenB = b.length
-  let cache = [[], []] as number[][]
-  let maxLen = 0
-  let maxBEnd: number
-  for (let i = 0; i < lenA; i++)
-    cache[0][i] = a[0] === b[i] ? 1 : 0
-  for (let i = 1; i < lenA; i++) {
-    cache[1][0] = a[i] === b[0] ? 1 : 0
-    for (let j = 1; j < lenB; j++) {
-      cache[1][j] = a[i] === b[j] ? cache[0][j - 1] + 1 : 0
-      if (cache[1][j] > maxLen) {
-        maxLen = cache[1][j]
-        maxBEnd = j
-      }
-    }
-    cache = [cache[1], []]
-  }
-  return b.slice(maxBEnd! - maxLen + 1, maxBEnd! + 1)
-}
-
-const error = ref('')
-const warning = ref('')
-const processData = ref({
-  total: 0,
-  skip: 0,
-  done: 0,
-})
 
 const MaxConcurrent = 3
 
@@ -207,8 +126,8 @@ async function run() {
   initRunState()
   running.value = true
 
-  processData.value.total = showList.value.length
-  processData.value.skip = showList.value.length - selectedList.value.length
+  processData.value.total = displayList.value.length
+  processData.value.skip = displayList.value.length - selectedList.value.length
 
   const queue = selectedList.value.slice()
 
@@ -284,10 +203,6 @@ function fillRandomName() {
     prefix.value = found.name.replace(`.${found.file_extension}`, '')
 }
 
-function random(n: number) {
-  return Math.floor(Math.random() * n)
-}
-
 function manualPickName(id: string) {
   if (id) {
     const found = videoList.value.find(x => x.file_id === id)
@@ -315,9 +230,9 @@ const updateMsg = useUpdate()
 <template>
   <button
     v-if="shouldShowEntry"
-    ref="trigger"
+    ref="triggerRef"
     class="mt-2 min-h-61px w-60px flex flex-col items-center justify-center gap-y-1 rounded-lg px-2px py-6px text-primary-500 transition hover:bg-primary-500 hover:text-white"
-    @click="handleClickRenameBtn"
+    @click="popupVisible = true"
   >
     <i class="i-carbon:batch-job text-xl" />
     <span class="text-xs font-medium">重命名</span>
@@ -327,7 +242,7 @@ const updateMsg = useUpdate()
   <transition name="clip">
     <div
       v-if="popupVisible"
-      ref="popup"
+      ref="popupRef"
       class="absolute z-9999 mt-2 w-300px rounded-lg bg-primary-100 p-3 shadow"
       @keyup.esc="popupVisible = false"
     >
@@ -456,7 +371,7 @@ const updateMsg = useUpdate()
         <button class="text-sm text-primary-600" @click="uncheckList = []">
           全选
         </button>
-        <button class="text-sm text-primary-600" @click="uncheckList = showList.map(x => x.file_id)">
+        <button class="text-sm text-primary-600" @click="uncheckList = displayList.map(x => x.file_id)">
           全不选
         </button>
         <div v-if="activeMode === 'extract' && videoList.length" class="ml-4 text-sm text-gray-600">
@@ -467,15 +382,15 @@ const updateMsg = useUpdate()
           可将其填充到“剧名”
         </div>
 
-        <div v-if="showList.length" class="ml-auto text-xs text-gray-600 font-sans">
-          共 <span class="text-primary-600 font-bold">{{ showList.length }}</span> 个文件
+        <div v-if="displayList.length" class="ml-auto text-xs text-gray-600 font-sans">
+          共 <span class="text-primary-600 font-bold">{{ displayList.length }}</span> 个文件
         </div>
       </div>
       <ul
-        v-if="showList.length" class="grid grid-cols-[20px_auto_30px_minmax(200px,1fr)] items-center gap-x-2 gap-y-1 text-xs"
+        v-if="displayList.length" class="grid grid-cols-[20px_auto_30px_minmax(200px,1fr)] items-center gap-x-2 gap-y-1 text-xs"
       >
         <PreviewEntry
-          v-for="item in showList"
+          v-for="item in displayList"
           :id="item.file_id"
           :key="item.file_id"
           :old-name="item.name"
