@@ -33,6 +33,7 @@
     "@unocss/reset": "^0.58.4",
     "@vitejs/plugin-vue": "^5.0.3",
     "@vue/test-utils": "^2.4.4",
+    "animated-unocss": "^0.0.6",
     "eslint": "^8.56.0",
     "eslint-define-config": "^2.1.0",
     "execa": "^8.0.1",

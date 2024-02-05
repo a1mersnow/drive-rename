@@ -15,6 +15,7 @@ function close() {
   if (main.running)
     return
   popupVisible.value = false
+  main.clearHelper()
 }
 </script>
 

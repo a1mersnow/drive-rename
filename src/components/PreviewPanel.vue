@@ -19,6 +19,24 @@ function manualPickName(id: string) {
 }
 
 const { loadingDots } = useLoadingDots()
+
+const helperTipAnimationClass = ref('')
+watch(() => main.hasConflict, (hasConflict) => {
+  const timers: number[] = []
+  if (hasConflict) {
+    helperTipAnimationClass.value = ''
+    timers.push(window.setTimeout(() => {
+      helperTipAnimationClass.value = 'animated animated-flash animated-duration-1s'
+      timers.push(window.setTimeout(() => {
+        helperTipAnimationClass.value = ''
+      }, 1000))
+    }, 1000))
+  }
+  else {
+    while (timers.length)
+      window.clearInterval(timers.pop())
+  }
+})
 </script>
 
 <template>
@@ -31,10 +49,18 @@ const { loadingDots } = useLoadingDots()
         正在获取文件列表<span class="absolute">{{ loadingDots }}</span>
       </p>
     </div>
-    <div class="pb-1 text-xs text-gray">
-      <span v-if="main.hasConflict">❌ 文件名有冲突！</span>
-      <span v-else-if="main.selectedList.length">✅ 准备就绪</span>
-      <span v-else>⌛ 暂无改动</span>
+    <div class="py-1 pb-3 text-xs text-gray">
+      <span class="flex items-center justify-between">
+        <span v-if="main.hasConflict" class="animated animated-shake-x animated-duration-800">❌ 文件名有冲突！</span>
+        <span v-else-if="main.selectedList.length">✅ 准备就绪</span>
+        <span v-else>⌛ 暂无改动</span>
+        <span class="inline-flex items-center gap-x-1" :class="helperTipAnimationClass">
+          <span>帮助定位集数：</span>
+          <input v-model="main.extractHelperPre" class="bg-transparent px-1 text-right text-xs outline-none" border="b" inline-block w-5em type="text">
+          <span class="text-primary">[集数]</span>
+          <input v-model="main.extractHelperPost" class="bg-transparent px-1 text-xs outline-none" border="b" inline-block w-5em type="text">
+        </span>
+      </span>
     </div>
     <div class="flex items-center gap-x-3 pb-2">
       <button class="text-sm text-primary-600" @click="main.uncheckList.clear()">
@@ -67,7 +93,6 @@ const { loadingDots } = useLoadingDots()
         :model-value="!main.uncheckList.has(item.file_id)"
         :done="main.doneList.has(item.file_id)"
         :error="main.errorList.has(item.file_id)"
-        :show-pick="main.activeMode === 'extract'"
         @update:model-value="handleCheckChange(item.file_id, $event)"
         @pick="manualPickName"
       />

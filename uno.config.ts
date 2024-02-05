@@ -6,6 +6,7 @@ import {
   presetWebFonts,
   transformerDirectives,
 } from 'unocss'
+import { animatedUno } from 'animated-unocss'
 
 export default defineConfig({
   theme: {
@@ -43,6 +44,7 @@ export default defineConfig({
         mono: 'DM Mono',
       },
     }),
+    animatedUno(),
   ],
   transformers: [
     transformerDirectives(),

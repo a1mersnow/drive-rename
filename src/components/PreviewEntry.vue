@@ -1,11 +1,10 @@
 <script setup lang="ts">
-const { id, newName, oldName, done, error, showPick = false } = defineProps<{
+const { id, newName, oldName, done, error } = defineProps<{
   oldName: string
   id: string
   newName: string
   done: boolean
   error: boolean
-  showPick: boolean
 }>()
 
 const emit = defineEmits<{
@@ -33,7 +32,6 @@ const checked = defineModel<boolean>()
     <span :title="oldName" class="truncate whitespace-pre">
       <span :class="disabled ? 'opacity-50' : ''">{{ oldName }}</span>
       <i
-        v-if="showPick"
         class="i-carbon:pointer-text [vertical-align:-0.2em] inline-block cursor-pointer text-xs text-green-700"
         title="填充到剧名"
         @click="emit('pick', id)"

@@ -16,6 +16,8 @@ export const useMainStore = defineStore('main', () => {
   const to = ref('')
   const prefix = ref('')
   const season = ref('')
+  const epHelperPre = ref('')
+  const epHelperPost = ref('')
 
   const error = ref('')
   const warning = ref('')
@@ -72,8 +74,7 @@ export const useMainStore = defineStore('main', () => {
     guessPrefixAndSeason()
   })
 
-  // generate new filenames
-  watch([list, activeMode, prefix, season, from, to], () => {
+  const debouncedNameGenerator = useDebounceFn(() => {
     if (list.value.length) {
       newNameMap.clear()
       if (
@@ -85,7 +86,10 @@ export const useMainStore = defineStore('main', () => {
         })
       }
     }
-  }, { immediate: true })
+  }, 300)
+
+  // generate new filenames
+  watch([list, activeMode, prefix, season, from, to, epHelperPre, epHelperPost], debouncedNameGenerator, { immediate: true })
 
   function guessPrefixAndSeason() {
     prefix.value = guessPrefix(videoList.value)
@@ -149,9 +153,14 @@ export const useMainStore = defineStore('main', () => {
 
   function getNewName(oldName: string, season: string) {
     if (activeMode.value === 'extract')
-      return getNewNameByExtract(oldName, prefix.value.trim(), season)
+      return getNewNameByExtract(oldName, prefix.value.trim(), season, { pre: epHelperPre.value, post: epHelperPost.value })
     else
       return getNewNameByExp(oldName, from.value, to.value)
+  }
+
+  function clearHelper() {
+    epHelperPre.value = ''
+    epHelperPost.value = ''
   }
 
   return {
@@ -178,5 +187,8 @@ export const useMainStore = defineStore('main', () => {
     processData,
     run,
     running,
+    extractHelperPre: epHelperPre,
+    extractHelperPost: epHelperPost,
+    clearHelper,
   }
 })
