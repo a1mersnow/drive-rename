@@ -14,6 +14,11 @@ function fillRandomPrefix() {
   if (found)
     main.prefix = found.name.replace(`.${found.file_extension}`, '')
 }
+
+const modes = [
+  { title: '剧集模式', value: 'extract' },
+  { title: '正则模式', value: 'regexp' },
+]
 </script>
 
 <template>
@@ -26,16 +31,15 @@ function fillRandomPrefix() {
     <div class="mb-3 flex items-center gap-x-4">
       <div class="w-fit flex gap-x-1px overflow-hidden rounded text-xs text-white">
         <div
-          class="cursor-pointer bg-primary px-2 py-1" :class="main.activeMode === 'extract' ? 'bg-primary-600' : ''"
-          @click="main.activeMode = 'extract'"
+          v-for="m in modes" :key="m.value"
+          class="bg-primary px-2 py-1"
+          :class="[
+            main.activeMode === m.value ? 'bg-primary-600' : '',
+            main.running ? 'cursor-not-allowed op50' : 'cursor-pointer',
+          ]"
+          @click="!main.running && (main.activeMode = m.value)"
         >
-          剧集模式
-        </div>
-        <div
-          class="cursor-pointer bg-primary px-2 py-1" :class="main.activeMode === 'regexp' ? 'bg-primary-600' : ''"
-          @click="main.activeMode = 'regexp'"
-        >
-          正则模式
+          {{ m.title }}
         </div>
       </div>
 
@@ -62,12 +66,12 @@ function fillRandomPrefix() {
       <template v-if="main.activeMode === 'regexp'">
         <div>
           <label class="mb-1 block">From</label>
-          <input v-model="main.from" autofocus placeholder="正则表达式" class="h-8 w-full rounded bg-white px-3 outline-none">
+          <input v-model="main.from" :disabled="main.running" autofocus placeholder="正则表达式" class="h-8 w-full rounded bg-white px-3 outline-none">
         </div>
 
         <div>
           <label class="mb-1 block">To</label>
-          <input v-model="main.to" placeholder="替换表达式" class="h-8 w-full rounded bg-white px-3 outline-none">
+          <input v-model="main.to" :disabled="main.running" placeholder="替换表达式" class="h-8 w-full rounded bg-white px-3 outline-none">
         </div>
 
         <div class="text-xs font-mono">
@@ -86,11 +90,11 @@ function fillRandomPrefix() {
               @click="fillRandomPrefix"
             />
           </label>
-          <input v-model="main.prefix" autofocus placeholder="请输入" class="h-8 w-full rounded bg-white px-3 outline-none">
+          <input v-model="main.prefix" :disabled="main.running" autofocus placeholder="请输入" class="h-8 w-full rounded bg-white px-3 outline-none">
         </div>
         <div>
           <label class="mb-1 block">季</label>
-          <input v-model="main.season" placeholder="0~99" class="h-8 w-full rounded bg-white px-3 outline-none">
+          <input v-model="main.season" :disabled="main.running" placeholder="0~99" class="h-8 w-full rounded bg-white px-3 outline-none">
         </div>
       </template>
 
