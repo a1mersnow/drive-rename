@@ -5,6 +5,7 @@ const { id, newName, oldName, done, error } = defineProps<{
   newName: string
   done: boolean
   error: boolean
+  conflict: boolean
 }>()
 
 const emit = defineEmits<{
@@ -39,7 +40,7 @@ const checked = defineModel<boolean>()
     </span>
     <span v-if="!isSame" class="i-carbon:arrow-right justify-self-center text-primary-600" />
     <span v-else class="i-carbon:arrows-horizontal justify-self-center text-green-500" />
-    <span :class="disabled ? 'opacity-50' : ''" :title="newName" class="truncate whitespace-pre">
+    <span :class="[disabled ? 'opacity-50' : '', conflict ? 'text-red-500 font-bold' : '']" :title="newName" class="truncate whitespace-pre">
       {{ newName }}
       <span v-if="error">❌</span><span v-else-if="done">✅</span>
     </span>

@@ -1,15 +1,8 @@
 import pkg from '../../package.json'
 
 export function useUpdate() {
-  const currentVersion = pkg.version
+  const currentVersion = ref(pkg.version)
   const newVersion = ref('')
-  const msg = computed(() => {
-    if (!newVersion.value || currentVersion === newVersion.value)
-      return ''
-    else
-      return `有新版本(${newVersion.value})啦！点击更新～`
-  })
-
   onMounted(async () => {
     const res = await fetch(`https://update.greasyfork.org/scripts/479295/%E9%98%BF%E9%87%8C%E4%BA%91%E7%9B%98%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D.meta.js?t=${Date.now()}`)
     if (res.ok) {
@@ -21,5 +14,7 @@ export function useUpdate() {
     }
   })
 
-  return msg
+  const hasNew = computed(() => newVersion.value && newVersion.value !== currentVersion.value)
+
+  return { currentVersion, newVersion, hasNew }
 }

@@ -13,8 +13,12 @@ function handleCheckChange(fileId: string, checked: boolean) {
 function manualPickName(id: string) {
   if (id) {
     const found = main.videoList.find(x => x.file_id === id)
-    if (found)
-      main.prefix = found.name.replace(`.${found.file_extension}`, '')
+    if (found) {
+      if (main.activeMode === 'extract')
+        main.prefix = found.name.replace(`.${found.file_extension}`, '')
+      else
+        main.from = found.name
+    }
   }
 }
 
@@ -54,7 +58,7 @@ watch(() => main.hasConflict, (hasConflict) => {
         <span v-if="main.hasConflict" class="animated animated-shake-x animated-duration-800">❌ 文件名有冲突！</span>
         <span v-else-if="main.selectedList.length">✅ 准备就绪</span>
         <span v-else>⌛ 暂无改动</span>
-        <span class="inline-flex items-center gap-x-1" :class="helperTipAnimationClass">
+        <span v-if="main.activeMode === 'extract'" class="inline-flex items-center gap-x-1" :class="helperTipAnimationClass">
           <span>帮助定位集数：</span>
           <input v-model="main.extractHelperPre" class="bg-transparent px-1 text-right text-xs outline-none" border="b" inline-block w-5em type="text">
           <span class="text-primary">[集数]</span>
@@ -69,12 +73,12 @@ watch(() => main.hasConflict, (hasConflict) => {
       <button class="text-sm text-primary-600" @click="main.displayList.forEach(x => main.uncheckList.add(x.file_id))">
         全不选
       </button>
-      <div v-if="main.activeMode === 'extract' && main.videoList.length" class="ml-4 text-sm text-gray-600">
+      <div v-if="main.displayList.length" class="ml-4 text-sm text-gray-600">
         点击
         <i
           class="i-carbon:pointer-text [vertical-align:-0.2em] inline-block text-sm text-green-700"
         />
-        可将其填充到“剧名”
+        可将其填充到“{{ main.activeMode === 'extract' ? '剧名' : 'From' }}”
       </div>
 
       <div v-if="main.displayList.length" class="ml-auto text-xs text-gray-600 font-sans">
@@ -93,6 +97,7 @@ watch(() => main.hasConflict, (hasConflict) => {
         :model-value="!main.uncheckList.has(item.file_id)"
         :done="main.doneList.has(item.file_id)"
         :error="main.errorList.has(item.file_id)"
+        :conflict="main.conflictFileIds.has(item.file_id)"
         @update:model-value="handleCheckChange(item.file_id, $event)"
         @pick="manualPickName"
       />

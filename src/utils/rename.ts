@@ -10,8 +10,9 @@ export function getNewNameByExp(oldName: string, from: string, to: string) {
 }
 
 const SeasonEpisodeExtract = /S(?:eason)?[._\- ]?([0-9]{1,3})(?![0-9])(?:[._\- ]?E|[._\- ])([0-9]{1,3})(?![0-9])/i
-const EpisodeExtract = /EP?([0-9]{1,3})(?![0-9])/i
-const NakedEpisodeExtract = /(?<![0-9])([0-9]{1,3})(?![0-9])(?![PK][._\- ])/i
+const EpisodeExtract1 = /EP?([0-9]{1,3})(?![0-9])/i
+const EpisodeExtract2 = /(?<![0-9h\u4E00-\u9FA5])([0-9]{1,3})(?![0-9])(?![PK][._\- ])/i
+const EpisodeExtract3 = /(?<![0-9h])([0-9]{1,3})(?![0-9])(?![PK][._\- ])/i
 
 interface EpisodeHelpers {
   pre: string
@@ -61,24 +62,28 @@ export function getEpisode(oldName: string) {
   {
     const [_, _s, episode] = oldName.match(SeasonEpisodeExtract) || []
     if (episode)
-      return episode
+      return normalizeEpisode(episode)
   }
 
   {
-    const [_, episode] = oldName.match(EpisodeExtract) || []
+    const [_, episode] = oldName.match(EpisodeExtract1) || []
     if (episode)
-      return episode
+      return normalizeEpisode(episode)
   }
 
-  const candidates = [...oldName.matchAll(new RegExp(NakedEpisodeExtract, 'gi'))].map(([_, episode]) => {
-    return episode
-  }).filter(x => x)
-  if (candidates.length === 2)
-    return normalizeEpisode(candidates[1])
-  else if (candidates.length)
-    return normalizeEpisode(candidates[0])
-  else
-    return ''
+  {
+    const [_, episode] = oldName.match(EpisodeExtract2) || []
+    if (episode)
+      return normalizeEpisode(episode)
+  }
+
+  {
+    const [_, episode] = oldName.match(EpisodeExtract3) || []
+    if (episode)
+      return normalizeEpisode(episode)
+  }
+
+  return ''
 }
 
 export function getSeason(oldName: string) {

@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import { getNewNameByExp, getNewNameByExtract, guessPrefix, guessSeason } from '~/utils/rename'
 import { VideoExts } from '~/utils/video-exts'
 import * as aliyun from '~/utils/aliyun'
-import { hasDup } from '~/utils/tools'
 
 export const useMainStore = defineStore('main', () => {
   const uncheckList = reactive(new Set<string>())
@@ -41,8 +40,24 @@ export const useMainStore = defineStore('main', () => {
   // > it has a new name and the new name is not same as the old
   const selectedList = computed(() => displayList.value.filter(x => !uncheckList.has(x.file_id) && newNameMap.has(x.file_id) && x.name !== newNameMap.get(x.file_id)))
 
+  const conflictFileIds = computed(() => {
+    const l = selectedList.value.map(x => [x.file_id, newNameMap.get(x.file_id)])
+    const m = new Map()
+    const r = new Set()
+    for (const [id, newName] of l) {
+      if (m.has(newName)) {
+        r.add(m.get(newName))
+        r.add(id)
+      }
+      else {
+        m.set(newName, id)
+      }
+    }
+    return r
+  })
+
   const hasConflict = computed(() => {
-    return hasDup(selectedList.value.map(x => newNameMap.get(x.file_id)))
+    return conflictFileIds.value.size > 0
   })
 
   // 不能 run 的情况：
@@ -176,6 +191,7 @@ export const useMainStore = defineStore('main', () => {
     errorList,
     doneList,
     hasConflict,
+    conflictFileIds,
     disabled,
     activeMode,
     from,

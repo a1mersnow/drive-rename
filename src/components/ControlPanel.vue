@@ -2,7 +2,7 @@
 import { useMainStore } from '~/stores/main'
 import { random } from '~/utils/tools'
 
-const updateMsg = useUpdate()
+const { newVersion, currentVersion, hasNew } = useUpdate()
 
 const main = useMainStore()
 
@@ -25,7 +25,13 @@ const modes = [
   <div class="absolute z-100 mt-2 w-300px rounded-lg bg-primary-100 p-3 shadow">
     <p class="pb-2">
       批量重命名当前目录下的所有文件。<br>
-      <a v-if="updateMsg" class="text-xs text-red-600 underline underline-dashed hover:text-red-600 hover:underline hover:underline-dashed" href="https://update.greasyfork.org/scripts/479295/%E9%98%BF%E9%87%8C%E4%BA%91%E7%9B%98%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D.user.js" target="_blank">{{ updateMsg }}</a>
+      <a
+        v-if="hasNew"
+        class="text-xs text-red-600 underline underline-dashed hover:text-red-600 hover:underline hover:underline-dashed"
+        href="https://update.greasyfork.org/scripts/479295/%E9%98%BF%E9%87%8C%E4%BA%91%E7%9B%98%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D.user.js"
+        target="_blank"
+      >有新版本({{ newVersion }})啦！点击更新～</a>
+      <span v-else class="text-xs text-primary">当前版本：{{ currentVersion }}</span>
     </p>
 
     <div class="mb-3 flex items-center gap-x-4">
