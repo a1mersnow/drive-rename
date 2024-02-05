@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import AppRoot from './App.vue'
 import { setSignature } from './utils/aliyun'
 
@@ -26,6 +27,8 @@ window.setInterval(() => {
 function init(parentEl: Element) {
   if (!parentEl.querySelector(`#${ENTRY_ID}`)) {
     const app = createApp(AppRoot)
+    const pinia = createPinia()
+    app.use(pinia)
     app.mount(
       (() => {
         const app = document.createElement('div')

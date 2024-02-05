@@ -7,6 +7,8 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ControlPanel: typeof import('./src/components/ControlPanel.vue')['default']
     PreviewEntry: typeof import('./src/components/PreviewEntry.vue')['default']
+    PreviewPanel: typeof import('./src/components/PreviewPanel.vue')['default']
   }
 }
