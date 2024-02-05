@@ -7,7 +7,7 @@
 ## 📺剧集模式
 
 #### 界面
-![剧集模式界面](https://cdn.jsdelivr.net/gh/a1mersnow/aliyundrive-rename/images/overview1.jpg)
+![剧集模式界面](https://cdn.jsdelivr.net/gh/a1mersnow/aliyundrive-rename/images/extract.jpg)
 
 #### 适用场景
 为 Infuse VidHub 等软件的刮削提供便利
@@ -39,7 +39,7 @@
 ## 正则模式
 
 #### 界面
-![正则模式界面](https://cdn.jsdelivr.net/gh/a1mersnow/aliyundrive-rename/images/overview2.jpg)
+![正则模式界面](https://cdn.jsdelivr.net/gh/a1mersnow/aliyundrive-rename/images/regexp.jpg)
 
 #### 注意事项
 - 此模式建议有正则基础的朋友使用
