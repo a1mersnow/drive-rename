@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         阿里云盘批量重命名
 // @namespace    vite-plugin-monkey
-// @version      0.7.0
+// @version      0.7.1
 // @author       a1mersnow
 // @description  批量重命名阿里云盘里的文件
 // @license      GPL
@@ -1204,7 +1204,7 @@
   }
   const name = "aliyundrive-rename";
   const type = "module";
-  const version = "0.7.0";
+  const version = "0.7.1";
   const packageManager = "pnpm@8.15.0";
   const description = "Batch rename files of aliyundrive.";
   const author = "a1mersnow";
