@@ -8,6 +8,11 @@ import './styles/main.css'
 import 'uno.css'
 
 const ENTRY_ID = 'a1mersnow_webdrive_rename'
+// @ts-expect-error pass
+if (window[ENTRY_ID])
+  throw new Error('This error is expected! It means you have installed two copy of this script. Please remove one.')
+// @ts-expect-error pass
+window[ENTRY_ID] = true
 
 const oldSetHeader = XMLHttpRequest.prototype.setRequestHeader
 
