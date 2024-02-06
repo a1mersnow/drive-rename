@@ -1,9 +1,5 @@
-const listJsonMask = 'next_marker,items(name,file_id,drive_id,type,file_extension,parent_file_id,mime_type,trashed,sync_device_flag,punish_flag)'
-
 // 接口调用太频繁会被拒
 export const API_DELAY = 200
-
-const PAGE_SIZE = 100
 
 function getToken() {
   const raw = window.localStorage.getItem('token')
@@ -18,6 +14,8 @@ async function getDriveId() {
 }
 
 const INITIAL_MARKER = 'INITIAL'
+const PAGE_SIZE = 100
+const listJsonMask = 'next_marker,items(name,file_id,drive_id,type,file_extension,parent_file_id,mime_type,trashed,sync_device_flag,punish_flag)'
 export async function getFileListOfCurrentDir(parentId = getParentId()) {
   const listApi = new URL('https://api.aliyundrive.com/adrive/v3/file/list')
   listApi.searchParams.append('jsonmask', listJsonMask)
@@ -95,6 +93,7 @@ export function shouldShowEntry(url: string) {
 export function getContainer() {
   return {
     el: document.querySelector('[class^="nav-tab-content--"]'),
+    style: '',
     front: false,
   }
 }

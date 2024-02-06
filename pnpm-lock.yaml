@@ -34,6 +34,9 @@ devDependencies:
   '@unocss/eslint-plugin':
     specifier: ^0.58.4
     version: 0.58.4(eslint@8.56.0)(typescript@5.3.3)
+  '@unocss/preset-rem-to-px':
+    specifier: ^0.58.5
+    version: 0.58.5
   '@unocss/reset':
     specifier: ^0.58.4
     version: 0.58.4
@@ -1595,6 +1598,10 @@ packages:
     resolution: {integrity: sha512-wh4pxXUCkhC+C/0ct74PMYeZgX+oWuHj2mnvr09nM0WmvOm1HeeISrDCCBGcxmKbErUk+D1v3JgzXF7b6j2l4g==}
     dev: true
 
+  /@unocss/core@0.58.5:
+    resolution: {integrity: sha512-qbPqL+46hf1/UelQOwUwpAuvm6buoss43DPYHOPdfNJ+NTWkSpATQMF0JKT04QE0QRQbHNSHdMe9ariG+IIlCw==}
+    dev: true
+
   /@unocss/eslint-config@0.58.4(eslint@8.56.0)(typescript@5.3.3):
     resolution: {integrity: sha512-NJ0NJmEJBKSmglFKOJvEXdlj5ERgiQLKBZtsSiTUmuKk8srLkSUZv5QJ4iQl/uygxRY8ugNUyiEOfQs6a1iTUw==}
     engines: {node: '>=14'}
@@ -1686,6 +1693,12 @@ packages:
       '@unocss/core': 0.58.4
       '@unocss/extractor-arbitrary-variants': 0.58.4
       '@unocss/rule-utils': 0.58.4
+    dev: true
+
+  /@unocss/preset-rem-to-px@0.58.5:
+    resolution: {integrity: sha512-gM1jy/HoUS/HeiuOt5u+fAAWT/PPLqfC8eWGRrtqm22zKOq0Ea/Lp8Jh+BApc1cGby2xw6lwiFJRbFbiPaFoNw==}
+    dependencies:
+      '@unocss/core': 0.58.5
     dev: true
 
   /@unocss/preset-tagify@0.58.4:

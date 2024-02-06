@@ -5,6 +5,7 @@ interface BaseResource {
   file_id: string
   name: string
   parent_file_id: string
+  sync_device_flag: boolean
 }
 
 interface FileResource extends BaseResource {

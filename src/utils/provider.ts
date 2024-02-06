@@ -1,8 +1,11 @@
 import * as aliyun from '~/providers/aliyun'
+import * as quark from '~/providers/quark'
 
 function resolveProvider() {
   if (location.host === 'www.aliyundrive.com' || location.host === 'www.alipan.com')
     return aliyun
+  else if (location.host === 'pan.quark.cn')
+    return quark
   else
     throw new Error('unimplemented provider')
 }

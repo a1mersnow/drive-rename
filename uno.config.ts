@@ -7,6 +7,7 @@ import {
   transformerDirectives,
 } from 'unocss'
 import { animatedUno } from 'animated-unocss'
+import presetRemToPx from '@unocss/preset-rem-to-px'
 
 export default defineConfig({
   theme: {
@@ -45,6 +46,7 @@ export default defineConfig({
       },
     }),
     animatedUno(),
+    presetRemToPx() as any,
   ],
   transformers: [
     transformerDirectives(),

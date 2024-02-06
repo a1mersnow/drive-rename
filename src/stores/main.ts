@@ -27,7 +27,7 @@ export const useMainStore = defineStore('main', () => {
   })
 
   const url = useUrl()
-  const shouldShowEntry = computed(() => ['/drive/file/backup', '/drive/file/resource'].some(x => new URL(url.value).pathname.startsWith(x)))
+  const shouldShowEntry = computed(() => provider.shouldShowEntry(url.value))
 
   const { list, loading: listLoading, refetch } = useFileList()
 
