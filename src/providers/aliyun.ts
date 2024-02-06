@@ -1,4 +1,4 @@
-const listJsonMask = 'next_marker,items(name,file_id,drive_id,type,size,created_at,updated_at,category,file_extension,parent_file_id,mime_type,starred,thumbnail,url,streams_info,content_hash,user_tags,user_meta,trashed,video_media_metadata,video_preview_metadata,sync_meta,sync_device_flag,sync_flag,punish_flag)'
+const listJsonMask = 'next_marker,items(name,file_id,drive_id,type,file_extension,parent_file_id,mime_type,trashed,sync_device_flag,punish_flag)'
 
 // 接口调用太频繁会被拒
 export const API_DELAY = 200
@@ -60,9 +60,10 @@ function getParentId() {
   return /[a-z0-9]{32,}/.test(lastSegment) ? lastSegment : 'root'
 }
 
-let signature = ''
-export function setSignature(v: string) {
-  signature = v
+const headers: Record<string, string> = {}
+export function setRequestHeader(key: string, value: string) {
+  if (key.toLowerCase() === 'x-signature')
+    headers['X-Signature'] = value
 }
 
 function post(api: URL | string, payload: object) {
@@ -72,7 +73,7 @@ function post(api: URL | string, payload: object) {
       'Content-Type': 'Application/json',
       'Authorization': `Bearer ${getToken()}`,
       'X-Device-Id': document.cookie.match(/cna=(.+?);/)?.[1] || '',
-      'X-Signature': signature,
+      ...headers,
     },
     body: JSON.stringify(payload),
   }).then((res) => {
@@ -83,31 +84,19 @@ function post(api: URL | string, payload: object) {
   })
 }
 
-export type Resource = FileResource | FolderResource
-
-interface BaseResource {
-  drive_id: string
-  file_id: string
-  name: string
-  parent_file_id: string
-}
-
-export interface FileResource extends BaseResource {
-  // video
-  category: string
-  content_hash: string
-  file_extension: string
-  mime_type: string
-  size: number
-  type: 'file'
-  thumbnail: string
-  url: string
-}
-
-interface FolderResource extends BaseResource {
-  type: 'folder'
-}
-
 export async function renameOne(resource: Resource, newName: string) {
   await rename(resource.drive_id, resource.file_id, newName)
 }
+
+export function shouldShowEntry(url: string) {
+  return ['/drive/file/backup', '/drive/file/resource'].some(x => new URL(url).pathname.startsWith(x))
+}
+
+export function getContainer() {
+  return {
+    el: document.querySelector('[class^="nav-tab-content--"]'),
+    front: false,
+  }
+}
+
+export { default as ButtonComponent } from '~/components/ButtonAliyun.vue'

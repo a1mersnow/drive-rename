@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useMainStore } from '~/stores/main'
+import { getComponent } from '~/utils/provider'
 
 const main = useMainStore()
 
-const triggerRef = ref<HTMLButtonElement>()
 const popupVisible = ref(false)
 
 useEventListener('keydown', (e) => {
@@ -20,15 +20,11 @@ function close() {
 </script>
 
 <template>
-  <button
+  <component
+    :is="getComponent()"
     v-if="main.shouldShowEntry"
-    ref="triggerRef"
-    class="mt-2 min-h-61px w-60px flex flex-col items-center justify-center gap-y-1 rounded-lg px-2px py-6px text-primary-500 transition hover:bg-primary-500 hover:text-white"
     @click="popupVisible = true"
-  >
-    <i class="i-carbon:batch-job text-xl" />
-    <span class="text-xs font-medium">重命名</span>
-  </button>
+  />
 
   <!-- control popup -->
   <transition name="clip">

@@ -1,16 +1,16 @@
-import * as aliyun from '~/utils/aliyun'
+import * as provider from '~/utils/provider'
 
 const RetryMax = 3
 
 export function useFileList() {
   let remainRetryCount = RetryMax
   let hash = 0
-  const list = ref<aliyun.Resource[]>([])
+  const list = ref<Resource[]>([])
   const loading = ref(false)
 
   async function fetch(h: number) {
     try {
-      const res = await aliyun.getFileListOfCurrentDir()
+      const res = await provider.getFileListOfCurrentDir()
       if (h !== hash)
         return
       list.value = res

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { getNewNameByExp, getNewNameByExtract, guessPrefix, guessSeason } from '~/utils/rename'
 import { VideoExts } from '~/utils/video-exts'
-import * as aliyun from '~/utils/aliyun'
+import * as provider from '~/utils/provider'
 
 export const useMainStore = defineStore('main', () => {
   const uncheckList = reactive(new Set<string>())
@@ -32,7 +32,7 @@ export const useMainStore = defineStore('main', () => {
   const { list, loading: listLoading, refetch } = useFileList()
 
   const videoList = computed(() => {
-    return list.value.filter(x => x.type === 'file' && VideoExts.includes(x.file_extension.toLowerCase())) as aliyun.FileResource[]
+    return list.value.filter(x => x.type === 'file' && VideoExts.includes(x.file_extension.toLowerCase())) as FileResource[]
   })
   const displayList = computed(() => activeMode.value === 'extract' ? videoList.value : list.value)
   // a item is selected means:
@@ -134,7 +134,7 @@ export const useMainStore = defineStore('main', () => {
     const queue = selectedList.value.slice()
 
     while (queue.length) {
-      const subQueue: aliyun.Resource[] = []
+      const subQueue: Resource[] = []
       for (let i = 0; i < MaxConcurrent; i++) {
         const x = queue.shift()
         if (x)
@@ -146,14 +146,14 @@ export const useMainStore = defineStore('main', () => {
         const newName = newNameMap.get(item.file_id)
         if (!newName)
           return
-        await aliyun.renameOne(item, newName).then(() => {
+        await provider.renameOne(item, newName).then(() => {
           doneList.add(item.file_id)
         }).catch(() => {
           errorList.add(item.file_id)
         })
         processData.value.done++
       }))
-      await new Promise(r => setTimeout(r, aliyun.API_DELAY))
+      await new Promise(r => setTimeout(r, provider.getApiDelay()))
     }
 
     running.value = false

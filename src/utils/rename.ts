@@ -1,5 +1,3 @@
-import type { FileResource } from './aliyun'
-
 export function getNewNameByExp(oldName: string, from: string, to: string) {
   try {
     return oldName.replace(new RegExp(from), to)

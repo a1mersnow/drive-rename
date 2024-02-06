@@ -1,40 +1,43 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import AppRoot from './App.vue'
-import { setSignature } from './utils/aliyun'
+import { getContainer, setRequestHeader } from './utils/provider'
 
 import '@unocss/reset/tailwind.css'
 import './styles/main.css'
 import 'uno.css'
 
-const ENTRY_ID = 'a1mersnow_aliyundrive_rename'
+const ENTRY_ID = 'a1mersnow_webdrive_rename'
 
 const oldSetHeader = XMLHttpRequest.prototype.setRequestHeader
 
-XMLHttpRequest.prototype.setRequestHeader = function (...args) {
-  if (args[0] && typeof args[0] === 'string' && args[0].toLocaleLowerCase() === 'x-signature' && args[1])
-    setSignature(args[1])
+XMLHttpRequest.prototype.setRequestHeader = function (key: string, value: string) {
+  setRequestHeader(key, value)
 
-  oldSetHeader.apply(this, args)
+  oldSetHeader.apply(this, [key, value])
 }
 
 window.setInterval(() => {
-  const found = document.querySelector('[class^="nav-tab-content--"]')
-  if (found)
-    init(found)
+  const { el, front } = getContainer()
+  if (el)
+    init(el, front)
 }, 300)
 
-function init(parentEl: Element) {
+function init(parentEl: Element, front: boolean) {
   if (!parentEl.querySelector(`#${ENTRY_ID}`)) {
     const app = createApp(AppRoot)
     const pinia = createPinia()
     app.use(pinia)
     app.mount(
       (() => {
-        const app = document.createElement('div')
-        app.setAttribute('id', ENTRY_ID)
-        parentEl.append(app)
-        return app
+        const appRoot = document.createElement('div')
+        appRoot.setAttribute('id', ENTRY_ID)
+        if (front)
+          parentEl.insertBefore(appRoot, parentEl.firstElementChild)
+        else
+          parentEl.append(appRoot)
+
+        return appRoot
       })(),
     )
   }

@@ -50,6 +50,7 @@ export default defineConfig({
         match: [
           'https://www.aliyundrive.com/*',
           'https://www.alipan.com/*',
+          'https://pan.quark.cn/*',
         ],
         license: 'GPL',
         name: '阿里云盘批量重命名',
