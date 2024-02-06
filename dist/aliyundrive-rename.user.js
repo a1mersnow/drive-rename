@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         云盘批量重命名
 // @namespace    vite-plugin-monkey
-// @version      0.8.0
+// @version      0.8.1
 // @author       a1mersnow
 // @description  批量重命名云盘里的文件，支持阿里云盘、夸克云盘
 // @license      GPL
@@ -1378,7 +1378,7 @@
   }
   const name = "aliyundrive-rename";
   const type = "module";
-  const version = "0.8.0";
+  const version = "0.8.1";
   const packageManager = "pnpm@8.15.0";
   const description = "Batch rename files of aliyundrive.";
   const author = "a1mersnow";
@@ -1688,6 +1688,9 @@
     }
   });
   const ENTRY_ID = "a1mersnow_webdrive_rename";
+  if (window[ENTRY_ID])
+    throw new Error("This error is expected! It means you have installed two copy of this script. Please remove one.");
+  window[ENTRY_ID] = true;
   const oldSetHeader = XMLHttpRequest.prototype.setRequestHeader;
   XMLHttpRequest.prototype.setRequestHeader = function(key, value) {
     setRequestHeader(key, value);
