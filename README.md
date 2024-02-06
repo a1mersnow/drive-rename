@@ -52,5 +52,5 @@
   - 新的命名已经与旧的命名相同时无法勾选
   - 新的命名为空时无法勾选
 
-## 打赏
-![打赏](https://cdn.jsdelivr.net/gh/a1mersnow/aliyundrive-rename@0.0.8/images/coffee.jpg)
+## Contribute
+如果你有其他云盘的批量重命名需求，欢迎提PR。只需要实现新的 providers/xxx 即可。
