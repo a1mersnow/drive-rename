@@ -81,7 +81,7 @@ export function getEpisode(oldName: string) {
       return normalizeEpisode(episode)
   }
 
-  return ''
+  return '001'
 }
 
 export function getSeason(oldName: string) {
