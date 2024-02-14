@@ -4,7 +4,7 @@ import { useMainStore } from '~/stores/main'
 const main = useMainStore()
 
 function handleCheckChange(fileId: string, checked: boolean) {
-  if (checked)
+  if (!checked)
     main.uncheckList.add(fileId)
   else
     main.uncheckList.delete(fileId)
