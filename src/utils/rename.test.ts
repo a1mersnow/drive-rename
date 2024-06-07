@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getEpisode as g } from './rename'
+import { getEpisode as g, getEpisodeByHelpers as gh } from './rename'
 
 describe('get new name by extract', () => {
   it('> 1.mp4', () => {
@@ -15,7 +15,7 @@ describe('get new name by extract', () => {
   })
 
   it('> XianJianqiXiaZhuan.4_27_1080P.mp4', () => {
-    expect(g('XianJianQiXiaZhuan.4_27_1080P.mp4')).toBe('027')
+    expect(gh('XianJianQiXiaZhuan.4_27_1080P.mp4', { pre: 'XianJianQiXiaZhuan.4', post: '' })).toBe('027')
   })
 
   it('> 仙剑4.27.mp4', () => {
@@ -28,5 +28,9 @@ describe('get new name by extract', () => {
 
   it('> [洗码]S01E29- 2160p.WEB-DL.DDP 2.0.H.265.mp4', () => {
     expect(g('[洗码]S01E29- 2160p.WEB-DL.DDP 2.0.H.265.mp4')).toBe('029')
+  })
+
+  it('> 苍兰决 第1季 第08话 魔尊中了迷魂药 [H265.AAC.4K].mp4', () => {
+    expect(g('苍兰决 第1季 第08话 魔尊中了迷魂药 [H265.AAC.4K].mp4')).toBe('008')
   })
 })

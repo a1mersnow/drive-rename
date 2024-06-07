@@ -9,8 +9,8 @@ export function getNewNameByExp(oldName: string, from: string, to: string) {
 
 const SeasonEpisodeExtract = /S(?:eason)?[._\- ]?([0-9]{1,3})(?![0-9])(?:[._\- ]?E|[._\- ])([0-9]{1,3})(?![0-9])/i
 const EpisodeExtract1 = /EP?([0-9]{1,3})(?![0-9])/i
-const EpisodeExtract2 = /(?<![0-9h\u4E00-\u9FA5])([0-9]{1,3})(?![0-9])(?![PK][._\- ])/i
-const EpisodeExtract3 = /(?<![0-9h])([0-9]{1,3})(?![0-9])(?![PK][._\- ])/i
+const EpisodeExtract2 = /(?<![0-9h\u4E00-\u9FA5])([0-9]{1,3})(?![0-9])(?![PK季])/i
+const EpisodeExtract3 = /(?<![0-9h])([0-9]{1,3})(?![0-9])(?![PK季])/i
 
 interface EpisodeHelpers {
   pre: string
@@ -39,7 +39,7 @@ function normalizeEpisode(x: string) {
   return String(+x).padStart(3, '0')
 }
 
-function getEpisodeByHelpers(oldName: string, epHelpers: EpisodeHelpers) {
+export function getEpisodeByHelpers(oldName: string, epHelpers: EpisodeHelpers) {
   const { pre, post } = epHelpers
   if (!pre)
     return
