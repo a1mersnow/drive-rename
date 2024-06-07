@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getEpisode as g, getEpisodeByHelpers as gh } from './rename'
+import { getEpisode as g, getEpisodeByCompare as gc, getEpisodeByHelpers as gh } from './rename'
 
 describe('get new name by extract', () => {
   it('> 1.mp4', () => {
@@ -12,10 +12,6 @@ describe('get new name by extract', () => {
 
   it('> 火影忍者 E17.mp4', () => {
     expect(g('火影忍者 E17.mp4')).toBe('017')
-  })
-
-  it('> XianJianqiXiaZhuan.4_27_1080P.mp4', () => {
-    expect(gh('XianJianQiXiaZhuan.4_27_1080P.mp4', { pre: 'XianJianQiXiaZhuan.4', post: '' })).toBe('027')
   })
 
   it('> 仙剑4.27.mp4', () => {
@@ -32,5 +28,17 @@ describe('get new name by extract', () => {
 
   it('> 苍兰决 第1季 第08话 魔尊中了迷魂药 [H265.AAC.4K].mp4', () => {
     expect(g('苍兰决 第1季 第08话 魔尊中了迷魂药 [H265.AAC.4K].mp4')).toBe('008')
+  })
+})
+
+describe('get new name by extract with helpers', () => {
+  it('> XianJianqiXiaZhuan.4_27_1080P.mp4', () => {
+    expect(gh('XianJianQiXiaZhuan.4_27_1080P.mp4', { pre: 'XianJianQiXiaZhuan.4', post: '' })).toBe('027')
+  })
+})
+
+describe('get new name by compare', () => {
+  it('> XianJianqiXiaZhuan.4_27_1080P.mp4', () => {
+    expect(gc('XianJianQiXiaZhuan.4_27_1080P.mp4', 'XianJianQiXiaZhuan.4_26_1080P.mp4')).toBe('027')
   })
 })

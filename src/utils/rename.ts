@@ -17,8 +17,10 @@ interface EpisodeHelpers {
   post: string
 }
 
-export function getNewNameByExtract(oldName: string, prefix: string, season: string, epHelpers?: EpisodeHelpers) {
-  let episode
+export function getNewNameByExtract(oldName: string, prefix: string, season: string, epHelpers?: EpisodeHelpers, refName?: string) {
+  let episode: string | undefined
+  if (refName)
+    episode = getEpisodeByCompare(oldName, refName)
   if (epHelpers)
     episode = getEpisodeByHelpers(oldName, epHelpers)
   if (!episode)
@@ -33,6 +35,23 @@ export function getNewNameByExtract(oldName: string, prefix: string, season: str
   // ext
   const m = oldName.match(/(\.[a-z0-9]+)$/i)
   return `${prefix} S${season}E${episode}${m ? m[1] : ''}`
+}
+
+export function getEpisodeByCompare(oldName: string, refName: string): string | undefined {
+  const matchesO = [...oldName.matchAll(/[0-9]+/g)].map(x => x[0])
+  const matchesR = [...refName.matchAll(/[0-9]+/g)].map(x => x[0])
+  if (matchesO.length === 0 || matchesO.length !== matchesR.length)
+    return
+  const diff = []
+  for (let i = 0; i < matchesO.length; ++i) {
+    if (matchesO[i] !== matchesR[i])
+      diff.push(matchesO[i])
+  }
+  const filtered = diff.filter((x) => {
+    const n = Number.parseInt(x)
+    return !Number.isNaN(n) && n !== 0 && n < 1000
+  })
+  return filtered.length === 1 ? normalizeEpisode(filtered[0]) : undefined
 }
 
 function normalizeEpisode(x: string) {

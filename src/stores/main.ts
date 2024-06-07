@@ -96,9 +96,11 @@ export const useMainStore = defineStore('main', () => {
         (activeMode.value === 'extract' && prefix.value)
         || (activeMode.value === 'regexp' && from.value && to.value)
       ) {
-        list.value.forEach((item) => {
-          newNameMap.set(item.file_id, getNewName(item.name, season.value.trim()))
-        })
+        for (let i = 0; i < list.value.length; ++i) {
+          const item = list.value[i]
+          const otherItem = list.value[i === 0 ? 1 : 0]
+          newNameMap.set(item.file_id, getNewName(item.name, season.value.trim(), otherItem?.name))
+        }
       }
     }
   }, 300)
@@ -166,9 +168,9 @@ export const useMainStore = defineStore('main', () => {
     }
   }
 
-  function getNewName(oldName: string, season: string) {
+  function getNewName(oldName: string, season: string, refName?: string) {
     if (activeMode.value === 'extract')
-      return getNewNameByExtract(oldName, prefix.value.trim(), season, { pre: epHelperPre.value, post: epHelperPost.value })
+      return getNewNameByExtract(oldName, prefix.value.trim(), season, { pre: epHelperPre.value, post: epHelperPost.value }, refName)
     else
       return getNewNameByExp(oldName, from.value, to.value)
   }
