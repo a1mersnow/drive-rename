@@ -1,7 +1,7 @@
 {
   "name": "aliyundrive-rename",
   "type": "module",
-  "version": "0.9.1",
+  "version": "1.9.0",
   "private": true,
   "packageManager": "pnpm@8.15.0",
   "description": "Batch rename files of aliyundrive.",
