@@ -40,9 +40,11 @@ function bumpVersion(mode) {
   const index = groups.findIndex(x => x === mode)
   versionTuple[index]++
   if (index === 1)
-    versionTuple[index + 1] = 0
-  if (index === 0)
-    versionTuple[index + 2] = 0
+    versionTuple[2] = 0
+  if (index === 0) {
+    versionTuple[1] = 0
+    versionTuple[2] = 0
+  }
   pkg.version = versionTuple.join('.')
 
   fs.writeFileSync(resolve('./package.json'), `${JSON.stringify(pkg, null, 2)}\n`, 'utf-8')
