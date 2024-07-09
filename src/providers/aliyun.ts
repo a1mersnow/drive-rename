@@ -87,7 +87,9 @@ export async function renameOne(resource: Resource, newName: string) {
 }
 
 export function shouldShowEntry(url: string) {
-  return ['/drive/file/backup', '/drive/file/resource'].some(x => new URL(url).pathname.startsWith(x))
+  return [
+    /^\/drive\/file\/all\/.+$/,
+  ].some(re => re.test(new URL(url).pathname))
 }
 
 export function getContainer() {
