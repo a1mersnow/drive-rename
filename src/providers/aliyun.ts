@@ -10,7 +10,7 @@ function getToken() {
 
 async function getDriveId() {
   const res = await post('https://user.aliyundrive.com/v2/user/get', {})
-  return location.pathname.startsWith('/drive/file/resource') ? res.resource_drive_id : res.backup_drive_id
+  return location.pathname.startsWith('/drive/file/all/backup') ? res.backup_drive_id : res.resource_drive_id
 }
 
 const INITIAL_MARKER = 'INITIAL'
