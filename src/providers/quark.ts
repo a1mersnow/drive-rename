@@ -53,7 +53,7 @@ function post(api: URL | string, payload: object) {
   return fetch(api, {
     method: 'POST',
     headers: {
-      'Content-Type': 'Application/json',
+      'Content-Type': 'application/json',
       ...headers,
     },
     credentials: 'include',

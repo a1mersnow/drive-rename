@@ -24,7 +24,7 @@ export async function getFileListOfCurrentDir(parentId = getParentId()) {
   let marker = INITIAL_MARKER
 
   while (marker) {
-    const { items, next_marker } = await post(listApi, {
+    const { items, next_marker } = await post(listApi.toString().replace('%28', '(').replace('%29', ')'), {
       all: true,
       limit: PAGE_SIZE,
       drive_id: driveId,
@@ -68,7 +68,7 @@ function post(api: URL | string, payload: object) {
   return fetch(api, {
     method: 'POST',
     headers: {
-      'Content-Type': 'Application/json',
+      'Content-Type': 'application/json',
       'Authorization': `Bearer ${getToken()}`,
       'X-Device-Id': document.cookie.match(/cna=(.+?);/)?.[1] || '',
       ...headers,
