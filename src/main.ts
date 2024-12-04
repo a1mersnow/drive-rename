@@ -1,5 +1,5 @@
-import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import { createApp } from 'vue'
 import AppRoot from './App.vue'
 import { getContainer, setRequestHeader } from './utils/provider'
 

@@ -1,10 +1,10 @@
 import path from 'node:path'
-import { defineConfig } from 'vitest/config'
 import Vue from '@vitejs/plugin-vue'
-import Components from 'unplugin-vue-components/vite'
-import AutoImport from 'unplugin-auto-import/vite'
 import UnoCSS from 'unocss/vite'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
 import Monkey, { cdn, util } from 'vite-plugin-monkey'
+import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   resolve: {
@@ -16,7 +16,6 @@ export default defineConfig({
     Vue({
       script: {
         propsDestructure: true,
-        defineModel: true,
       },
     }),
 

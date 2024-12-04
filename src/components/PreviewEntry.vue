@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { id, newName, oldName, done, error } = defineProps<{
+const props = defineProps<{
   oldName: string
   id: string
   newName: string
@@ -12,8 +12,8 @@ const emit = defineEmits<{
   pick: [id: string]
 }>()
 
-const isSame = toRef(() => oldName === newName)
-const disabled = toRef(() => isSame.value || !newName)
+const isSame = toRef(() => props.oldName === props.newName)
+const disabled = toRef(() => isSame.value || !props.newName)
 
 const checked = defineModel<boolean>()
 </script>

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
+import * as provider from '~/utils/provider'
 import { getNewNameByExp, getNewNameByExtract, guessPrefix, guessSeason } from '~/utils/rename'
 import { VideoExts } from '~/utils/video-exts'
-import * as provider from '~/utils/provider'
 
 export const useMainStore = defineStore('main', () => {
   const uncheckList = reactive(new Set<string>())
@@ -77,8 +77,9 @@ export const useMainStore = defineStore('main', () => {
     if (
       v && v !== ov
       && shouldShowEntry.value
-    )
+    ) {
       refetch()
+    }
   }, { immediate: true })
 
   watch(list, () => {

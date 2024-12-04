@@ -7,10 +7,10 @@ export function getNewNameByExp(oldName: string, from: string, to: string) {
   }
 }
 
-const SeasonEpisodeExtract = /S(?:eason)?[._\- ]?([0-9]{1,3})(?![0-9])(?:[._\- ]?E|[._\- ])([0-9]{1,3})(?![0-9])/i
-const EpisodeExtract1 = /EP?([0-9]{1,3})(?![0-9])/i
-const EpisodeExtract2 = /(?<![0-9h\u4E00-\u9FA5])([0-9]{1,3})(?![0-9])(?![PK季])/i
-const EpisodeExtract3 = /(?<![0-9h])([0-9]{1,3})(?![0-9])(?![PK季])/i
+const SeasonEpisodeExtract = /S(?:eason)?[._\- ]?(\d{1,3})(?:[._\- ]?E|[._\- ])(\d{1,3})(?!\d)/i
+const EpisodeExtract1 = /EP?(\d{1,3})(?!\d)/i
+const EpisodeExtract2 = /(?<![0-9h\u4E00-\u9FA5])(\d{1,3})(?!\d)(?![PK季])/i
+const EpisodeExtract3 = /(?<![0-9h])(\d{1,3})(?!\d)(?![PK季])/i
 
 interface EpisodeHelpers {
   pre: string
@@ -38,8 +38,8 @@ export function getNewNameByExtract(oldName: string, prefix: string, season: str
 }
 
 export function getEpisodeByCompare(oldName: string, refName: string): string | undefined {
-  const matchesO = [...oldName.matchAll(/[0-9]+/g)].map(x => x[0])
-  const matchesR = [...refName.matchAll(/[0-9]+/g)].map(x => x[0])
+  const matchesO = [...oldName.matchAll(/\d+/g)].map(x => x[0])
+  const matchesR = [...refName.matchAll(/\d+/g)].map(x => x[0])
   if (matchesO.length === 0 || matchesO.length !== matchesR.length)
     return
   const diff = []
@@ -142,7 +142,7 @@ export function guessSeason(list: FileResource[]) {
   return currentSeason
 }
 
-const Chinese = /([\u4E00-\u9FA5]+)/i
+const Chinese = /([\u4E00-\u9FA5]+)/
 
 // 猜剧集名：
 // 1.如果有中文字符，则取中文字符
@@ -156,12 +156,12 @@ export function guessPrefix(list: FileResource[]) {
 
   if (list.length < 2) {
     const s = list[0]
-    return s.name.replace(`.${s.file_extension}`, '').replace(/\s*S[0-9]+E[0-9]*|\s*E[0-9]+/i, '').trim()
+    return s.name.replace(`.${s.file_extension}`, '').replace(/\s*S\d+E\d*|\s*E\d+/i, '').trim()
   }
   const [a, b] = list.slice(-2).map(x => x.name.replace(`.${x.file_extension}`, ''))
   const lcs = getLcstr(a, b)
   if (lcs)
-    return lcs.replace(/\s*S[0-9]+E[0-9]*|\s*E[0-9]+/i, '').trim()
+    return lcs.replace(/\s*S\d+E\d*|\s*E\d+/i, '').trim()
 
   return ''
 }

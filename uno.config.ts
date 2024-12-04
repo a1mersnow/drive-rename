@@ -1,3 +1,5 @@
+import presetRemToPx from '@unocss/preset-rem-to-px'
+import { animatedUno } from 'animated-unocss'
 import {
   defineConfig,
   presetAttributify,
@@ -6,8 +8,6 @@ import {
   presetWebFonts,
   transformerDirectives,
 } from 'unocss'
-import { animatedUno } from 'animated-unocss'
-import presetRemToPx from '@unocss/preset-rem-to-px'
 
 export default defineConfig({
   theme: {
