@@ -28,7 +28,7 @@ const checked = defineModel<boolean>()
         disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
       ]"
       class="text-sm text-primary-600"
-      @click="checked = !checked"
+      @click="!disabled && (checked = !checked)"
     />
     <span :title="oldName" class="truncate whitespace-pre">
       <span :class="disabled ? 'opacity-50' : ''">{{ oldName }}</span>
