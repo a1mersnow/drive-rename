@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         云盘批量重命名
 // @namespace    vite-plugin-monkey
-// @version      1.1.0
+// @version      1.1.1
 // @author       a1mersnow
 // @description  批量重命名云盘里的文件，支持阿里云盘、夸克云盘、移动云盘
 // @license      GPL
@@ -408,7 +408,7 @@
               checked.value && _ctx.newName && !vue.unref(isSame) ? "i-carbon:checkbox-checked-filled" : "i-carbon:checkbox",
               vue.unref(disabled) ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
             ], "text-sm text-primary-600"]),
-            onClick: _cache[0] || (_cache[0] = ($event) => checked.value = !checked.value)
+            onClick: _cache[0] || (_cache[0] = ($event) => !vue.unref(disabled) && (checked.value = !checked.value))
           }, null, 2),
           vue.createElementVNode("span", {
             title: _ctx.oldName,
@@ -2446,7 +2446,7 @@
   }
   const name = "aliyundrive-rename";
   const type = "module";
-  const version = "1.1.0";
+  const version = "1.1.1";
   const packageManager = "pnpm@9.14.4";
   const description = "Batch rename files of aliyundrive.";
   const author = "a1mersnow";
