@@ -3,7 +3,7 @@ import { createApp } from 'vue'
 import AppRoot from './App.vue'
 import { getContainer, setRequestHeader } from './utils/provider'
 
-import '@unocss/reset/tailwind.css'
+import './styles/tailwind-reset.css'
 import './styles/main.css'
 import 'uno.css'
 

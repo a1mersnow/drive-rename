@@ -73,14 +73,24 @@ export const useMainStore = defineStore('main', () => {
     || !selectedList.value.length
     || hasConflict.value)
 
-  watch(url, (v, ov) => {
-    if (
-      v && v !== ov
-      && shouldShowEntry.value
-    ) {
-      refetch()
-    }
-  }, { immediate: true })
+  const fetchMode = provider.getFetchMode()
+  if (fetchMode === 'listen-url') {
+    watch(url, (v, ov) => {
+      if (
+        v && v !== ov
+        && shouldShowEntry.value
+      ) {
+        refetch()
+      }
+    }, { immediate: true })
+  }
+  else if (fetchMode === 'manual-trigger') {
+    // pass
+  }
+  else {
+    const exhaustedCheck: never = fetchMode
+    throw new Error(`fetchMode '${exhaustedCheck}' not implemented!`)
+  }
 
   watch(list, () => {
     uncheckList.clear()
@@ -209,5 +219,6 @@ export const useMainStore = defineStore('main', () => {
     extractHelperPre: epHelperPre,
     extractHelperPost: epHelperPost,
     clearHelper,
+    fetchMode,
   }
 })

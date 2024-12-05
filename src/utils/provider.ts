@@ -1,4 +1,5 @@
 import * as aliyun from '~/providers/aliyun'
+import * as cmcc from '~/providers/cmcc'
 import * as quark from '~/providers/quark'
 
 function resolveProvider() {
@@ -6,12 +7,20 @@ function resolveProvider() {
     return aliyun
   else if (location.host === 'pan.quark.cn')
     return quark
+  else if (location.host === 'yun.139.com')
+    return cmcc
   else
     throw new Error('unimplemented provider')
 }
 
 export function getApiDelay() {
   return resolveProvider().API_DELAY
+}
+
+export type FetchMode = 'listen-url' | 'manual-trigger'
+
+export function getFetchMode(): FetchMode {
+  return resolveProvider().FETCH_MODE
 }
 
 export function shouldShowEntry(url: string) {

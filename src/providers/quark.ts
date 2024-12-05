@@ -1,5 +1,8 @@
+import type { FetchMode } from '~/utils/provider'
+
 // 接口调用太频繁会被拒
 export const API_DELAY = 200
+export const FETCH_MODE: FetchMode = 'listen-url'
 
 function getExt(fileName: string) {
   const i = fileName.lastIndexOf('.')

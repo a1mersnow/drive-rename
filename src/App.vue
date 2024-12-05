@@ -11,6 +11,14 @@ useEventListener('keydown', (e) => {
     close()
 })
 
+if (main.fetchMode === 'manual-trigger') {
+  watch(popupVisible, (visible) => {
+    if (visible) {
+      main.refetch()
+    }
+  })
+}
+
 function close() {
   if (main.running)
     return
