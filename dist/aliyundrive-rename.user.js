@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         云盘批量重命名
 // @namespace    vite-plugin-monkey
-// @version      1.1.1
+// @version      1.1.2
 // @author       a1mersnow
 // @description  批量重命名云盘里的文件，支持阿里云盘、夸克云盘、移动云盘
 // @license      GPL
@@ -1568,7 +1568,7 @@
     await rename$1(resource.drive_id, resource.file_id, newName);
   }
   function shouldShowEntry$2(url) {
-    return ["/w/#/main", "/w/#/main"].some((x) => url.includes(x));
+    return ["/w/#/main", "/w/#/main", "/w/#/index"].some((x) => url.includes(x));
   }
   function getContainer$2() {
     return {
@@ -2446,7 +2446,7 @@
   }
   const name = "aliyundrive-rename";
   const type = "module";
-  const version = "1.1.1";
+  const version = "1.1.2";
   const packageManager = "pnpm@9.14.4";
   const description = "Batch rename files of aliyundrive.";
   const author = "a1mersnow";
