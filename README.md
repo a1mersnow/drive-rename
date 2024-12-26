@@ -42,7 +42,9 @@
 #### 界面
 ![正则模式界面](https://cdn.jsdelivr.net/gh/a1mersnow/aliyundrive-rename/images/regexp.jpg)
 
-#### 注意事项
+#### 注意事项❗️❗️❗️
+- 由于Chrome对扩展程序的限制加强，此脚本可能需要启用开发者模式才能正常使用
+  - 右上角三个点->扩展程序->管理扩展程序->右上角启用“开发者模式”，重新启动浏览器
 - 此模式建议有正则基础的朋友使用
 - 替换采用了 Javascript 的 `String.prototype.replace` 方法
 

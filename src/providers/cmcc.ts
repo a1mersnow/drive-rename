@@ -153,7 +153,7 @@ export async function renameOne(resource: Resource, newName: string) {
 }
 
 export function shouldShowEntry(url: string) {
-  return ['/w/#/main', '/w/#/main'].some(x => url.includes(x))
+  return ['/w/#/main', '/w/#/main', '/w/#/index'].some(x => url.includes(x))
 }
 
 export function getContainer() {
