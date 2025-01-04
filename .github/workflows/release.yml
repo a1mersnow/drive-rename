@@ -29,6 +29,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
+      - name: Install
+        run: pnpm i
+
+      - name: Build
+        run: pnpm run build
+
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
