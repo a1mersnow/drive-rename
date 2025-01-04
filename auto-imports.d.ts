@@ -13,12 +13,14 @@ declare global {
   const GM_addValueChangeListener: typeof import('vite-plugin-monkey/dist/client')['GM_addValueChangeListener']
   const GM_cookie: typeof import('vite-plugin-monkey/dist/client')['GM_cookie']
   const GM_deleteValue: typeof import('vite-plugin-monkey/dist/client')['GM_deleteValue']
+  const GM_deleteValues: typeof import('vite-plugin-monkey/dist/client')['GM_deleteValues']
   const GM_download: typeof import('vite-plugin-monkey/dist/client')['GM_download']
   const GM_getResourceText: typeof import('vite-plugin-monkey/dist/client')['GM_getResourceText']
   const GM_getResourceURL: typeof import('vite-plugin-monkey/dist/client')['GM_getResourceURL']
   const GM_getTab: typeof import('vite-plugin-monkey/dist/client')['GM_getTab']
   const GM_getTabs: typeof import('vite-plugin-monkey/dist/client')['GM_getTabs']
   const GM_getValue: typeof import('vite-plugin-monkey/dist/client')['GM_getValue']
+  const GM_getValues: typeof import('vite-plugin-monkey/dist/client')['GM_getValues']
   const GM_info: typeof import('vite-plugin-monkey/dist/client')['GM_info']
   const GM_listValues: typeof import('vite-plugin-monkey/dist/client')['GM_listValues']
   const GM_log: typeof import('vite-plugin-monkey/dist/client')['GM_log']
@@ -29,6 +31,7 @@ declare global {
   const GM_saveTab: typeof import('vite-plugin-monkey/dist/client')['GM_saveTab']
   const GM_setClipboard: typeof import('vite-plugin-monkey/dist/client')['GM_setClipboard']
   const GM_setValue: typeof import('vite-plugin-monkey/dist/client')['GM_setValue']
+  const GM_setValues: typeof import('vite-plugin-monkey/dist/client')['GM_setValues']
   const GM_unregisterMenuCommand: typeof import('vite-plugin-monkey/dist/client')['GM_unregisterMenuCommand']
   const GM_webRequest: typeof import('vite-plugin-monkey/dist/client')['GM_webRequest']
   const GM_xmlhttpRequest: typeof import('vite-plugin-monkey/dist/client')['GM_xmlhttpRequest']
@@ -79,6 +82,7 @@ declare global {
   const onBeforeUpdate: typeof import('vue')['onBeforeUpdate']
   const onClickOutside: typeof import('@vueuse/core')['onClickOutside']
   const onDeactivated: typeof import('vue')['onDeactivated']
+  const onElementRemoval: typeof import('@vueuse/core')['onElementRemoval']
   const onErrorCaptured: typeof import('vue')['onErrorCaptured']
   const onKeyStroke: typeof import('@vueuse/core')['onKeyStroke']
   const onLongPress: typeof import('@vueuse/core')['onLongPress']
@@ -243,10 +247,12 @@ declare global {
   const usePreferredDark: typeof import('@vueuse/core')['usePreferredDark']
   const usePreferredLanguages: typeof import('@vueuse/core')['usePreferredLanguages']
   const usePreferredReducedMotion: typeof import('@vueuse/core')['usePreferredReducedMotion']
+  const usePreferredReducedTransparency: typeof import('@vueuse/core')['usePreferredReducedTransparency']
   const usePrevious: typeof import('@vueuse/core')['usePrevious']
   const useRafFn: typeof import('@vueuse/core')['useRafFn']
   const useRefHistory: typeof import('@vueuse/core')['useRefHistory']
   const useResizeObserver: typeof import('@vueuse/core')['useResizeObserver']
+  const useSSRWidth: typeof import('@vueuse/core')['useSSRWidth']
   const useScreenOrientation: typeof import('@vueuse/core')['useScreenOrientation']
   const useScreenSafeArea: typeof import('@vueuse/core')['useScreenSafeArea']
   const useScriptTag: typeof import('@vueuse/core')['useScriptTag']
@@ -334,12 +340,14 @@ declare module 'vue' {
     readonly GM_addValueChangeListener: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_addValueChangeListener']>
     readonly GM_cookie: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_cookie']>
     readonly GM_deleteValue: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_deleteValue']>
+    readonly GM_deleteValues: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_deleteValues']>
     readonly GM_download: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_download']>
     readonly GM_getResourceText: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_getResourceText']>
     readonly GM_getResourceURL: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_getResourceURL']>
     readonly GM_getTab: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_getTab']>
     readonly GM_getTabs: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_getTabs']>
     readonly GM_getValue: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_getValue']>
+    readonly GM_getValues: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_getValues']>
     readonly GM_info: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_info']>
     readonly GM_listValues: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_listValues']>
     readonly GM_log: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_log']>
@@ -350,6 +358,7 @@ declare module 'vue' {
     readonly GM_saveTab: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_saveTab']>
     readonly GM_setClipboard: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_setClipboard']>
     readonly GM_setValue: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_setValue']>
+    readonly GM_setValues: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_setValues']>
     readonly GM_unregisterMenuCommand: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_unregisterMenuCommand']>
     readonly GM_webRequest: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_webRequest']>
     readonly GM_xmlhttpRequest: UnwrapRef<typeof import('vite-plugin-monkey/dist/client')['GM_xmlhttpRequest']>
@@ -400,6 +409,7 @@ declare module 'vue' {
     readonly onBeforeUpdate: UnwrapRef<typeof import('vue')['onBeforeUpdate']>
     readonly onClickOutside: UnwrapRef<typeof import('@vueuse/core')['onClickOutside']>
     readonly onDeactivated: UnwrapRef<typeof import('vue')['onDeactivated']>
+    readonly onElementRemoval: UnwrapRef<typeof import('@vueuse/core')['onElementRemoval']>
     readonly onErrorCaptured: UnwrapRef<typeof import('vue')['onErrorCaptured']>
     readonly onKeyStroke: UnwrapRef<typeof import('@vueuse/core')['onKeyStroke']>
     readonly onLongPress: UnwrapRef<typeof import('@vueuse/core')['onLongPress']>
@@ -564,10 +574,12 @@ declare module 'vue' {
     readonly usePreferredDark: UnwrapRef<typeof import('@vueuse/core')['usePreferredDark']>
     readonly usePreferredLanguages: UnwrapRef<typeof import('@vueuse/core')['usePreferredLanguages']>
     readonly usePreferredReducedMotion: UnwrapRef<typeof import('@vueuse/core')['usePreferredReducedMotion']>
+    readonly usePreferredReducedTransparency: UnwrapRef<typeof import('@vueuse/core')['usePreferredReducedTransparency']>
     readonly usePrevious: UnwrapRef<typeof import('@vueuse/core')['usePrevious']>
     readonly useRafFn: UnwrapRef<typeof import('@vueuse/core')['useRafFn']>
     readonly useRefHistory: UnwrapRef<typeof import('@vueuse/core')['useRefHistory']>
     readonly useResizeObserver: UnwrapRef<typeof import('@vueuse/core')['useResizeObserver']>
+    readonly useSSRWidth: UnwrapRef<typeof import('@vueuse/core')['useSSRWidth']>
     readonly useScreenOrientation: UnwrapRef<typeof import('@vueuse/core')['useScreenOrientation']>
     readonly useScreenSafeArea: UnwrapRef<typeof import('@vueuse/core')['useScreenSafeArea']>
     readonly useScriptTag: UnwrapRef<typeof import('@vueuse/core')['useScriptTag']>

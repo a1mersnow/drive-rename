@@ -1,26 +1,22 @@
-import * as aliyun from '~/providers/aliyun'
-import * as cmcc from '~/providers/cmcc'
-import * as quark from '~/providers/quark'
+import type { FetchMode, Provider, Resource } from '~/types'
+
+const providers: Record<string, { default: Provider }> = import.meta.glob('/src/providers/*.ts', { eager: true })
 
 function resolveProvider() {
-  if (location.host === 'www.aliyundrive.com' || location.host === 'www.alipan.com')
-    return aliyun
-  else if (location.host === 'pan.quark.cn')
-    return quark
-  else if (location.host === 'yun.139.com')
-    return cmcc
-  else
-    throw new Error('unimplemented provider')
+  for (const path in providers) {
+    const provider = providers[path].default
+    if (provider.HOSTS.includes(location.host))
+      return provider
+  }
+  throw new Error('unimplemented provider')
 }
 
 export function getApiDelay() {
-  return resolveProvider().API_DELAY
+  return resolveProvider().API_DELAY || 200
 }
 
-export type FetchMode = 'listen-url' | 'manual-trigger'
-
 export function getFetchMode(): FetchMode {
-  return resolveProvider().FETCH_MODE
+  return resolveProvider().FETCH_MODE || 'listen-url'
 }
 
 export function shouldShowEntry(url: string) {

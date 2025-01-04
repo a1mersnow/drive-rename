@@ -1,3 +1,4 @@
+import type { FileResource, Resource } from '~/types'
 import { defineStore } from 'pinia'
 import * as provider from '~/utils/provider'
 import { getNewNameByExp, getNewNameByExtract, guessPrefix, guessSeason } from '~/utils/rename'

@@ -1,8 +1,5 @@
-import type { FetchMode } from '~/utils/provider'
-
-// 接口调用太频繁会被拒
-export const API_DELAY = 200
-export const FETCH_MODE: FetchMode = 'listen-url'
+import type { Provider, Resource } from '~/types'
+import ButtonComponent from '~/components/ButtonAliyun.vue'
 
 function getToken() {
   const raw = window.localStorage.getItem('token')
@@ -19,7 +16,7 @@ async function getDriveId() {
 const INITIAL_MARKER = 'INITIAL'
 const PAGE_SIZE = 100
 const listJsonMask = 'next_marker,items(name,file_id,drive_id,type,file_extension,parent_file_id,mime_type,trashed,sync_device_flag,punish_flag)'
-export async function getFileListOfCurrentDir(parentId = getParentId()) {
+async function getFileListOfCurrentDir(parentId = getParentId()) {
   const listApi = new URL('https://api.aliyundrive.com/adrive/v3/file/list')
   listApi.searchParams.append('jsonmask', listJsonMask)
   const driveId = await getDriveId()
@@ -62,7 +59,7 @@ function getParentId() {
 }
 
 const headers: Record<string, string> = {}
-export function setRequestHeader(key: string, value: string) {
+function setRequestHeader(key: string, value: string) {
   if (key.toLowerCase() === 'x-signature')
     headers['X-Signature'] = value
 }
@@ -85,17 +82,17 @@ function post(api: URL | string, payload: object) {
   })
 }
 
-export async function renameOne(resource: Resource, newName: string) {
+async function renameOne(resource: Resource, newName: string) {
   await rename(resource.drive_id, resource.file_id, newName)
 }
 
-export function shouldShowEntry(url: string) {
+function shouldShowEntry(url: string) {
   return [
     /^\/drive\/file\/all\/.+$/,
   ].some(re => re.test(new URL(url).pathname))
 }
 
-export function getContainer() {
+function getContainer() {
   return {
     el: document.querySelector('[class^="nav-tab-content--"]'),
     style: '',
@@ -103,4 +100,15 @@ export function getContainer() {
   }
 }
 
-export { default as ButtonComponent } from '~/components/ButtonAliyun.vue'
+const provider: Provider = {
+  DRIVE_NAME: '阿里云盘',
+  HOSTS: ['www.aliyundrive.com', 'www.alipan.com'],
+  ButtonComponent,
+  shouldShowEntry,
+  getContainer,
+  renameOne,
+  setRequestHeader,
+  getFileListOfCurrentDir,
+}
+
+export default provider

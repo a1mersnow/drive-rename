@@ -1,10 +1,7 @@
-import type { FetchMode } from '~/utils/provider'
+import type { Provider, Resource } from '~/types'
 import dayjs from 'dayjs'
 import { md5 } from 'js-md5'
-
-// 接口调用太频繁会被拒
-export const API_DELAY = 200
-export const FETCH_MODE: FetchMode = 'manual-trigger'
+import ButtonComponent from '~/components/ButtonCmcc.vue'
 
 type CursorType = 'initial' | 'normal'
 
@@ -13,7 +10,7 @@ interface Cursor {
   value: string | null
 }
 
-export async function getFileListOfCurrentDir() {
+async function getFileListOfCurrentDir() {
   const result: Resource[] = []
   let cursor: Cursor = { type: 'initial', value: null }
 
@@ -68,7 +65,7 @@ async function rename(driveId: string, fileId: string, newName: string) {
 }
 
 const headers: Record<string, string> = {}
-export function setRequestHeader(key: string, value: string) {
+function setRequestHeader(key: string, value: string) {
   const l = [
     'caller',
     'Cms-Device',
@@ -148,15 +145,15 @@ function post(api: URL | string, payload: object, signPayload: object) {
   })
 }
 
-export async function renameOne(resource: Resource, newName: string) {
+async function renameOne(resource: Resource, newName: string) {
   await rename(resource.drive_id, resource.file_id, newName)
 }
 
-export function shouldShowEntry(url: string) {
+function shouldShowEntry(url: string) {
   return ['/w/#/main', '/w/#/main', '/w/#/index'].some(x => url.includes(x))
 }
 
-export function getContainer() {
+function getContainer() {
   return {
     el: document.querySelector('.top_button'),
     style: '',
@@ -164,4 +161,16 @@ export function getContainer() {
   }
 }
 
-export { default as ButtonComponent } from '~/components/ButtonCmcc.vue'
+const provider: Provider = {
+  DRIVE_NAME: '移动云盘',
+  HOSTS: ['yun.139.com'],
+  FETCH_MODE: 'manual-trigger',
+  ButtonComponent,
+  shouldShowEntry,
+  getContainer,
+  renameOne,
+  setRequestHeader,
+  getFileListOfCurrentDir,
+}
+
+export default provider

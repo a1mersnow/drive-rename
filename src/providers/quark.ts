@@ -1,8 +1,5 @@
-import type { FetchMode } from '~/utils/provider'
-
-// 接口调用太频繁会被拒
-export const API_DELAY = 200
-export const FETCH_MODE: FetchMode = 'listen-url'
+import type { Provider, Resource } from '~/types'
+import ButtonComponent from '~/components/ButtonQuark.vue'
 
 function getExt(fileName: string) {
   const i = fileName.lastIndexOf('.')
@@ -16,7 +13,7 @@ function getParentId() {
   return lastGroup ? lastGroup.replace(/-.*$/, '') : '0'
 }
 
-export async function getFileListOfCurrentDir(parentId = getParentId()) {
+async function getFileListOfCurrentDir(parentId = getParentId()) {
   const listApi = new URL('https://drive-pc.quark.cn/1/clouddrive/file/sort?pr=ucpro&fr=pc&uc_param_str=&pdir_fid=0&_page=1&_size=50&_fetch_total=1&_fetch_sub_dirs=0&_sort=file_type:asc,updated_at:desc')
   listApi.searchParams.set('pdir_fid', parentId)
   const result: Resource[] = []
@@ -84,15 +81,15 @@ function get(api: URL | string) {
   })
 }
 
-export async function renameOne(resource: Resource, newName: string) {
+async function renameOne(resource: Resource, newName: string) {
   await rename(resource.drive_id, resource.file_id, newName)
 }
 
-export function shouldShowEntry(url: string) {
+function shouldShowEntry(url: string) {
   return ['#/list/all'].some(x => new URL(url).hash.startsWith(x))
 }
 
-export function getContainer() {
+function getContainer() {
   return {
     el: document.querySelector('#ice-container .ant-layout .section-header .btn-operate .btn-main'),
     style: 'display: flex; align-items: center;',
@@ -100,4 +97,15 @@ export function getContainer() {
   }
 }
 
-export { default as ButtonComponent } from '~/components/ButtonQuark.vue'
+const provider: Provider = {
+  DRIVE_NAME: '夸克云盘',
+  HOSTS: ['pan.quark.cn'],
+  ButtonComponent,
+  shouldShowEntry,
+  getContainer,
+  renameOne,
+  setRequestHeader,
+  getFileListOfCurrentDir,
+}
+
+export default provider

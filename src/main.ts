@@ -9,11 +9,10 @@ import 'uno.css'
 
 const ENTRY_ID = 'a1mersnow_webdrive_rename'
 
+// intercept all XHR requests
 const oldSetHeader = XMLHttpRequest.prototype.setRequestHeader
-
 XMLHttpRequest.prototype.setRequestHeader = function (key: string, value: string) {
   setRequestHeader(key, value)
-
   oldSetHeader.apply(this, [key, value])
 }
 

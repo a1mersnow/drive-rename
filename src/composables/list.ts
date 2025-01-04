@@ -1,3 +1,4 @@
+import type { Resource } from '~/types'
 import * as provider from '~/utils/provider'
 
 const RetryMax = 3
