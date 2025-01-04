@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Button123: typeof import('./src/components/Button123.vue')['default']
     ButtonAliyun: typeof import('./src/components/ButtonAliyun.vue')['default']
     ButtonCmcc: typeof import('./src/components/ButtonCmcc.vue')['default']
     ButtonQuark: typeof import('./src/components/ButtonQuark.vue')['default']
