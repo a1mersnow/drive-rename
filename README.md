@@ -1,7 +1,7 @@
 <p align="center">
   <a href="https://greasyfork.org/zh-CN/scripts/479295-%E4%BA%91%E7%9B%98%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D"
   target="_blank" rel="noopener noreferrer">
-    <img width="180" src="https://raw.githubusercontent.com/a1mersnow/drive-rename/refs/heads/main/public/favicon.svg" alt="drive rename logo">
+    <img width="180" src="https://cdn.jsdelivr.net/gh/a1mersnow/drive-rename/public/favicon.svg" alt="drive rename logo">
   </a>
 </p>
 <br/>
@@ -24,7 +24,7 @@
 ## 📺剧集模式
 
 #### 界面
-![剧集模式界面](https://cdn.jsdelivr.net/gh/a1mersnow/aliyundrive-rename/images/extract.jpg)
+![剧集模式界面](https://cdn.jsdelivr.net/gh/a1mersnow/drive-rename/images/extract.jpg)
 
 #### 适用场景
 为 Infuse VidHub 等软件的刮削提供便利
@@ -56,7 +56,7 @@
 ## 正则模式
 
 #### 界面
-![正则模式界面](https://cdn.jsdelivr.net/gh/a1mersnow/aliyundrive-rename/images/regexp.jpg)
+![正则模式界面](https://cdn.jsdelivr.net/gh/a1mersnow/drive-rename/images/regexp.jpg)
 
 #### ❗️注意
 - 此模式建议有正则基础的朋友使用
