@@ -58,8 +58,8 @@ export default defineConfig({
       },
       build: {
         externalGlobals: {
-          'vue': cdn.jsdelivr('vue', 'dist/vue.global.prod.js'),
-          'js-md5': cdn.jsdelivr('js-md5', 'build/md5.min.js'),
+          'vue': cdn.jsdelivr('Vue', 'dist/vue.global.prod.js'),
+          'js-md5': cdn.jsdelivr('md5', 'build/md5.min.js'),
           'dayjs': cdn.jsdelivr('dayjs', 'dayjs.min.js'),
         },
       },
