@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         云盘批量重命名
 // @namespace    vite-plugin-monkey
-// @version      1.2.0
+// @version      1.2.4
 // @author       a1mersnow
 // @description  批量重命名云盘里的文件，支持123云盘、阿里云盘、移动云盘、夸克云盘
 // @license      GPL
@@ -1704,15 +1704,15 @@
   }
   const name = "drive-rename";
   const type = "module";
-  const version = "1.2.0";
+  const version = "1.2.4";
   const packageManager = "pnpm@9.14.4";
   const description = "Batch rename files, supporting various cloud drives.";
   const author = "a1mersnow";
   const repository = "https://github.com/a1mersnow/drive-rename";
   const engines = { "node": ">=22.0.0" };
-  const scripts = { "build": "vite build", "dev": "vite --port 3333 --open", "lint": "eslint .", "typecheck": "vue-tsc --noEmit", "preview": "vite preview", "test": "vitest", "up": "taze major -I", "postinstall": "npx simple-git-hooks", "release": "node release.mjs" };
+  const scripts = { "build": "vite build", "dev": "vite --port 3333 --open", "lint": "eslint .", "typecheck": "vue-tsc --noEmit", "preview": "vite preview", "test": "vitest", "up": "taze major -I", "postinstall": "npx simple-git-hooks", "release": "bumpp" };
   const dependencies = { "@vueuse/core": "^12.3.0", "dayjs": "^1.11.13", "js-md5": "^0.8.3", "pinia": "^2.3.0", "vue": "^3.5.13" };
-  const devDependencies = { "@antfu/eslint-config": "^3.12.1", "@iconify-json/carbon": "^1.2.5", "@iconify-json/ion": "^1.2.2", "@types/node": "^22.10.5", "@unocss/eslint-config": "^0.65.3", "@unocss/preset-rem-to-px": "^0.65.3", "@unocss/reset": "^0.65.3", "@vitejs/plugin-vue": "^5.2.1", "@vue/test-utils": "^2.4.6", "animated-unocss": "^0.0.6", "eslint": "^9.17.0", "eslint-define-config": "^2.1.0", "execa": "^9.5.2", "jsdom": "^25.0.1", "lint-staged": "^15.3.0", "pnpm": "^9.14.4", "simple-git-hooks": "^2.11.1", "taze": "^0.18.0", "typescript": "^5.7.2", "unocss": "^0.65.3", "unplugin-auto-import": "^0.19.0", "unplugin-vue-components": "^0.28.0", "vite": "^6.0.7", "vite-plugin-monkey": "^5.0.4", "vitest": "^2.1.8", "vue-tsc": "^2.2.0" };
+  const devDependencies = { "@antfu/eslint-config": "^3.12.1", "@iconify-json/carbon": "^1.2.5", "@iconify-json/ion": "^1.2.2", "@types/node": "^22.10.5", "@unocss/eslint-config": "^0.65.3", "@unocss/preset-rem-to-px": "^0.65.3", "@unocss/reset": "^0.65.3", "@vitejs/plugin-vue": "^5.2.1", "@vue/test-utils": "^2.4.6", "animated-unocss": "^0.0.6", "bumpp": "^9.9.2", "eslint": "^9.17.0", "eslint-define-config": "^2.1.0", "execa": "^9.5.2", "jsdom": "^25.0.1", "lint-staged": "^15.3.0", "pnpm": "^9.14.4", "simple-git-hooks": "^2.11.1", "taze": "^0.18.0", "typescript": "^5.7.2", "unocss": "^0.65.3", "unplugin-auto-import": "^0.19.0", "unplugin-vue-components": "^0.28.0", "vite": "^6.0.7", "vite-plugin-monkey": "^5.0.4", "vitest": "^2.1.8", "vue-tsc": "^2.2.0" };
   const pkg = {
     name,
     type,
