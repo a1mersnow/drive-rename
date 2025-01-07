@@ -23,7 +23,7 @@ async function getFileListOfCurrentDir(parentId = getParentId()) {
 
   while (next) {
     listApi.searchParams.set('Page', String(page++))
-    const { data: { InfoList, Next } } = await get(listApi)
+    const { data: { InfoList, Next, Total, Len } } = await get(listApi)
     result.push(...InfoList.map((x: any) => ({
       drive_id: 'whocare',
       file_id: x.FileId,
@@ -33,7 +33,7 @@ async function getFileListOfCurrentDir(parentId = getParentId()) {
       mime_type: 'whocare',
       type: x.type === 1 ? 'folder' : 'file',
     })))
-    next = Next !== '-1'
+    next = Next !== '-1' && Total !== 0 && Len !== 0
   }
 
   return result
