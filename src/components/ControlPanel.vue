@@ -22,7 +22,7 @@ const modes = [
 </script>
 
 <template>
-  <div class="absolute z-100 mt-2 w-300px rounded-lg bg-primary-100 p-3 shadow">
+  <div class="absolute z-app mt-2 w-300px rounded-lg bg-primary-100 p-3 shadow">
     <p class="pb-2">
       批量重命名当前目录下的所有文件。<br>
       <a
@@ -110,6 +110,9 @@ const modes = [
         </div>
         <div v-else-if="main.processData.total" class="text-xs text-gray">
           总共 {{ main.processData.total }} | 跳过 {{ main.processData.skip }} | 完成 {{ main.processData.done }}
+          <template v-if="main.errorList.size">
+            (失败 {{ main.errorList.size }})
+          </template>
         </div>
 
         <div v-if="main.warning" class="text-xs text-primary">

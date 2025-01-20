@@ -36,13 +36,15 @@ function close() {
 
   <!-- control popup -->
   <transition name="clip">
-    <ControlPanel v-if="popupVisible" />
+    <ControlPanel v-if="popupVisible" class="drive-rename-root" />
   </transition>
 
   <!-- visual drawer -->
-  <transition name="fade-left">
-    <PreviewPanel v-if="popupVisible" />
-  </transition>
+  <Teleport to="body">
+    <transition name="fade-left">
+      <PreviewPanel v-if="popupVisible" class="drive-rename-root" />
+    </transition>
+  </Teleport>
 
   <!-- visual drawer -->
   <transition name="fade">

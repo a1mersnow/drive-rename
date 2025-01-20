@@ -8,6 +8,7 @@ import './styles/main.css'
 import 'uno.css'
 
 const ENTRY_ID = 'a1mersnow_webdrive_rename'
+const ENTRY_CLASS = 'drive-rename-root'
 
 // intercept all XHR requests
 const oldSetHeader = XMLHttpRequest.prototype.setRequestHeader
@@ -34,6 +35,7 @@ function init(parentEl: Element, front: boolean, style: string) {
         const appRoot = document.createElement('div')
         appRoot.style.cssText = 'display: inline-block;'
         appRoot.setAttribute('id', ENTRY_ID)
+        appRoot.classList.add(ENTRY_CLASS)
         if (front)
           parentEl.insertBefore(appRoot, parentEl.firstElementChild)
         else

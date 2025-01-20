@@ -4,7 +4,7 @@
 2. [UnoCSS]: allow to override the default border color with css var `--un-default-border-color`
 */
 
-:where(#a1mersnow_webdrive_rename) 
+:where(.drive-rename-root) 
 :is(*,
 *::before,
 *::after) {
@@ -14,7 +14,7 @@
   border-color: var(--un-default-border-color, #e5e7eb); /* 2 */
 }
 
-:where(#a1mersnow_webdrive_rename) 
+:where(.drive-rename-root) 
 :is(*::before,
 *::after) {
   --un-content: '';
@@ -58,7 +58,7 @@ body {
 3. Ensure horizontal rules are visible by default.
 */
 
-:where(#a1mersnow_webdrive_rename) hr {
+:where(.drive-rename-root) hr {
   height: 0; /* 1 */
   color: inherit; /* 2 */
   border-top-width: 1px; /* 3 */
@@ -68,7 +68,7 @@ body {
 Add the correct text decoration in Chrome, Edge, and Safari.
 */
 
-:where(#a1mersnow_webdrive_rename) abbr:where([title]) {
+:where(.drive-rename-root) abbr:where([title]) {
   text-decoration: underline dotted;
 }
 
@@ -76,7 +76,7 @@ Add the correct text decoration in Chrome, Edge, and Safari.
 Remove the default font size and weight for headings.
 */
 
-:where(#a1mersnow_webdrive_rename) 
+:where(.drive-rename-root) 
 :is(h1,
 h2,
 h3,
@@ -91,7 +91,7 @@ h6) {
 Reset links to optimize for opt-in styling instead of opt-out.
 */
 
-:where(#a1mersnow_webdrive_rename) a {
+:where(.drive-rename-root) a {
   color: inherit;
   text-decoration: inherit;
 }
@@ -100,7 +100,7 @@ Reset links to optimize for opt-in styling instead of opt-out.
 Add the correct font weight in Edge and Safari.
 */
 
-:where(#a1mersnow_webdrive_rename) :is(b,
+:where(.drive-rename-root) :is(b,
 strong) {
   font-weight: bolder;
 }
@@ -112,7 +112,7 @@ strong) {
 4. Correct the odd `em` font sizing in all browsers.
 */
 
-:where(#a1mersnow_webdrive_rename) :is(code,
+:where(.drive-rename-root) :is(code,
 kbd,
 samp,
 pre) {
@@ -126,7 +126,7 @@ pre) {
 Add the correct font size in all browsers.
 */
 
-:where(#a1mersnow_webdrive_rename) small {
+:where(.drive-rename-root) small {
   font-size: 80%;
 }
 
@@ -134,7 +134,7 @@ Add the correct font size in all browsers.
 Prevent `sub` and `sup` elements from affecting the line height in all browsers.
 */
 
-:where(#a1mersnow_webdrive_rename) 
+:where(.drive-rename-root) 
 :is(sub,
 sup) {
   font-size: 75%;
@@ -143,11 +143,11 @@ sup) {
   vertical-align: baseline;
 }
 
-:where(#a1mersnow_webdrive_rename) sub {
+:where(.drive-rename-root) sub {
   bottom: -0.25em;
 }
 
-:where(#a1mersnow_webdrive_rename) sup {
+:where(.drive-rename-root) sup {
   top: -0.5em;
 }
 
@@ -157,7 +157,7 @@ sup) {
 3. Remove gaps between table borders by default.
 */
 
-:where(#a1mersnow_webdrive_rename) table {
+:where(.drive-rename-root) table {
   text-indent: 0; /* 1 */
   border-color: inherit; /* 2 */
   border-collapse: collapse; /* 3 */
@@ -169,7 +169,7 @@ sup) {
 3. Remove default padding in all browsers.
 */
 
-:where(#a1mersnow_webdrive_rename) 
+:where(.drive-rename-root) 
 :is(button,
 input,
 optgroup,
@@ -190,7 +190,7 @@ textarea) {
 Remove the inheritance of text transform in Edge and Firefox.
 */
 
-:where(#a1mersnow_webdrive_rename) 
+:where(.drive-rename-root) 
 :is(button,
 select) {
   text-transform: none;
@@ -201,7 +201,7 @@ select) {
 2. Remove default button styles.
 */
 
-:where(#a1mersnow_webdrive_rename) :is(button,
+:where(.drive-rename-root) :is(button,
 [type='button'],
 [type='reset'],
 [type='submit']) {
@@ -214,7 +214,7 @@ select) {
 Use the modern Firefox focus style for all focusable elements.
 */
 
-:where(#a1mersnow_webdrive_rename) :-moz-focusring {
+:where(.drive-rename-root) :-moz-focusring {
   outline: auto;
 }
 
@@ -222,7 +222,7 @@ Use the modern Firefox focus style for all focusable elements.
 Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737)
 */
 
-:where(#a1mersnow_webdrive_rename) :-moz-ui-invalid {
+:where(.drive-rename-root) :-moz-ui-invalid {
   box-shadow: none;
 }
 
@@ -230,7 +230,7 @@ Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/
 Add the correct vertical alignment in Chrome and Firefox.
 */
 
-:where(#a1mersnow_webdrive_rename) progress {
+:where(.drive-rename-root) progress {
   vertical-align: baseline;
 }
 
@@ -248,7 +248,7 @@ Correct the cursor style of increment and decrement buttons in Safari.
 2. Correct the outline style in Safari.
 */
 
-:where(#a1mersnow_webdrive_rename) [type='search'] {
+:where(.drive-rename-root) [type='search'] {
   -webkit-appearance: textfield; /* 1 */
   outline-offset: -2px; /* 2 */
 }
@@ -257,7 +257,7 @@ Correct the cursor style of increment and decrement buttons in Safari.
 Remove the inner padding in Chrome and Safari on macOS.
 */
 
-:where(#a1mersnow_webdrive_rename) ::-webkit-search-decoration {
+:where(.drive-rename-root) ::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
@@ -266,7 +266,7 @@ Remove the inner padding in Chrome and Safari on macOS.
 2. Change font properties to `inherit` in Safari.
 */
 
-:where(#a1mersnow_webdrive_rename) ::-webkit-file-upload-button {
+:where(.drive-rename-root) ::-webkit-file-upload-button {
   -webkit-appearance: button; /* 1 */
   font: inherit; /* 2 */
 }
@@ -275,7 +275,7 @@ Remove the inner padding in Chrome and Safari on macOS.
 Add the correct display in Chrome and Safari.
 */
 
-:where(#a1mersnow_webdrive_rename) summary {
+:where(.drive-rename-root) summary {
   display: list-item;
 }
 
@@ -283,7 +283,7 @@ Add the correct display in Chrome and Safari.
 Removes the default spacing for appropriate elements.
 */
 
-:where(#a1mersnow_webdrive_rename) 
+:where(.drive-rename-root) 
 :is(blockquote,
 dl,
 dd,
@@ -300,16 +300,16 @@ pre) {
   margin: 0;
 }
 
-:where(#a1mersnow_webdrive_rename) fieldset {
+:where(.drive-rename-root) fieldset {
   margin: 0;
   padding: 0;
 }
 
-:where(#a1mersnow_webdrive_rename) legend {
+:where(.drive-rename-root) legend {
   padding: 0;
 }
 
-:where(#a1mersnow_webdrive_rename) :is(ol,
+:where(.drive-rename-root) :is(ol,
 ul,
 menu) {
   list-style: none;
@@ -317,7 +317,7 @@ menu) {
   padding: 0;
 }
 
-:where(#a1mersnow_webdrive_rename) dialog {
+:where(.drive-rename-root) dialog {
   padding: 0;
 }
 
@@ -325,7 +325,7 @@ menu) {
 Prevent resizing textareas horizontally by default.
 */
 
-:where(#a1mersnow_webdrive_rename) textarea {
+:where(.drive-rename-root) textarea {
   resize: vertical;
 }
 
@@ -334,7 +334,7 @@ Prevent resizing textareas horizontally by default.
 2. Set the default placeholder color to the user's configured gray 400 color.
 */
 
-:where(#a1mersnow_webdrive_rename) :is(input::placeholder,
+:where(.drive-rename-root) :is(input::placeholder,
 textarea::placeholder) {
   opacity: 1; /* 1 */
   color: #9ca3af; /* 2 */
@@ -344,7 +344,7 @@ textarea::placeholder) {
 Set the default cursor for buttons.
 */
 
-:where(#a1mersnow_webdrive_rename) 
+:where(.drive-rename-root) 
 :is(button,
 [role="button"]) {
   cursor: pointer;
@@ -354,7 +354,7 @@ Set the default cursor for buttons.
 Make sure disabled buttons don't get the pointer cursor.
 */
 
-:where(#a1mersnow_webdrive_rename) :disabled {
+:where(.drive-rename-root) :disabled {
   cursor: default;
 }
 
@@ -364,7 +364,7 @@ Make sure disabled buttons don't get the pointer cursor.
    This can trigger a poorly considered lint error in some tools but is included by design.
 */
 
-:where(#a1mersnow_webdrive_rename) :is(img,
+:where(.drive-rename-root) :is(img,
 svg,
 video,
 canvas,
@@ -380,7 +380,7 @@ object) {
 Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
 */
 
-:where(#a1mersnow_webdrive_rename) :is(img,
+:where(.drive-rename-root) :is(img,
 video) {
   max-width: 100%;
   height: auto;
@@ -390,6 +390,6 @@ video) {
 Make elements with the HTML hidden attribute stay hidden by default.
 */
 
-:where(#a1mersnow_webdrive_rename) [hidden]:where(:not([hidden="until-found"])) {
+:where(.drive-rename-root) [hidden]:where(:not([hidden="until-found"])) {
   display: none;
 }

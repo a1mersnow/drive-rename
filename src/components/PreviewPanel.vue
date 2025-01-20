@@ -45,7 +45,7 @@ watch(() => main.hasConflict, (hasConflict) => {
 
 <template>
   <div
-    class="custom-scrollbar fixed bottom-2 right-0 top-2 z-100 w-[max(500px,50vw)] overflow-y-auto border-y-3px border-l-3px border-primary-600 rounded-l-lg border-solid bg-white px-4 py-3 font-mono shadow"
+    class="custom-scrollbar fixed bottom-2 right-0 top-2 z-app w-[max(500px,50vw)] overflow-y-auto border-y-3px border-l-3px border-primary-600 rounded-l-lg border-solid bg-white px-4 py-3 font-mono shadow"
   >
     <div v-if="main.listLoading" class="absolute inset-0 z-2 flex flex-col items-center justify-center bg-white/80 text-primary-600">
       <div class="i-carbon:circle-packing animate-spin text-4xl" />
