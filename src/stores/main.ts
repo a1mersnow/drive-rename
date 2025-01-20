@@ -178,7 +178,7 @@ export const useMainStore = defineStore('main', () => {
       warning.value = '即将刷新页面...'
       setTimeout(() => {
         location.reload()
-      }, 1000)
+      }, 2500)
     }
   }
 
