@@ -175,10 +175,12 @@ export const useMainStore = defineStore('main', () => {
     running.value = false
 
     if (!import.meta.env.DEV) {
-      warning.value = '即将刷新页面...'
+      const delay = provider.getReloadingDelay()
+      const seconds = Math.floor(delay / 1000)
+      warning.value = `即将刷新页面(${seconds}s后)...`
       setTimeout(() => {
         location.reload()
-      }, 2500)
+      }, delay)
     }
   }
 

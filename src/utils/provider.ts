@@ -20,6 +20,11 @@ export function getApiMaxConcurrent() {
   return resolveProvider().MAX_CONCURRENT ?? 3
 }
 
+export function getReloadingDelay() {
+  const p = resolveProvider()
+  return p.getReloadingDelay ? p.getReloadingDelay() : 1000
+}
+
 export function getFetchMode(): FetchMode {
   return resolveProvider().FETCH_MODE || 'listen-url'
 }

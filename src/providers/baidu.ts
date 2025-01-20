@@ -162,6 +162,7 @@ const provider: Provider = {
   shouldShowEntry,
   getContainer,
   getApiDelay: () => 0,
+  getReloadingDelay: () => 4000,
   renameOne,
   setRequestHeader,
   ButtonComponent,

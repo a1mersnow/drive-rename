@@ -51,6 +51,8 @@ export interface Provider {
   setRequestHeader: (key: string, value: string) => void
   /** where to put the button into and how to style the wrapper */
   getContainer: () => ContainerInfo
+  /** how long we wait for reloading */
+  getReloadingDelay?: () => number
   /** the button component */
   ButtonComponent: Component
 }
