@@ -32,13 +32,15 @@ export interface ContainerInfo {
 }
 
 export interface Provider {
-  /** intervals between file list page requests */
-  API_DELAY?: number
+  /** max concurrent size */
+  MAX_CONCURRENT?: number
   /** fetch timing */
   FETCH_MODE?: FetchMode
   /** hosts at which the provider will be enabled */
   HOSTS: string[]
   DRIVE_NAME: string
+  /** intervals between file list page requests */
+  getApiDelay?: (size: number) => number
   /** whether the rename button should be showed */
   shouldShowEntry: (url: string) => boolean
   /** API for file list */

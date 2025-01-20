@@ -5,14 +5,19 @@ const providers: Record<string, { default: Provider }> = import.meta.glob('/src/
 function resolveProvider() {
   for (const path in providers) {
     const provider = providers[path].default
-    if (provider.HOSTS.includes(location.host))
+    if (provider.HOSTS.some(h => h.includes(location.host)))
       return provider
   }
   throw new Error('unimplemented provider')
 }
 
-export function getApiDelay() {
-  return resolveProvider().API_DELAY || 200
+export function getApiDelay(size: number) {
+  const p = resolveProvider()
+  return p.getApiDelay ? p.getApiDelay(size) : 200
+}
+
+export function getApiMaxConcurrent() {
+  return resolveProvider().MAX_CONCURRENT ?? 3
 }
 
 export function getFetchMode(): FetchMode {

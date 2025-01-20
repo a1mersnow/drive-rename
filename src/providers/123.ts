@@ -1,10 +1,6 @@
 import type { Provider, Resource } from '~/types'
 import ButtonComponent from '~/components/Button123.vue'
-
-function getExt(fileName: string) {
-  const i = fileName.lastIndexOf('.')
-  return i > -1 ? fileName.slice(i + 1) : ''
-}
+import { getExtFromName } from '~/utils/tools'
 
 function getParentId() {
   const u = new URLSearchParams(location.search)
@@ -29,7 +25,7 @@ async function getFileListOfCurrentDir(parentId = getParentId()) {
       file_id: x.FileId,
       name: x.FileName,
       parent_file_id: x.ParentFileId,
-      file_extension: getExt(x.FileName),
+      file_extension: getExtFromName(x.FileName),
       mime_type: 'whocare',
       type: x.type === 1 ? 'folder' : 'file',
     })))
@@ -41,7 +37,7 @@ async function getFileListOfCurrentDir(parentId = getParentId()) {
 
 const headers: Record<string, string> = {}
 
-export function setRequestHeader(key: string, value: string) {
+function setRequestHeader(key: string, value: string) {
   if (key.toLowerCase() === 'authorization')
     headers.authorization = value
 }
@@ -105,6 +101,14 @@ function getContainer() {
 const provider: Provider = {
   DRIVE_NAME: '123云盘',
   HOSTS: ['www.123pan.com'],
+  getApiDelay(size) {
+    if (size > 100) {
+      return 3000
+    }
+    else {
+      return 200
+    }
+  },
   ButtonComponent,
   shouldShowEntry,
   getContainer,

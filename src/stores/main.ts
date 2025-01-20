@@ -135,7 +135,7 @@ export const useMainStore = defineStore('main', () => {
     }
   }
 
-  const MaxConcurrent = 3
+  const MaxConcurrent = provider.getApiMaxConcurrent()
   async function run() {
     if (disabled.value || running.value)
       return
@@ -146,6 +146,8 @@ export const useMainStore = defineStore('main', () => {
     processData.value.skip = displayList.value.length - selectedList.value.length
 
     const queue = selectedList.value.slice()
+
+    const totalTodoSize = queue.length
 
     while (queue.length) {
       const subQueue: Resource[] = []
@@ -167,7 +169,7 @@ export const useMainStore = defineStore('main', () => {
         })
         processData.value.done++
       }))
-      await new Promise(r => setTimeout(r, provider.getApiDelay()))
+      await new Promise(r => setTimeout(r, provider.getApiDelay(totalTodoSize)))
     }
 
     running.value = false

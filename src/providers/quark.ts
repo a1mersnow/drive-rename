@@ -1,10 +1,6 @@
 import type { Provider, Resource } from '~/types'
 import ButtonComponent from '~/components/ButtonQuark.vue'
-
-function getExt(fileName: string) {
-  const i = fileName.lastIndexOf('.')
-  return i > -1 ? fileName.slice(i + 1) : ''
-}
+import { getExtFromName } from '~/utils/tools'
 
 function getParentId() {
   const hash = location.hash.replace('#/list/all', '').replace(/^\//, '').replace(/\/$/, '')
@@ -28,7 +24,7 @@ async function getFileListOfCurrentDir(parentId = getParentId()) {
       file_id: x.fid,
       name: x.file_name,
       parent_file_id: x.pdir_fid,
-      file_extension: getExt(x.file_name),
+      file_extension: getExtFromName(x.file_name),
       mime_type: x.format_type,
       type: x.file ? 'file' : 'folder',
     })))
@@ -47,7 +43,7 @@ async function rename(driveId: string, fileId: string, newName: string) {
 
 const headers: Record<string, string> = {}
 // eslint-disable-next-line unused-imports/no-unused-vars
-export function setRequestHeader(key: string, value: string) {}
+function setRequestHeader(key: string, value: string) {}
 
 function post(api: URL | string, payload: object) {
   return fetch(api, {

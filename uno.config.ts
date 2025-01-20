@@ -30,6 +30,7 @@ export default defineConfig({
   },
   shortcuts: [
     ['btn', 'px-1 py-1 rounded inline-block text-primary-600 hover:text-white hover:bg-primary-600 transition border border-current disabled:opacity-50'],
+    ['z-app', 'z-100000'],
   ],
   presets: [
     presetUno(),
