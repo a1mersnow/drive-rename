@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     Button123: typeof import('./src/components/Button123.vue')['default']
     ButtonAliyun: typeof import('./src/components/ButtonAliyun.vue')['default']
+    ButtonBaidu: typeof import('./src/components/ButtonBaidu.vue')['default']
     ButtonCmcc: typeof import('./src/components/ButtonCmcc.vue')['default']
     ButtonQuark: typeof import('./src/components/ButtonQuark.vue')['default']
     ControlPanel: typeof import('./src/components/ControlPanel.vue')['default']
