@@ -19,12 +19,15 @@ interface EpisodeHelpers {
   post: string
 }
 
-export function getNewNameByExtract(oldName: string, prefix: string, season: string, epHelpers?: EpisodeHelpers, refName?: string) {
+export function getNewNameByExtract(oldName: string, prefix: string, season: string, epHelpers: EpisodeHelpers, refName?: string) {
   let episode: string | undefined
-  if (refName)
-    episode = getEpisodeByCompare(oldName, refName)
-  if (epHelpers)
+
+  if (epHelpers.pre || epHelpers.post)
     episode = getEpisodeByHelpers(oldName, epHelpers)
+
+  if (!episode && refName)
+    episode = getEpisodeByCompare(oldName, refName)
+
   if (!episode)
     episode = getEpisode(oldName)
   // normalize season
@@ -62,16 +65,16 @@ function normalizeEpisode(x: string) {
 
 export function getEpisodeByHelpers(oldName: string, epHelpers: EpisodeHelpers) {
   const { pre, post } = epHelpers
-  if (!pre)
+  if (!pre && !post)
     return
-  const preIndex = oldName.indexOf(pre)
-  const postIndex = oldName.lastIndexOf(post)
-  if (preIndex > -1 && postIndex > -1) {
-    const shorted = oldName.slice(preIndex + pre.length, postIndex)
-    const parsed = Number.parseInt(getEpisode(shorted))
-    if (Number.isInteger(parsed))
-      return normalizeEpisode(String(parsed))
-  }
+  const preIndex = pre ? oldName.indexOf(pre) : 0
+  const postIndex = post ? oldName.lastIndexOf(post) : oldName.length
+  if (preIndex === -1 && postIndex === -1)
+    return
+  const shorted = oldName.slice(preIndex + pre.length, postIndex)
+  const parsed = Number.parseInt(getEpisode(shorted))
+  if (Number.isInteger(parsed))
+    return normalizeEpisode(String(parsed))
 }
 
 export function getEpisode(oldName: string) {

@@ -2,12 +2,17 @@ import type { Provider, Resource } from '~/types'
 import ButtonComponent from '~/components/ButtonBaidu.vue'
 import { getExtFromName } from '~/utils/tools'
 
+let bdstoken = ''
+
 function getDir() {
   const u = getURL(location.href)
   return u.searchParams.get('path') || '/'
 }
 
 async function getFileListOfCurrentDir(parentId = getDir()) {
+  if (!bdstoken)
+    initToken()
+
   const listApi = new URL('https://pan.baidu.com/api/list?clienttype=0&app_id=250528&web=1&order=name&desc=0&num=100')
   listApi.searchParams.set('dir', parentId)
   const result: Resource[] = []
@@ -114,9 +119,6 @@ async function renameOne(resource: Resource, newName: string) {
   }
   return promise
 }
-
-let bdstoken = ''
-initToken()
 
 async function triggerRename(list: RenameRecord[]) {
   if (list.length === 0)

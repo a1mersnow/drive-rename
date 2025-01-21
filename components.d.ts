@@ -11,6 +11,7 @@ declare module 'vue' {
     ButtonAliyun: typeof import('./src/components/ButtonAliyun.vue')['default']
     ButtonBaidu: typeof import('./src/components/ButtonBaidu.vue')['default']
     ButtonCmcc: typeof import('./src/components/ButtonCmcc.vue')['default']
+    ButtonEsurfing: typeof import('./src/components/ButtonEsurfing.vue')['default']
     ButtonQuark: typeof import('./src/components/ButtonQuark.vue')['default']
     ControlPanel: typeof import('./src/components/ControlPanel.vue')['default']
     PreviewEntry: typeof import('./src/components/PreviewEntry.vue')['default']
