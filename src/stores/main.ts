@@ -2,7 +2,7 @@ import type { FileResource, Resource } from '~/types'
 import { defineStore } from 'pinia'
 import * as provider from '~/utils/provider'
 import { getNewNameByExp, getNewNameByExtract, guessPrefix, guessSeason } from '~/utils/rename'
-import { VideoExts } from '~/utils/video-exts'
+import { SubTitleExts, VideoExts } from '~/utils/video-exts'
 
 export const useMainStore = defineStore('main', () => {
   const uncheckList = reactive(new Set<string>())
@@ -12,6 +12,7 @@ export const useMainStore = defineStore('main', () => {
 
   const running = ref(false)
   const activeMode = ref('extract')
+  const extractIncludeSubTitleFlag = ref(false)
   const from = ref('')
   const to = ref('')
   const prefix = ref('')
@@ -33,7 +34,10 @@ export const useMainStore = defineStore('main', () => {
   const { list, loading: listLoading, refetch } = useFileList()
 
   const videoList = computed(() => {
-    return list.value.filter(x => x.type === 'file' && VideoExts.includes(x.file_extension.toLowerCase())) as FileResource[]
+    return list.value.filter(x => x.type === 'file' && (
+      VideoExts.includes(x.file_extension.toLowerCase())
+      || (extractIncludeSubTitleFlag.value && SubTitleExts.includes(x.file_extension.toLowerCase()))
+    )) as FileResource[]
   })
   const displayList = computed(() => activeMode.value === 'extract' ? videoList.value : list.value)
   // a item is selected means:
@@ -212,6 +216,7 @@ export const useMainStore = defineStore('main', () => {
     conflictFileIds,
     disabled,
     activeMode,
+    extractIncludeSubTitleFlag,
     from,
     to,
     prefix,

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useMainStore } from '~/stores/main'
 import { random } from '~/utils/tools'
+import AppCheckbox from './AppCheckbox.vue'
 
 const { newVersion, currentVersion, hasNew } = useUpdate()
 
@@ -86,6 +87,14 @@ const modes = [
       </template>
 
       <template v-else>
+        <div
+          class="flex cursor-pointer select-none items-center gap-x-1 text-xs text-gray"
+          @click="main.extractIncludeSubTitleFlag = !main.extractIncludeSubTitleFlag"
+        >
+          <AppCheckbox :model-value="main.extractIncludeSubTitleFlag" class="text-xs" />
+          是否包含字幕文件
+        </div>
+
         <div>
           <label class="mb-1 block flex items-center gap-x-2">
             剧名

@@ -15,20 +15,17 @@ const emit = defineEmits<{
 const isSame = toRef(() => props.oldName === props.newName)
 const disabled = toRef(() => isSame.value || !props.newName)
 
-const checked = defineModel<boolean>()
+const checked = defineModel<boolean>({ required: true })
 </script>
 
 <template>
   <li
     class="contents"
   >
-    <span
-      :class="[
-        checked && newName && !isSame ? 'i-carbon:checkbox-checked-filled' : 'i-carbon:checkbox',
-        disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
-      ]"
-      class="text-sm text-primary-600"
-      @click="!disabled && (checked = !checked)"
+    <AppCheckbox
+      :model-value="Boolean(checked && newName && !isSame)"
+      :disabled="disabled"
+      @update:model-value="checked = $event"
     />
     <span :title="oldName" class="truncate whitespace-pre">
       <span :class="disabled ? 'opacity-50' : ''">{{ oldName }}</span>
