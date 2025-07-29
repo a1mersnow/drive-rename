@@ -1,6 +1,6 @@
 # Drive-rename Contributing Guide
 
-Hi! We're excited that you're interested in contributing to Drive-rename. This guide will help you get started.
+Hi! We're excited that you're interested in contributing to drive-rename. This guide will help you get started.
 
 ## Repo setup
 To develop locally, fork the drive-rename repository and clone it in your local machine.

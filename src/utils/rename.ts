@@ -39,7 +39,7 @@ export function getNewNameByExtract(oldName: string, prefix: string, season: str
     return ''
   // ext
   const m = oldName.match(/(\.[a-z0-9]+)$/i)
-  return `${prefix} S${season}E${episode}${m ? m[1] : ''}`
+  return `${prefix}${prefix.endsWith('.') ? '' : '.'}S${season}E${episode}${m ? m[1] : ''}`
 }
 
 export function getEpisodeByCompare(oldName: string, refName: string): string | undefined {
