@@ -19,6 +19,30 @@ interface EpisodeHelpers {
   post: string
 }
 
+export function getNewNameBySequence(
+  oldName: string,
+  prefix: string,
+  season: string,
+  index: number,
+  offset?: string,
+  leadingZeroCount?: number,
+) {
+  // 集数 = 索引 + 1 + 偏移
+  const episodeNumber = (index + 1) + (offset ? Number.parseInt(offset) : 0)
+  const episode = String(episodeNumber).padStart(leadingZeroCount ?? 2, '0')
+
+  // 标准化 season
+  season ||= '1'
+  const seasonNumber = Number.parseInt(season)
+  const seasonNumberIsValid = !Number.isNaN(seasonNumber) && seasonNumber < 100
+  season = String(seasonNumberIsValid ? seasonNumber : 1).padStart(2, '0')
+
+  // 保留扩展名
+  const m = oldName.match(/(\.[a-z0-9]+)$/i)
+
+  return `${prefix}${prefix.endsWith('.') ? '' : '.'}S${season}E${episode}${m ? m[1] : ''}`
+}
+
 export function getNewNameByExtract(
   oldName: string,
   prefix: string,
