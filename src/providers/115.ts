@@ -39,9 +39,6 @@ function toResource(item: any, parentId: string): Resource {
 }
 
 async function getFileListOfCurrentDir(parentId = getCurrentCid()) {
-  if (parentId === '0')
-    return []
-
   const result: Resource[] = []
   let offset = 0
   let total = Number.POSITIVE_INFINITY
@@ -111,7 +108,7 @@ function shouldShowEntry(url: string) {
     return false
   if (u.searchParams.get('mode') !== 'wangpan')
     return false
-  return getCurrentCid(url) !== '0'
+  return true
 }
 
 function normalizeButtonText(text: string) {
