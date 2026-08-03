@@ -104,7 +104,7 @@ async function renameOne(resource: Resource, newName: string) {
 
 function shouldShowEntry(url: string) {
   const u = new URL(url)
-  if (u.pathname !== '/storage/netdisk')
+  if (u.pathname !== '/storage/netdisk' && u.pathname !== '/storage/allfiles')
     return false
   if (u.searchParams.get('mode') !== 'wangpan')
     return false
