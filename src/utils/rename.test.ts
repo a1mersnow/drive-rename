@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getEpisode as g, getEpisodeByCompare as gc, getEpisodeByHelpers as gh, getNewNameBySequence as gs } from './rename'
+import { getEpisode as g, getEpisodeByCompare as gc, getEpisodeByHelpers as gh } from './rename'
 
 describe('get new name by extract', () => {
   it('> 1.mp4', () => {
@@ -40,35 +40,5 @@ describe('get new name by extract with helpers', () => {
 describe('get new name by compare', () => {
   it('> XianJianqiXiaZhuan.4_27_1080P.mp4', () => {
     expect(gc('XianJianQiXiaZhuan.4_27_1080P.mp4', 'XianJianQiXiaZhuan.4_26_1080P.mp4')).toBe('027')
-  })
-})
-
-describe('get new name by sequence', () => {
-  it('> 基础测试：索引0, 第1集', () => {
-    expect(gs('随便什么名字.mp4', '火影忍者', '1', 0)).toBe('火影忍者.S01E001.mp4')
-  })
-
-  it('> 索引1, 第2集', () => {
-    expect(gs('file.mkv', '测试剧名', '1', 1)).toBe('测试剧名.S01E002.mkv')
-  })
-
-  it('> 带季号: S02', () => {
-    expect(gs('video.avi', '剧名', '2', 0)).toBe('剧名.S02E001.avi')
-  })
-
-  it('> 带偏移: offset=10', () => {
-    expect(gs('video.mp4', '剧名', '1', 0, '10')).toBe('剧名.S01E011.mp4')
-  })
-
-  it('> 前缀0个数: 2位', () => {
-    expect(gs('video.mp4', '剧名', '1', 0, undefined, 2)).toBe('剧名.S01E01.mp4')
-  })
-
-  it('> 综合测试: S03, 索引5, 偏移-2, 4位', () => {
-    expect(gs('whatever.mp4', '综合测试', '3', 5, '-2', 4)).toBe('综合测试.S03E0004.mp4')
-  })
-
-  it('> 剧名带点: 测试.', () => {
-    expect(gs('file.mp4', '测试.', '1', 0)).toBe('测试.S01E001.mp4')
   })
 })

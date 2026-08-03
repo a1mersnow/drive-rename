@@ -18,7 +18,6 @@ function fillRandomPrefix() {
 
 const modes = [
   { title: '剧集模式', value: 'extract' },
-  { title: '顺序模式', value: 'sequence' },
   { title: '正则模式', value: 'regexp' },
 ]
 </script>
@@ -89,7 +88,6 @@ const modes = [
 
       <template v-else>
         <div
-          v-if="main.activeMode === 'extract'"
           class="flex cursor-pointer select-none items-center gap-x-1 text-xs text-gray"
           @click="main.extractIncludeSubTitleFlag = !main.extractIncludeSubTitleFlag"
         >

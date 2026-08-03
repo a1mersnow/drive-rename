@@ -1,7 +1,7 @@
 import type { FileResource, Resource } from '~/types'
 import { defineStore } from 'pinia'
 import * as provider from '~/utils/provider'
-import { getNewNameByExp, getNewNameByExtract, getNewNameBySequence, guessPrefix, guessSeason } from '~/utils/rename'
+import { getNewNameByExp, getNewNameByExtract, guessPrefix, guessSeason } from '~/utils/rename'
 import { SubTitleExts, VideoExts } from '~/utils/video-exts'
 
 export const useMainStore = defineStore('main', () => {
@@ -18,7 +18,7 @@ export const useMainStore = defineStore('main', () => {
   const prefix = ref('')
   const season = ref('')
   const offset = ref('')
-  const leadingZeroCount = ref<number>(2)
+  const leadingZeroCount = ref<number>(3)
   const epHelperPre = ref('')
   const epHelperPost = ref('')
 
@@ -41,7 +41,7 @@ export const useMainStore = defineStore('main', () => {
       || (extractIncludeSubTitleFlag.value && SubTitleExts.includes(x.file_extension.toLowerCase()))
     )) as FileResource[]
   })
-  const displayList = computed(() => activeMode.value === 'regexp' ? list.value : videoList.value)
+  const displayList = computed(() => activeMode.value === 'extract' ? videoList.value : list.value)
   // a item is selected means:
   // > it is not unchecked
   // > it has a new name and the new name is not same as the old
@@ -75,7 +75,7 @@ export const useMainStore = defineStore('main', () => {
   // 有命名冲突
   const disabled = computed(() =>
     (activeMode.value === 'regexp' && (!from.value || !to.value))
-    || (['extract', 'sequence'].includes(activeMode.value) && (!prefix.value || !season.value))
+    || (activeMode.value === 'extract' && (!prefix.value || !season.value))
     || listLoading.value
     || !selectedList.value.length
     || hasConflict.value)
@@ -112,13 +112,12 @@ export const useMainStore = defineStore('main', () => {
       newNameMap.clear()
       if (
         (activeMode.value === 'extract' && prefix.value)
-        || (activeMode.value === 'sequence' && prefix.value)
         || (activeMode.value === 'regexp' && from.value && to.value)
       ) {
         for (let i = 0; i < list.value.length; ++i) {
           const item = list.value[i]
           const otherItem = list.value[i === 0 ? 1 : 0]
-          newNameMap.set(item.file_id, getNewName(item.name, season.value.trim(), otherItem?.name, i))
+          newNameMap.set(item.file_id, getNewName(item.name, season.value.trim(), otherItem?.name))
         }
       }
     }
@@ -207,18 +206,8 @@ export const useMainStore = defineStore('main', () => {
     return n
   }
 
-  function getNewName(oldName: string, season: string, refName?: string, index?: number) {
-    if (activeMode.value === 'sequence') {
-      return getNewNameBySequence(
-        oldName,
-        prefix.value.trim(),
-        season,
-        index ?? 0,
-        offset.value,
-        clampLeadingZeroCount(leadingZeroCount.value),
-      )
-    }
-    else if (activeMode.value === 'extract') {
+  function getNewName(oldName: string, season: string, refName?: string) {
+    if (activeMode.value === 'extract') {
       return getNewNameByExtract(
         oldName,
         prefix.value.trim(),
