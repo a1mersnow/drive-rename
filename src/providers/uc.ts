@@ -10,7 +10,7 @@ function getParentId() {
 }
 
 async function getFileListOfCurrentDir(parentId = getParentId()) {
-  const listApi = new URL('https://drive-pc.uc.cn/1/clouddrive/file/sort?pr=ucpro&fr=pc&uc_param_str=&pdir_fid=0&_page=1&_size=50&_fetch_total=1&_fetch_sub_dirs=0&_sort=file_type:asc,updated_at:desc')
+  const listApi = new URL('https://pc-api.uc.cn/1/clouddrive/file/sort?pr=UCBrowser&fr=pc&uc_param_str=&pdir_fid=0&_page=1&_size=50&_fetch_total=1&_fetch_sub_dirs=0&_sort=file_type:asc,updated_at:desc')
   listApi.searchParams.set('pdir_fid', parentId)
   const result: Resource[] = []
   let page = 1
@@ -35,7 +35,7 @@ async function getFileListOfCurrentDir(parentId = getParentId()) {
 }
 
 async function rename(driveId: string, fileId: string, newName: string) {
-  return post('https://drive-pc.uc.cn/1/clouddrive/file/rename?pr=ucpro&fr=pc&uc_param_str=', {
+  return post('https://pc-api.uc.cn/1/clouddrive/file/rename?pr=UCBrowser&fr=pc&uc_param_str=', {
     fid: fileId,
     file_name: newName,
   })
@@ -50,6 +50,7 @@ function post(api: URL | string, payload: object) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'Referer': 'https://drive.uc.cn',
       ...headers,
     },
     credentials: 'include',
@@ -66,6 +67,7 @@ function get(api: URL | string) {
   return fetch(api, {
     method: 'GET',
     headers: {
+      Referer: 'https://drive.uc.cn',
       ...headers,
     },
     credentials: 'include',
