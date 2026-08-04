@@ -147,7 +147,7 @@ const modes = [
 
       <div class="flex">
         <button
-          class="flex items-center justify-center gap-x-1 bg-primary-600 px-3 py-2 text-xs text-white btn"
+          class="flex items-center justify-center gap-x-1 px-3 py-2 text-xs text-white btn !bg-primary-600"
           :disabled="main.disabled || main.running"
           @click="main.run"
         >

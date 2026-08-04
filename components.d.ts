@@ -8,12 +8,14 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppCheckbox: typeof import('./src/components/AppCheckbox.vue')['default']
+    Button115: typeof import('./src/components/Button115.vue')['default']
     Button123: typeof import('./src/components/Button123.vue')['default']
     ButtonAliyun: typeof import('./src/components/ButtonAliyun.vue')['default']
     ButtonBaidu: typeof import('./src/components/ButtonBaidu.vue')['default']
     ButtonCmcc: typeof import('./src/components/ButtonCmcc.vue')['default']
     ButtonEsurfing: typeof import('./src/components/ButtonEsurfing.vue')['default']
     ButtonQuark: typeof import('./src/components/ButtonQuark.vue')['default']
+    ButtonUc: typeof import('./src/components/ButtonUc.vue')['default']
     ControlPanel: typeof import('./src/components/ControlPanel.vue')['default']
     PreviewEntry: typeof import('./src/components/PreviewEntry.vue')['default']
     PreviewPanel: typeof import('./src/components/PreviewPanel.vue')['default']
