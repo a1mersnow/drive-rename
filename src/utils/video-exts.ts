@@ -33,6 +33,7 @@ export const SubTitleExts = [
   'ass',
   'ssa',
   'sub',
+  'sup',
   'idx',
   'vtt',
   'ttml',
